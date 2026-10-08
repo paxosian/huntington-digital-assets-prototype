@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Huntington Digital Assets – Vision Prototype</title>
+<style>
+:root{
+  --g950:#06291a; --g900:#0a3d22; --g800:#0c5430; --g700:#0d6b37; --g500:#2e9e4f; --g100:#e3f3e8; --g50:#f1f9f3;
+  --lime:#8cc63f; --ink:#14201a; --ink2:#33443b; --muted:#66766d; --line:#e2e8e4; --bg:#f3f6f4; --card:#fff;
+  --p1:#2e9e4f; --p1b:#e3f3e8; --p2:#1f6fd1; --p2b:#e4eefb; --p3:#7446cf; --p3b:#efe8fb;
+  --red:#c93c3c; --amber:#c98a12;
+  --r:14px; --sh:0 1px 2px rgba(10,40,25,.06),0 4px 14px rgba(10,40,25,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input{font:inherit}
+.num{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:30;background:var(--g950);color:#fff;display:flex;align-items:center;gap:20px;padding:12px 24px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--lime),var(--g500));display:grid;place-items:center;font-weight:800;color:var(--g950);font-size:15px}
+.brand b{font-size:16px;letter-spacing:.2px}
+.brand small{display:block;color:#a9c7b4;font-size:11.5px;letter-spacing:.3px}
+.phase-ctl{display:flex;align-items:center;gap:10px}
+.phase-ctl .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#a9c7b4}
+.seg{display:flex;background:rgba(255,255,255,.08);border-radius:999px;padding:3px}
+.seg button{padding:6px 12px;border-radius:999px;font-size:12.5px;color:#cfe3d6;white-space:nowrap}
+.seg button.on{background:#fff;color:var(--g950);font-weight:600}
+.seg button .d{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+
+.nav{position:sticky;top:54px;z-index:25;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:4px;padding:0 20px;overflow-x:auto}
+.nav button{padding:13px 14px;font-size:13.5px;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap}
+.nav button.on{color:var(--g800);border-color:var(--g700);font-weight:600}
+main{max-width:1280px;margin:0 auto;padding:24px 20px 40px}
+footer{max-width:1280px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:11.5px}
+
+/* chips */
+.pchip{display:inline-flex;align-items:center;font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:999px;vertical-align:middle}
+.pchip.p1{background:var(--p1b);color:var(--p1)} .pchip.p2{background:var(--p2b);color:var(--p2)} .pchip.p3{background:var(--p3b);color:var(--p3)}
+.tag{display:inline-block;font-size:11px;padding:3px 9px;border-radius:999px;background:var(--g50);color:var(--g800);border:1px solid var(--g100);margin:2px 4px 2px 0}
+.mut{color:var(--muted)}
+
+/* locked */
+.locked{position:relative}
+.locked-inner{filter:grayscale(.7);opacity:.38;pointer-events:none;user-select:none}
+.lock-tag{position:absolute;top:10px;right:10px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:var(--sh);color:var(--ink2);display:flex;gap:6px;align-items:center;z-index:2}
+.locked.full>.lock-tag{top:50%;left:50%;right:auto;transform:translate(-50%,-50%);padding:10px 16px;font-size:12.5px;text-align:center;flex-direction:column;gap:2px;border-radius:14px}
+
+/* generic layout */
+.story{background:linear-gradient(120deg,var(--g900),var(--g700));color:#fff;border-radius:18px;padding:24px 28px;display:grid;grid-template-columns:1.5fr 1fr;gap:24px;margin-bottom:20px}
+.story h1{margin:0 0 6px;font-size:24px;letter-spacing:-.3px}
+.story p{margin:0;color:#cfe6d7;max-width:640px}
+.story .eyebrow{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:8px}
+.story .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px;align-self:start}
+.story .stat b{font-size:26px;display:block;color:#fff}
+.story .stat span{font-size:12.5px;color:#cfe6d7}
+.story .pw{margin-top:12px}
+.story .pw .tag{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#e6f3ea}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
+.card h3{margin:0 0 4px;font-size:15px;display:flex;align-items:center;gap:8px}
+.card .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+.kpi .l{font-size:12px;color:var(--muted)} .kpi .v{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-top:2px} .kpi .d{font-size:12px;color:var(--g500);margin-top:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:10px;font-weight:600;font-size:13px;background:var(--g700);color:#fff}
+.btn:hover{background:var(--g800)}
+.btn.ghost{background:#fff;color:var(--g800);border:1px solid var(--line)}
+.btn.sm{padding:6px 11px;font-size:12px}
+.btn.full{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:600;color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;padding:8px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.status{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+.st-ok{background:var(--p1b);color:var(--g800)} .st-wait{background:#fdf3dd;color:#8a5d00} .st-hi{background:#fbe5e5;color:var(--red)} .st-blue{background:var(--p2b);color:var(--p2)}
+.toggle{position:relative;width:38px;height:22px;border-radius:999px;background:#cfd8d3;flex:none;transition:.2s}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.toggle.on{background:var(--g500)} .toggle.on::after{left:19px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.set{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:12px}
+.set:last-child{border-bottom:0}
+.set .t{font-weight:600;font-size:13px}.set .s{font-size:12px;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--g700)}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:12px;color:var(--muted);font-weight:600}
+.field input,.field select{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:14px}
+.segb{display:inline-flex;background:var(--bg);border-radius:10px;padding:3px;border:1px solid var(--line)}
+.segb button{padding:6px 12px;border-radius:8px;font-size:12.5px;color:var(--muted)}
+.segb button.on{background:#fff;color:var(--ink);font-weight:600;box-shadow:var(--sh)}
+.steps{list-style:none;margin:10px 0 0;padding:0}
+.steps li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:13px;color:var(--muted)}
+.steps li .dot{width:18px;height:18px;border-radius:50%;border:2px solid #cfd8d3;flex:none;margin-top:1px;display:grid;place-items:center;font-size:10px}
+.steps li.done{color:var(--ink)} .steps li.done .dot{background:var(--g500);border-color:var(--g500);color:#fff}
+.steps li.cur .dot{border-color:var(--g500);animation:pulse 1s infinite}
+.steps li .ts{margin-left:auto;font-size:11.5px;color:var(--muted)}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(46,158,79,.2)}}
+.bar{height:8px;border-radius:999px;background:var(--bg);overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:999px;background:var(--g500)}
+
+/* overview */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center;margin-bottom:22px}
+.hero h1{font-size:34px;line-height:1.1;letter-spacing:-.8px;margin:6px 0 10px;color:var(--g950)}
+.hero p{color:var(--ink2);font-size:15px;margin:0 0 14px;max-width:620px}
+.eyebrow2{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--g700);font-weight:700}
+.phases{display:grid;gap:10px}
+.ph{display:flex;gap:12px;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);cursor:pointer}
+.ph.on{border-color:var(--g500);box-shadow:0 0 0 3px var(--g100)}
+.ph .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:800;color:#fff;flex:none}
+.ph b{display:block;font-size:13.5px}.ph span{font-size:12.5px;color:var(--muted)}
+.matrix{width:100%;border-collapse:separate;border-spacing:6px;table-layout:fixed}
+.matrix th{font-size:11.5px;text-transform:none;letter-spacing:0;color:var(--ink2);border:0;padding:4px 6px;text-align:left;vertical-align:bottom}
+.matrix th.seg-h{width:150px}
+.matrix td{border:0;padding:0;vertical-align:top}
+.cell{border-radius:10px;padding:9px 10px;font-size:12px;line-height:1.35;height:100%;min-height:64px;cursor:pointer;border:1px solid transparent;transition:.15s}
+.cell:hover{transform:translateY(-1px);box-shadow:var(--sh)}
+.cell .pc{font-size:9.5px;font-weight:800;letter-spacing:.5px;margin-bottom:3px;opacity:.9}
+.cell.c1{background:var(--p1b);color:#185f31;border-color:#cde9d6}
+.cell.c2{background:var(--p2b);color:#18518f;border-color:#cfe0f6}
+.cell.c3{background:var(--p3b);color:#55309f;border-color:#e0d4f6}
+.cell.off{background:#f6f7f6;color:#9aa59f;border:1px dashed #d6ddd9}
+.seg-name{font-weight:700;font-size:13px;padding:10px 4px 0;cursor:pointer;color:var(--g900)}
+.seg-name small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.stack{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.stack .s{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.stack .s b{font-size:13px;display:block}.stack .s span{font-size:12px;color:var(--muted)}
+.layer{border-radius:14px;padding:14px;text-align:center;font-weight:600;font-size:13px}
+
+/* consumer */
+.consumer{display:grid;grid-template-columns:400px 1fr;gap:32px;align-items:start}
+.phone-wrap{display:flex;justify-content:center;position:sticky;top:120px}
+.phone{width:372px;height:760px;border-radius:52px;background:#0d1411;padding:12px;box-shadow:0 30px 60px rgba(6,41,26,.25),inset 0 0 0 2px #2a332e;position:relative}
+.phone .inner{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:#f6f8f7;display:flex;flex-direction:column}
+.notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#0d1411;border-radius:20px;z-index:12}
+.sbar{display:flex;justify-content:space-between;padding:16px 28px 6px;font-size:12.5px;font-weight:600;flex:none}
+.screen{flex:1;overflow-y:auto;padding:6px 16px 16px;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.tabbar{flex:none;display:flex;justify-content:space-around;background:#fff;border-top:1px solid var(--line);padding:8px 6px 22px}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--muted);position:relative;padding:2px 8px}
+.tabbar button.on{color:var(--g700);font-weight:600}
+.tabbar button .lk{position:absolute;top:-3px;right:2px;width:8px;height:8px;border-radius:50%}
+.tabbar svg{width:22px;height:22px}
+.c-hdr{display:flex;justify-content:space-between;align-items:center;margin:6px 0 14px}
+.c-hello{font-weight:700;font-size:17px}.c-sub{font-size:12px;color:var(--muted)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--g700);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.c-total{background:linear-gradient(135deg,var(--g900),var(--g700));color:#fff;border-radius:20px;padding:18px}
+.c-total .lbl{font-size:12px;color:#bfe0cb}.c-total .big{font-size:30px;font-weight:700;letter-spacing:-.6px}
+.c-total .up{font-size:12px;color:var(--lime)}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.qa button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--g800);position:relative}
+.qa svg{width:20px;height:20px}
+.acct{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer}
+.acct .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex:none}
+.acct .nm{font-weight:600;font-size:13px}.acct .ds{font-size:11.5px;color:var(--muted)}
+.acct .am{margin-left:auto;text-align:right;font-weight:600;font-size:13.5px}
+.earn{color:var(--g500);font-weight:600}
+.promo{border-radius:14px;padding:13px 14px;margin:10px 0;font-size:12.5px;cursor:pointer;background:var(--p3b);color:#44247f;border:1px solid #e0d4f6}
+.promo.blue{background:var(--p2b);color:#183f73;border-color:#cfe0f6}
+.promo b{font-size:13.5px}
+.sec-t{font-weight:700;font-size:13.5px;margin:16px 0 8px;display:flex;justify-content:space-between;align-items:center}
+.act{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.act .ai{width:30px;height:30px;border-radius:50%;background:var(--g50);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--g800);flex:none}
+.act .am{margin-left:auto;font-weight:600}
+.coin{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:11px;flex:none}
+.alist .acct .am small{display:block;font-weight:500;font-size:11.5px}
+.up-t{color:var(--g500)}.dn-t{color:var(--red)}
+.back{font-size:13px;color:var(--g700);font-weight:600;margin:4px 0 8px}
+.sheet-bg{position:absolute;inset:0;background:rgba(6,20,12,.35);z-index:10;display:flex;align-items:flex-end}
+.sheet{background:#fff;width:100%;border-radius:24px 24px 0 0;padding:14px 18px 28px;max-height:88%;overflow-y:auto;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.sheet .grab{width:40px;height:4px;background:#d6ddd9;border-radius:9px;margin:0 auto 12px}
+.sheet h4{margin:0 0 12px;font-size:16px}
+.amt-in{font-size:34px;font-weight:700;border:0;width:100%;text-align:center;outline:0;letter-spacing:-.5px;background:transparent;color:var(--ink)}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:8px 0 12px}
+.chips button{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:600}
+.chips button.on{background:var(--g700);color:#fff;border-color:var(--g700)}
+.kv{display:flex;justify-content:space-between;font-size:12.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.kv:last-of-type{border-bottom:0}
+.ok-big{width:64px;height:64px;border-radius:50%;background:var(--g500);display:grid;place-items:center;margin:8px auto 10px;color:#fff;font-size:30px}
+.center{text-align:center}
+.speed{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.speed .ln{display:flex;align-items:center;gap:8px;font-size:12px;margin:6px 0}
+.speed .ln span:first-child{width:96px;color:var(--muted)}
+.speed .ln .bar{flex:1}
+.ccard{border-radius:18px;padding:18px;color:#fff;height:190px;background:radial-gradient(circle at 85% 15%,rgba(140,198,63,.55),transparent 45%),linear-gradient(135deg,#0a3d22,#0d6b37 60%,#2e9e4f);position:relative;box-shadow:0 12px 24px rgba(6,41,26,.25)}
+.ccard.frozen{filter:grayscale(1) brightness(.9)}
+.ccard .nm{font-weight:800;font-size:16px;letter-spacing:.3px}
+.ccard .chip{width:38px;height:28px;border-radius:6px;background:linear-gradient(135deg,#e8d38b,#b8962e);margin-top:26px}
+.ccard .pan{font-size:16px;letter-spacing:2px;margin-top:14px}
+.ccard .bt{position:absolute;bottom:16px;left:18px;right:18px;display:flex;justify-content:space-between;font-size:11px;opacity:.9}
+.meter{position:relative;height:12px;border-radius:999px;background:linear-gradient(90deg,#cdeed7 0 50%,#fdf0cf 50% 65%,#fbdada 65% 100%);margin:18px 0 22px}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--g700);transition:width .15s}
+.meter .mk{position:absolute;top:-4px;bottom:-4px;width:2px;background:#33443b}
+.meter .mk span{position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:9.5px;white-space:nowrap;color:var(--muted)}
+
+/* narrative */
+.narr{display:flex;flex-direction:column;gap:14px}
+.narr .eyebrow2{margin-bottom:-6px}
+.narr h2{margin:0;font-size:26px;letter-spacing:-.5px;color:var(--g950);line-height:1.15}
+.narr p.lead{margin:0;color:var(--ink2);font-size:15px}
+.narr ul{margin:0;padding-left:18px;color:var(--ink2)}
+.narr ul li{margin:4px 0}
+.bigstat{border-left:4px solid var(--lime);padding:6px 0 6px 14px}
+.bigstat b{font-size:28px;color:var(--g900);display:block;letter-spacing:-.5px}
+.bigstat span{color:var(--muted);font-size:13px}
+.jump{display:flex;gap:8px;flex-wrap:wrap}
+.jump button{padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:12.5px;font-weight:600;color:var(--g800)}
+.jump button.on{background:var(--g700);color:#fff;border-color:var(--g700)}
+
+.donut-wrap{display:flex;gap:18px;align-items:center}
+.legend div{display:flex;align-items:center;gap:8px;font-size:12.5px;margin:5px 0}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.legend b{margin-left:auto;padding-left:14px}
+.arch{display:grid;grid-template-columns:1fr auto 1fr auto 1.4fr;gap:8px;align-items:center}
+.arch .col{display:flex;flex-direction:column;gap:6px}
+.arch .bx{border-radius:10px;padding:8px 10px;font-size:12px;font-weight:600;text-align:center}
+.arch .arrow{color:var(--muted);font-size:18px}
+.revbar{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12.5px}
+.revbar .nm{width:190px;flex:none}
+.revbar .bar{flex:1;height:14px}
+.revbar .v{width:70px;text-align:right;font-weight:600}
+.gauge{height:16px;border-radius:999px;background:var(--bg);position:relative;overflow:hidden;margin:12px 0 6px}
+.gauge i{position:absolute;left:0;top:0;bottom:0;background:var(--g500);border-radius:999px;transition:width .4s}
+.gauge .tg{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+
+.tabbar button{padding:2px 4px}
+.chart{position:relative;margin:8px -4px 0;cursor:crosshair}
+.chart svg{display:block}
+.chips.per button{padding:5px 10px}
+.unit{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--g700);border:1px solid var(--line);border-radius:999px;padding:4px 10px;margin:0 auto}
+.amt-wrap{text-align:center}
+.amt-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.qr{display:block;margin:10px auto;border:8px solid #fff;box-shadow:var(--sh);border-radius:8px}
+.addr{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:var(--bg);border-radius:8px;padding:8px;word-break:break-all;text-align:center}
+.cmp td,.cmp th{font-size:12.5px}
+.cmp td:first-child{color:var(--muted)}
+.ccard.credit{background:radial-gradient(circle at 85% 15%,rgba(247,147,26,.45),transparent 45%),linear-gradient(135deg,#111a15,#26332c 60%,#3b4a41)}
+.facts .kv{font-size:13px;padding:9px 0}
+.lockchip{opacity:.5}
+.note{font-size:11.5px;color:var(--muted);background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:10px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--g950);color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;opacity:0;transition:.25s;z-index:100;pointer-events:none;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:1050px){
+  .consumer{grid-template-columns:1fr}.phone-wrap{position:static}
+  .hero,.story{grid-template-columns:1fr}
+  .g3,.g4{grid-template-columns:1fr 1fr}
+  .stack{grid-template-columns:1fr 1fr}
+  .top,.nav{position:static}
+}
+@media (max-width:700px){
+  main{padding:16px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .phone{transform:scale(.9);transform-origin:top center}
+  .matrix-wrap{overflow-x:auto}
+  .matrix{min-width:900px}
+  .arch{grid-template-columns:1fr}.arch .arrow{transform:rotate(90deg);text-align:center}
+  .top{padding:10px 16px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="mark">H</div><div><b>Huntington Digital Assets</b><small>Enterprise vision prototype · prepared by Paxos</small></div></div>
+  <div class="phase-ctl"><span class="lbl">Roadmap view</span><div class="seg" id="phaseSeg"></div></div>
+</header>
+<nav class="nav" id="nav"></nav>
+<main id="view"></main>
+<footer>Concept prototype for discussion purposes only — not a Huntington product or offer. All customer names, balances, prices, rates, and revenue figures are illustrative. Crypto and gold prices reflect Oct 7, 2026 market levels (equities: Oct 6 close); chart history is modeled from published month-end closes. Phase 2 and Phase 3 capabilities are roadmap concepts subject to Huntington and Paxos product, legal, regulatory and risk approvals. USDG rewards are variable and not guaranteed. Card issuance would be delivered with a card partner (e.g., Rain or Reap).</footer>
+<div id="toast"></div>
+
+<script>
+/* ================= market data (as of Oct 7, 2026) =================
+   Spot prices from public trackers on Oct 7, 2026 (BTC/ETH/SOL ~3:30pm ET, gold ~3pm ET).
+   Chart history interpolated from published month-end closes; intra-month paths are modeled. */
+const TODAY=new Date(2026,9,7,15,30);
+const PX={
+ BTC:{name:'Bitcoin',c:'#f7931a',vol:.022,wp:[[365,124000],[335,101000],[305,89500],[280,87500],[249,78621],[221,66996],[190,68233],[160,76304],[129,73580],[99,58559],[68,62814],[37,78549],[16,89000],[7,83600],[2,86100],[1,85300],[0,83472.29]]},
+ ETH:{name:'Ethereum',c:'#627eea',vol:.03,wp:[[365,4480],[335,3400],[305,3050],[280,2970],[249,2700],[221,2050],[190,2080],[160,2300],[129,2250],[99,1700],[68,1950],[37,2450],[16,2900],[7,2713],[2,2700],[1,2690],[0,2556.49]]},
+ SOL:{name:'Solana',c:'#14a38f',vol:.038,wp:[[365,222],[335,165],[305,138],[280,125],[249,118],[221,86],[190,84],[160,95],[129,92],[99,72],[68,84],[37,105],[16,130],[7,124],[2,122],[1,121.7],[0,116.53]]},
+ PAXG:{name:'Pax Gold',c:'#b8962e',vol:.011,wp:[[365,3980],[305,4150],[280,4400],[249,4900],[221,5050],[190,4700],[160,4550],[129,4400],[99,4250],[68,4300],[37,4200],[16,4180],[7,4190],[1,4163],[0,4105]]}
+};
+Object.values(PX).forEach(a=>{a.p=a.wp[a.wp.length-1][1];a.prev=a.wp[a.wp.length-2][1];a.ch=(a.p/a.prev-1)*100});
+// Tokenized assets (Phase 3). Equity prices = Oct 6, 2026 close (SPY approximated from S&P 500 close of 7,819).
+const TOK={
+ TBILL:{name:'U.S. Treasury Money Fund',c:'#33443b',p:1.00,kind:'fund',sub:'Tokenized fund · 7-day yield ~3.7%*'},
+ SPY:{name:'S&P 500 ETF',c:'#0d6b37',p:779.80,kind:'eq',sub:'Tokenized ETF'},
+ NVDA:{name:'NVIDIA',c:'#5f9a00',p:239.24,kind:'eq',sub:'Tokenized stock'},
+ AAPL:{name:'Apple',c:'#4b4f54',p:333.63,kind:'eq',sub:'Tokenized stock'},
+ MSFT:{name:'Microsoft',c:'#1f6fd1',p:529.30,kind:'eq',sub:'Tokenized stock'}
+};
+const ALL={...PX,...TOK};
+const CRYPTO=Object.keys(PX);
+
+function rng(seed){let s=seed%2147483647||1;return()=>{s=(s*16807)%2147483647;return s/2147483647}}
+function gauss(r){return Math.sqrt(-2*Math.log(r()+1e-12))*Math.cos(2*Math.PI*r())}
+function bridge(a,b,n,vol,r){const la=Math.log(a),lb=Math.log(b),w=[0];for(let i=1;i<=n;i++)w.push(w[i-1]+gauss(r)*vol);const o=[];for(let i=0;i<=n;i++){const t=i/n;o.push(Math.exp(la+(lb-la)*t+w[i]-t*w[n]))}return o}
+function buildSeries(sym){
+  const a=PX[sym],r=rng(sym.split('').reduce((s,c)=>s*31+c.charCodeAt(0),17));
+  const daily=[];a.wp.forEach((w,i)=>{if(i===a.wp.length-1)return;const seg=bridge(w[1],a.wp[i+1][1],w[0]-a.wp[i+1][0],a.vol,r);if(i>0)seg.shift();daily.push(...seg)});
+  const dayAt=d=>daily[daily.length-1-d];
+  const hourly=[];for(let d=7;d>0;d--){const seg=bridge(dayAt(d),dayAt(d-1),24,a.vol/Math.sqrt(24),r);if(hourly.length)seg.shift();hourly.push(...seg)}
+  const intraday=bridge(dayAt(1),dayAt(0),96,a.vol/Math.sqrt(96),r);
+  return {daily,hourly,intraday};
+}
+const SER={};CRYPTO.forEach(k=>SER[k]=buildSeries(k));
+const PERIODS={'1D':{src:'intraday',step:9e5},'1W':{src:'hourly',step:36e5},'1M':{n:31},'3M':{n:91},'YTD':{n:280},'1Y':{n:366}};
+function periodPts(sym,per){const P=PERIODS[per],s=SER[sym];if(P.src)return{pts:s[P.src],step:P.step};return{pts:s.daily.slice(-P.n),step:864e5}}
+
+/* ================= state ================= */
+const PH={1:{name:'Launch',c:'var(--p1)',d:'Buy, sell & hold crypto · USDG/USDC on/off ramp · closed-loop stablecoin transfers'},
+          2:{name:'Expand',c:'var(--p2)',d:'Earn (USDG rewards, staking) · debit card · send & receive crypto to external wallets'},
+          3:{name:'Full vision',c:'var(--p3)',d:'Crypto-backed credit card & lending · tokenized deposits, funds & equities'}};
+const VIEWS=[['overview','Enterprise overview'],['consumer','Consumer'],['wealth','Private Bank & Wealth'],['business','Business Banking'],['commercial','Commercial & Treasury'],['ops','Huntington Operations']];
+const S={
+  phase:3, view:'overview',
+  bal:{checking:8420.15,savings:22100,usdg:2500,usdc:300},
+  hold:{BTC:0.0842,ETH:1.35,SOL:12,PAXG:0.5,TBILL:0,SPY:0,NVDA:0,AAPL:0,MSFT:0},
+  act:[{t:'Received from Jordan Lee',s:'Yesterday · USDG',a:'+$40.00',i:'JL'},{t:'Bought Ethereum',s:'Mon · Invest',a:'-$500.00',i:'ETH'},{t:'Paycheck – Acme Corp',s:'Fri · Checking',a:'+$3,215.40',i:'$'},{t:'Kroger',s:'Thu · Debit',a:'-$86.12',i:'K'}],
+  c:{tab:'home',asset:null,period:'1D',sheet:null,
+     trade:{side:'buy',sym:'BTC',unit:'usd',amt:'250',step:'edit',res:null},
+     send:{step:'pick',to:0,asset:'USDG',amt:'50'},recv:{mode:'handle',asset:'USDG',net:'Ethereum'},add:{amt:'500',coin:'USDG',step:'edit'},
+     stake:{ETH:true,SOL:false},auto:false,
+     card:{mode:'debit',frozen:false,intl:true,online:true,gamb:false,limit:1500,src:'usdg',virt:[],cbal:1240.18,rew:'BTC'},
+     borrow:{amt:2000,drawn:0,dest:'checking',last:0},agent:false},
+  w:{alloc:3,stake:true,pledged:false,btc:2.6,eth:55,dep:{open:false,asset:'BTC',step:0}},
+  b:{rule:true,keep:20,pay:{v:0,amt:'12500',step:0},cards:[{n:'Maria (Ops)',l:2500,u:612},{n:'Leo (Sales)',l:1000,u:240},{n:'Ads – vendor card',l:5000,u:3110}]},
+  t:{mode:'mint',amt:'5000000',step:0,usdg:18.2,released:false,sweep:true,prog:false,
+     td:{dda:40.0,tok:25.0,mint:'10000000',route:'hb',amt:'2400000',step:0}},
+  o:{float:4.2,target:5.0,alerts:[{id:'AML-2291',t:'Sanctions screening – counterparty wallet exposure',w:'Outbound USDG · $9,800',sev:'High',st:'Open'},
+      {id:'TR-0174',t:'Travel Rule – beneficiary details incomplete',w:'Outbound BTC · $3,150',sev:'Med',st:'Open'},
+      {id:'VEL-0932',t:'Velocity – 6 buy orders in 60 min',w:'Consumer · Invest',sev:'Low',st:'Open'}],
+     allow:{BTC:true,ETH:true,SOL:true,PAXG:true,LINK:true,DOGE:false},stake:true,card:true,ltv:50}
+};
+const CONTACTS=[{n:'Jordan Lee',h:'Huntington customer',i:'JL',c:'#0d6b37',p:1},{n:'Priya Shah',h:'Huntington customer',i:'PS',c:'#7446cf',p:1},{n:'Sam Ortiz',h:'External wallet 0x7a3…91c2',i:'SO',c:'#33443b',p:2,ext:true}];
+const VENDORS=['Green Bean Importers','Ohio Packaging Co.','Lakeshore Logistics'];
+const NETFEE={USDG:0.35,USDC:0.35,BTC:1.20,ETH:0.60,SOL:0.01};
+
+/* ================= helpers ================= */
+const fm=(n,d=2)=>(n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fm0=n=>fm(n,0);
+const fmM=n=>'$'+n.toFixed(1)+'M';
+const dec=s=>s==='BTC'?6:(TOK[s]?4:4);
+const fq=(n,s)=>(+n).toLocaleString('en-US',{maximumFractionDigits:dec(s)})+' '+(TOK[s]?(TOK[s].kind==='fund'?'units':'sh'):s);
+const pct=n=>(n>=0?'+':'')+n.toFixed(2)+'%';
+const cryptoVal=()=>CRYPTO.reduce((s,k)=>s+S.hold[k]*PX[k].p,0);
+const cryptoPrev=()=>CRYPTO.reduce((s,k)=>s+S.hold[k]*PX[k].prev,0);
+const tokVal=()=>Object.keys(TOK).reduce((s,k)=>s+S.hold[k]*TOK[k].p,0);
+const collat=()=>S.hold.BTC*PX.BTC.p+S.hold.ETH*PX.ETH.p;
+const chip=p=>`<span class="pchip p${p}">PHASE ${p}</span>`;
+const lockSvg='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+function gate(p,html,o={}){
+  if(p<=S.phase) return html;
+  return `<div class="locked ${o.cls||''}"><div class="locked-inner">${html}</div><div class="lock-tag" style="color:${PH[p].c}">${lockSvg}<span>Phase ${p} · ${PH[p].name}</span>${o.cls==='full'?'<span style="font-weight:400;color:var(--muted);font-size:11px">Switch the roadmap view to preview</span>':''}</div></div>`;
+}
+const tg=(on,a,v='')=>`<button class="toggle ${on?'on':''}" data-a="${a}" data-v="${v}" aria-pressed="${on}"></button>`;
+const I={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+ chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+ earn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v12"/></svg>',
+ send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>',
+ card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+ bank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>',
+ plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+ recv:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v14M6 11l6 6 6-6M4 21h16"/></svg>',
+ swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v14l-3-3M17 20V6l3 3"/></svg>'
+};
+function fmtDate(d,per){return per==='1D'||per==='1W'?d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
+function chartSvg(sym,per,w=320,h=130){
+  const {pts}=periodPts(sym,per),mn=Math.min(...pts),mx=Math.max(...pts),up=pts[pts.length-1]>=pts[0],col=up?'#2e9e4f':'#c93c3c';
+  const X=i=>i/(pts.length-1)*w,Y=v=>h-8-(v-mn)/(mx-mn||1)*(h-16);
+  const d=pts.map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+  return `<div class="chart" data-chart="${sym}" data-per="${per}"><svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none"><defs><linearGradient id="g${sym}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".18"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs><path d="${d} L${w},${h} L0,${h}Z" fill="url(#g${sym})"/><path d="${d}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/><line id="chL" x1="0" x2="0" y1="0" y2="${h}" stroke="#8a978f" stroke-dasharray="3 3" vector-effect="non-scaling-stroke" style="display:none"/></svg></div>`;
+}
+function donut(parts,size=150){
+  const tot=parts.reduce((s,p)=>s+p.v,0),r=56,C=2*Math.PI*r;let off=0;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 150 150"><g transform="rotate(-90 75 75)">${parts.map(p=>{const len=p.v/tot*C;const el=`<circle cx="75" cy="75" r="${r}" fill="none" stroke="${p.c}" stroke-width="20" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}"/>`;off+=len;return el}).join('')}</g><text x="75" y="72" text-anchor="middle" font-size="11" fill="#66766d">Total</text><text x="75" y="90" text-anchor="middle" font-size="17" font-weight="700" fill="#14201a">${fmM(tot)}</text></svg>`;
+}
+function qr(seed,size=150){const r=rng(seed.split('').reduce((s,c)=>s*33+c.charCodeAt(0),5)),n=25,c=size/n;let o='';
+  const finder=(x,y)=>`<rect x="${x*c}" y="${y*c}" width="${7*c}" height="${7*c}" fill="#14201a"/><rect x="${(x+1)*c}" y="${(y+1)*c}" width="${5*c}" height="${5*c}" fill="#fff"/><rect x="${(x+2)*c}" y="${(y+2)*c}" width="${3*c}" height="${3*c}" fill="#14201a"/>`;
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){if((x<8&&y<8)||(x>16&&y<8)||(x<8&&y>16))continue;if(r()>.52)o+=`<rect x="${x*c}" y="${y*c}" width="${c}" height="${c}" fill="#14201a"/>`}
+  return `<svg class="qr" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" fill="#fff"/>${o}${finder(0,0)}${finder(18,0)}${finder(0,18)}</svg>`}
+const ADDR={USDG:{Ethereum:'0x4be1c09a77d2e1f3b6a0c7d2f9e8a1b2c3d4a07f',Solana:'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'},USDC:{Ethereum:'0x4be1c09a77d2e1f3b6a0c7d2f9e8a1b2c3d4a07f',Solana:'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'},BTC:{Bitcoin:'bc1q9h6tq0x2f7m3l5v8k4w2c9r0d7e3s5a1n6p4zq'},ETH:{Ethereum:'0x4be1c09a77d2e1f3b6a0c7d2f9e8a1b2c3d4a07f'},SOL:{Solana:'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'}};
+let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800)}
+function story(o){return `<section class="story"><div><div class="eyebrow">${o.eyebrow}</div><h1>${o.title}</h1><p>${o.body}</p><div class="pw">${o.pw.map(x=>`<span class="tag">${x}</span>`).join('')}</div></div><div class="stat"><b>${o.stat}</b><span>${o.statL}</span></div></section>`}
+const sec=(t,r='')=>`<div class="sec-t"><span>${t}</span>${r}</div>`;
+const actRow=a=>`<div class="act"><div class="ai">${a.i}</div><div><div style="font-weight:600">${a.t}</div><div class="mut" style="font-size:11.5px">${a.s}</div></div><div class="am num ${a.a[0]==='+'?'up-t':''}">${a.a}</div></div>`;
+
+/* ================= chrome ================= */
+function renderChrome(){
+  document.getElementById('phaseSeg').innerHTML=[1,2,3].map(p=>`<button class="${S.phase===p?'on':''}" data-a="phase" data-v="${p}"><span class="d" style="background:${PH[p].c}"></span>${p===3?'Phase 1–3 · Full vision':p===2?'Phase 1–2':'Phase 1'}</button>`).join('');
+  document.getElementById('nav').innerHTML=VIEWS.map(([k,l])=>`<button class="${S.view===k?'on':''}" data-a="view" data-v="${k}">${l}</button>`).join('');
+}
+
+/* ================= overview ================= */
+const COLS=['Invest','Digital dollars','Send & pay','Earn','Spend','Borrow','Tokenized assets'];
+const ROWS=[
+ {k:'consumer',n:'Consumer',s:'Mobile & online banking',c:[[1,'Buy, sell & hold BTC, ETH, SOL, gold in-app'],[1,'Hold USDG (primary) & USDC next to checking'],[1,'Closed-loop transfers between Huntington customers → external wallets & crypto (P2)'],[2,'USDG rewards + ETH/SOL staking'],[2,'USDG debit card → crypto-backed credit card (P3)'],[3,'Crypto-backed line of credit'],[3,'Tokenized treasuries, stocks & ETFs']]},
+ {k:'wealth',n:'Private Bank & Wealth',s:'Advisors & HNW clients',c:[[1,'Crypto sleeve in advised portfolios'],[1,'USDG as on-chain cash'],[2,'Consolidate held-away crypto from external wallets'],[2,'Staking with instant unstake'],[2,'Premium card, GDN-funded rewards'],[3,'Pledge BTC/ETH for liquidity & mortgage boost'],[3,'Tokenized funds, equities, structured notes']]},
+ {k:'business',n:'Business Banking',s:'Small & mid-sized business',c:[[0,'—'],[1,'Accept USDG, auto-convert to USD'],[1,'Pay suppliers instantly, weekends too'],[2,'Rewards on idle USDG balances'],[2,'Employee & vendor virtual cards'],[3,'Working capital vs. digital collateral'],[3,'Interest-bearing deposit tokens']]},
+ {k:'commercial',n:'Commercial & Treasury',s:'Corporate treasury clients',c:[[1,'Treasury digital asset execution'],[1,'Mint & redeem USDG at par'],[1,'Domestic B2B stablecoin payments'],[2,'Rewards on operating USDG'],[2,'Programmable purchasing cards'],[3,'Programmable escrow & collateral mobility'],[3,'Huntington Deposit Token + tokenized MMF sweeps']]},
+ {k:'ops',n:'Huntington (the bank)',s:'Treasury, ops, risk & finance',c:[[1,'Prefund, float, net settlement & TCA reporting'],[1,'GDN membership, USDG treasury'],[1,'AML, Travel Rule & sanctions screening'],[2,'GDN reserve rewards revenue'],[2,'Interchange; card interest (P3)'],[3,'On-us permissioned lending platform'],[3,'Issue deposit tokens; distribute tokenized products']]}
+];
+function vOverview(){
+  return `<section class="hero"><div>
+    <div class="eyebrow2">Paint the picture</div>
+    <h1>One digital asset platform.<br>Every Huntington customer.</h1>
+    <p>Phase 1 starts with buy/sell/hold and stablecoin payments. This prototype shows where the same single Paxos integration can take Huntington — across consumer, wealth, business, commercial and the bank's own treasury — without re-platforming at each step.</p>
+    <p class="mut" style="font-size:13px">Use the <b>Roadmap view</b> toggle to watch capabilities switch on by phase. Click any cell to open that experience.</p>
+  </div><div class="phases">${[1,2,3].map(p=>`<div class="ph ${S.phase>=p?'on':''}" data-a="phase" data-v="${p}"><div class="n" style="background:${PH[p].c}">${p}</div><div><b>Phase ${p} · ${PH[p].name}</b><span>${PH[p].d}</span></div></div>`).join('')}</div></section>
+  <div class="card"><div class="row between" style="margin-bottom:6px"><h3>The Huntington digital asset map</h3><span class="mut" style="font-size:12px">${chip(1)} ${chip(2)} ${chip(3)}</span></div>
+  <div class="matrix-wrap"><table class="matrix"><thead><tr><th class="seg-h"></th>${COLS.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>
+  ${ROWS.map(r=>`<tr><td><div class="seg-name" data-a="view" data-v="${r.k}">${r.n}<small>${r.s}</small></div></td>${r.c.map(([p,t])=>{
+     const cls=p===0?'off':(p<=S.phase?'c'+p:'off');
+     return `<td><div class="cell ${cls}" data-a="view" data-v="${r.k}">${p?`<div class="pc">${p<=S.phase?'PHASE '+p:'🔒 PHASE '+p}</div>`:''}${t}</div></td>`}).join('')}</tr>`).join('')}
+  </tbody></table></div></div>
+  <div class="grid g2" style="margin-top:16px">
+   <div class="card"><h3>One integration underneath it all</h3><div class="sub">Every experience above runs on the same Paxos rails — Huntington owns the customer, brand, pricing and policy.</div>
+    <div class="stack">
+     <div class="s"><b>OCC-supervised custody</b><span>Bankruptcy-remote trust custody for crypto & stablecoins</span></div>
+     <div class="s"><b>Crypto brokerage</b><span>REST + FIX, smart routing across exchanges & LPs</span></div>
+     <div class="s"><b>USDG & Global Dollar Network</b><span>Mint/redeem at par; reserve rewards shared with members</span></div>
+     <div class="s"><b>Orchestration</b><span>Convert & move USD ↔ stablecoins; rules on deposit</span></div>
+     <div class="s"><b>Staking-as-a-Service</b><span>Native & liquid, multi-provider, instant unstake</span></div>
+     <div class="s"><b>Collateral management</b><span>Encumber, value, margin-call & liquidate</span></div>
+     <div class="s"><b>Fordefi wallets</b><span>MPC wallets & policy engine for on-chain access</span></div>
+     <div class="s"><b>Tokenization platform</b><span>Stablecoins & gold live; securities & deposits on roadmap</span></div>
+    </div></div>
+   <div class="card"><h3>Why the full picture matters</h3><div class="sub">Crypto-native platforms already bundle these into one app. No bank offers all five.</div>
+    <table><thead><tr><th></th><th>Buy/Sell</th><th>Earn</th><th>Borrow</th><th>Send</th><th>Spend</th></tr></thead><tbody>
+     <tr><td>Crypto-native platforms</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>Partial</td></tr>
+     <tr><td>Banks & brokerages today</td><td>Partial</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td></tr>
+     <tr style="background:var(--g50)"><td><b>Huntington (full vision)</b></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    </tbody></table>
+    <div class="bigstat" style="margin-top:14px"><b>$2.77 out for every $1 in</b><span>Consumer deposit flows from 92 community banks to crypto platforms over the last year</span></div>
+   </div>
+  </div>`;
+}
+
+/* ================= consumer ================= */
+const NARR={
+ home:{e:'Consumer · Home',p:1,h:'Crypto and digital dollars, right next to checking.',l:'Alex never leaves Huntington to own bitcoin or hold stablecoins. One login, one balance, one statement.',b:['Total balance includes checking, savings, USDG, USDC and crypto','USDG is the primary digital dollar; USDC supported for interoperability','Phase 2 adds Earn; Phase 3 surfaces credit against crypto and tokenized assets'],pw:['Paxos Trust custody','Crypto Brokerage API','USDG / GDN'],s:'$2.77 : $1',sl:'Deposit outflows to crypto platforms vs. inflows (92 community banks, last 12 months)'},
+ invest:{e:'Consumer · Invest',p:1,h:'Buy, sell and hold — funded straight from checking.',l:'Customers trade in dollars or in coin, with a clear quote and one fee. Execution quality is assumed by the customer — and evidenced to Huntington through bank-level TCA reporting.',b:['Buy in dollars; sell in coin or dollars, with 25% / 50% / Max shortcuts — the pattern Robinhood and Coinbase use','Huntington sets its own spread / fee and asset list','Interactive price history: 1D, 1W, 1M, 3M, YTD, 1Y','Phase 2: send & receive crypto; Phase 3: tokenized treasuries and equities in the same list'],pw:['Smart order routing','Pre-trade risk & AML','Execution reporting (TCA)'],s:'Prices as of Oct 7',sl:'BTC, ETH, SOL and gold reflect Oct 7, 2026 market levels; chart history follows 2026 month-end closes'},
+ tok:{e:'Consumer · Tokenized assets',p:3,h:'Bring brokerage money back on-platform.',l:'Tokenized treasuries, stocks and ETFs sit in the same Invest tab as crypto — buy with $1, trade 24/7, settle instantly in USDG. This competes directly with Robinhood and Coinbase for self-directed investors.',b:['Licensure: tokenized securities would be offered through The Huntington Investment Company — already a registered broker-dealer (FINRA/SIPC) and SEC-registered investment adviser','SEC approved a five-year innovation exemption (Sept 17, 2026) for venues trading tokenized NMS stocks that preserve dividends and voting rights','Paxos was granted clearing agency registration (CA-1) in May 2026','Requires Huntington legal, compliance and product approval before launch'],pw:['Paxos tokenization platform','CA-1 clearing','USDG settlement'],s:'200+',sl:'Tokenized U.S. stocks & ETFs Robinhood already offers to EU retail users — the U.S. race starts now'},
+ earn:{e:'Consumer · Earn',p:2,h:'Make idle balances work — without leaving the bank.',l:'One place to see every way Alex earns: rewards on USDG, staking on ETH and SOL, and in the full vision, tokenized treasury yield.',b:['Staking: one tap, auto-compounding, instant unstake (no exit queue)','Multi-provider routing with slashing protection','USDG rewards funded by Global Dollar Network economics — structure subject to final stablecoin-yield rules','Phase 3: tokenized Treasury fund and curated on-chain earn'],pw:['Staking-as-a-Service','GDN rewards engine','Tax reporting'],s:'“Top feature”',sl:'How Robinhood described staking — its primary engagement driver for 2026'},
+ pay:{e:'Consumer · Pay',p:1,h:'Dollars that move like messages — 24/7/365.',l:'Phase 1 is closed loop: send USDG or USDC to any Huntington customer by name, instantly and free. Phase 2 opens the loop to external wallets and adds crypto send & receive.',b:['Closed loop first: both sides are verified Huntington customers, so transfers are instant book entries — no on-chain fee','USDG is the default; USDC supported','Phase 2: on-chain send/receive for stablecoins and BTC/ETH/SOL with address screening & Travel Rule behind the scenes','Phase 2: auto-convert incoming stablecoins to checking'],pw:['Orchestration API','Destination address registry','Transaction monitoring'],s:'2–3 days → seconds',sl:'ACH settlement time vs. USDG — the pain point Huntington\'s tech team raised'},
+ card:{e:'Consumer · Debit card',p:2,h:'Spend digital dollars anywhere cards are accepted.',l:'A Huntington debit card that authorizes against the customer\'s USDG balance in milliseconds, with rewards that can be funded by GDN economics and interchange.',b:['Huntington-defined controls: MCC blocks, geography, velocity','Instant virtual cards for one-time or subscription use','Phase 3: crypto-backed credit card — Huntington earns interest, not just interchange','Issued with a card partner (Rain or Reap)'],pw:['Card issuance partner','USDG balance auth','GDN-funded rewards'],s:'30%',sl:'Cashback crypto-native players offer on USDG card spend in Europe'},
+ credit:{e:'Consumer · Crypto-backed credit card',p:3,h:'A credit card secured by bitcoin — Huntington earns the interest.',l:'Customers pledge BTC/ETH in Paxos custody; the card\'s limit is set by real-time collateral value. Revolving balances earn Huntington interest income on top of interchange — and the crypto never leaves the bank.',b:['Limit = collateral × max LTV, re-valued in real time','Carry a balance at a variable APR, or pay in full with no interest','Rewards paid in BTC or USDG','Shares collateral and margin-call logic with the crypto-backed line of credit'],pw:['Collateral management','Valuation API','Card issuance partner'],s:'Up to $1M',sl:'Credit lines on Aven\'s bitcoin-backed Visa (Apr 2026, bank-issued, APRs from 7.99%) — fintechs are already here'},
+ borrow:{e:'Consumer · Borrow',p:3,h:'Unlock liquidity without selling bitcoin.',l:'Crypto held in Paxos custody backs a Huntington line of credit. It is locked, not sold — unless the customer defaults. Huntington owns the loan and the economics.',b:['Real-time collateral valuation sets the limit','Automated margin calls and liquidation thresholds','Disburse to checking or USDG instantly','Use crypto as supplemental collateral for mortgage & auto'],pw:['Collateral management','Valuation API','Bankruptcy-remote custody'],s:'$2B',sl:'Crypto-backed loan originations by one crypto-native platform in its first year'}
+};
+function narrKey(){const t=S.c.tab;if(t==='invest'&&S.c.asset&&TOK[S.c.asset])return 'tok';if(t==='card'&&S.c.card.mode==='credit')return 'credit';return t}
+const TABS=[['home','Home',1,'home'],['invest','Invest',1,'chart'],['earn','Earn',2,'earn'],['pay','Pay',1,'send'],['card','Card',2,'card'],['borrow','Borrow',3,'bank']];
+function vConsumer(){
+  const t=S.c.tab,tp=TABS.find(x=>x[0]===t)[2];
+  const scr={home:cHome,invest:cInvest,earn:cEarn,pay:cPay,card:cCard,borrow:cBorrow}[t]();
+  const n=NARR[narrKey()];
+  return `<div class="consumer">
+   <div class="phone-wrap"><div class="phone"><div class="inner"><div class="notch"></div>
+     <div class="sbar"><span>9:41</span><span>5G ▮▮▮</span></div>
+     <div class="screen" id="screen">${gate(tp,scr,{cls:'full'})}</div>
+     ${S.c.sheet?sheet():''}
+     <div class="tabbar">${TABS.map(([k,l,p,ic])=>`<button class="${t===k?'on':''}" data-a="ctab" data-v="${k}">${I[ic]}${l}${p>S.phase?`<span class="lk" style="background:${PH[p].c}"></span>`:''}</button>`).join('')}</div>
+   </div></div></div>
+   <aside class="narr">
+     <div class="eyebrow2">${n.e} ${chip(n.p)}</div>
+     <h2>${n.h}</h2><p class="lead">${n.l}</p>
+     <ul>${n.b.map(x=>`<li>${x}</li>`).join('')}</ul>
+     <div class="bigstat"><b>${n.s}</b><span>${n.sl}</span></div>
+     <div><div class="mut" style="font-size:12px;font-weight:600;margin-bottom:4px">POWERED BY PAXOS (BEHIND THE SCENES)</div>${n.pw.map(x=>`<span class="tag">${x}</span>`).join('')}</div>
+     <div><div class="mut" style="font-size:12px;font-weight:600;margin-bottom:6px">WALK THE JOURNEY</div><div class="jump">${TABS.map(([k,l,p])=>`<button class="${t===k?'on':''}" data-a="ctab" data-v="${k}">${l} <span class="pchip p${p}" style="margin-left:4px">P${p}</span></button>`).join('')}</div></div>
+     <div class="card" style="font-size:12.5px"><b>Try it:</b> open Bitcoin and switch chart periods (hover the chart), sell BTC in coin units, stake ETH in Earn, send USDG to Jordan, or switch the card to crypto-backed credit. Balances update everywhere.</div>
+   </aside></div>`;
+}
+const acct=(ic,c,nm,ds,am,a,v)=>`<div class="acct" data-a="${a||''}" data-v="${v||''}"><div class="ic" style="background:${c}">${ic}</div><div><div class="nm">${nm}</div><div class="ds">${ds}</div></div><div class="am num">${am}</div></div>`;
+function cHome(){
+  const cv=cryptoVal(),dd=cv-cryptoPrev(),tv=tokVal(),tot=S.bal.checking+S.bal.savings+S.bal.usdg+S.bal.usdc+cv+tv;
+  return `<div class="c-hdr"><div><div class="c-hello">Good afternoon, Alex</div><div class="c-sub">Everything you own, in one place</div></div><div class="avatar">AR</div></div>
+  <div class="c-total"><div class="lbl">Total balance</div><div class="big num">${fm(tot)}</div><div class="up" style="${dd<0?'color:#ffb4b4':''}">${dd>=0?'▲':'▼'} ${fm(Math.abs(dd))} today · crypto</div></div>
+  <div class="qa">
+    <button data-a="open" data-v="trade">${I.plus}Buy</button>
+    <button data-a="open" data-v="send">${I.send}Send</button>
+    <button data-a="open" data-v="add">${I.swap}Add $</button>
+    <button data-a="ctab" data-v="earn">${I.earn}Earn</button>
+  </div>
+  ${acct('CHK','#0d6b37','Checking ••4821','Available',fm(S.bal.checking))}
+  ${acct('SAV','#0c5430','Savings ••7730','Premier Savings',fm(S.bal.savings))}
+  ${acct('$','#1f6fd1','Digital Dollars','USDG '+fm(S.bal.usdg)+' · USDC '+fm(S.bal.usdc)+(S.phase>=2?'<br><span class="earn">USDG earning 2.00% rewards*</span>':''),fm(S.bal.usdg+S.bal.usdc),'ctab','pay')}
+  ${acct('₿','#f7931a','Crypto',`4 assets · <span class="${dd>=0?'up-t':'dn-t'}">${pct(dd/(cv-dd)*100)} today</span>`,fm(cv),'ctab','invest')}
+  ${tv>0&&S.phase>=3?acct('T','#7446cf','Tokenized assets','Treasuries & stocks',fm(tv),'ctab','invest'):''}
+  ${gate(3,`<div class="promo" data-a="ctab" data-v="borrow">Your crypto could unlock up to <b>${fm0(collat()*0.5)}</b> of credit — without selling. →</div>`)}
+  ${gate(2,`<div class="promo blue" data-a="ctab" data-v="earn">Your ETH is earning staking rewards. <b>See what else can earn</b> →</div>`)}
+  ${sec('Recent activity')}
+  ${S.act.slice(0,5).map(actRow).join('')}`;
+}
+function assetRow(k){const a=ALL[k],isT=!!TOK[k];return `<div class="acct" data-a="asset" data-v="${k}"><div class="coin" style="background:${a.c}">${k.length>4?k.slice(0,2):k}</div><div><div class="nm">${a.name}</div><div class="ds">${S.hold[k]>0?fq(S.hold[k],k):(isT?a.sub:'')}${S.c.stake[k]&&S.phase>=2?' · <span class="earn">staked</span>':''}</div></div><div class="am num">${S.hold[k]>0?fm(S.hold[k]*a.p):fm(a.p)}<small class="${isT?'mut':(a.ch>=0?'up-t':'dn-t')}">${isT?(S.hold[k]>0?'':'price'):pct(a.ch)}</small></div></div>`}
+function cInvest(){
+  const a=S.c.asset;
+  if(a&&TOK[a])return cTokDetail(a);
+  if(a){
+    const p=PX[a],h=S.hold[a],per=S.c.period,{pts}=periodPts(a,per),chg=(p.p/pts[0]-1)*100,stakeable=a==='ETH'||a==='SOL';
+    return `<button class="back" data-a="asset" data-v="">‹ Invest</button>
+    <div class="row"><div class="coin" style="background:${p.c}">${a}</div><div><div style="font-weight:700;font-size:16px">${p.name}</div><div class="mut" style="font-size:12px">${a}</div></div></div>
+    <div id="chPrice" style="font-size:28px;font-weight:700;margin-top:10px" class="num">${fm(p.p)}</div>
+    <div id="chDelta" class="${chg>=0?'up-t':'dn-t'}" style="font-size:12.5px">${chg>=0?'▲':'▼'} ${fm(Math.abs(p.p-pts[0]))} (${pct(chg)}) ${per==='1D'?'today':per==='YTD'?'year to date':'past '+{'1W':'week','1M':'month','3M':'3 months','1Y':'year'}[per]}</div>
+    ${chartSvg(a,per)}
+    <div class="chips per">${Object.keys(PERIODS).map(x=>`<button class="${per===x?'on':''}" data-a="period" data-v="${x}">${x}</button>`).join('')}</div>
+    <div class="card" style="padding:12px;margin-bottom:10px"><div class="kv"><span class="mut">Your holdings</span><b class="num">${fq(h,a)}</b></div><div class="kv"><span class="mut">Market value</span><b class="num">${fm(h*p.p)}</b></div></div>
+    <div class="row"><button class="btn full" data-a="trade" data-v="buy:${a}">Buy</button><button class="btn ghost full" data-a="trade" data-v="sell:${a}" ${h<=0?'disabled':''}>Sell</button></div>
+    ${gate(2,`<div class="row" style="margin-top:8px"><button class="btn ghost full" data-a="sendasset" data-v="${a}">${I.send.replace('<svg','<svg width="16" height="16"')} Send</button><button class="btn ghost full" data-a="recvasset" data-v="${a}">${I.recv.replace('<svg','<svg width="16" height="16"')} Receive</button></div>`)}
+    ${stakeable?gate(2,`<div class="card" style="padding:12px;margin-top:10px"><div class="set"><div><div class="t">Stake ${a} ${S.c.stake[a]?'<span class="status st-ok">Active</span>':''}</div><div class="s">Est. ${a==='ETH'?'2.9':'6.5'}% annual rewards · instant unstake</div></div>${tg(S.c.stake[a],'stake',a)}</div></div>`):''}`;
+  }
+  const cv=cryptoVal(),dd=cv-cryptoPrev();
+  return `<div style="font-weight:700;font-size:20px;margin:6px 0 2px">Invest</div>
+  <div class="mut" style="font-size:12px">Crypto portfolio</div>
+  <div style="font-size:28px;font-weight:700" class="num">${fm(cv)}</div>
+  <div class="${dd>=0?'up-t':'dn-t'}" style="font-size:12px;margin-bottom:12px">${dd>=0?'▲':'▼'} ${fm(Math.abs(dd))} (${pct(dd/(cv-dd)*100)}) today</div>
+  <div class="alist">${CRYPTO.map(assetRow).join('')}</div>
+  <button class="btn full" style="margin-top:4px" data-a="open" data-v="trade">Buy crypto</button>
+  ${gate(3,`${sec('Tokenized treasuries','<span class="pchip p3">NEW</span>')}<div class="alist">${assetRow('TBILL')}</div>
+   ${sec('Tokenized stocks & ETFs')}<div class="alist">${['SPY','NVDA','AAPL','MSFT'].map(assetRow).join('')}</div>
+   <div class="mut" style="font-size:10.5px">Equity prices as of Oct 6, 2026 close. Trade 24/7, settle instantly in USDG.</div>`)}`;
+}
+function cTokDetail(k){
+  const a=TOK[k],h=S.hold[k],fund=a.kind==='fund';
+  return `<button class="back" data-a="asset" data-v="">‹ Invest</button>
+  <div class="row"><div class="coin" style="background:${a.c}">${k.length>4?k.slice(0,2):k}</div><div><div style="font-weight:700;font-size:16px">${a.name}</div><div class="mut" style="font-size:12px">${fund?'Tokenized money market fund':'Tokenized · '+k}</div></div></div>
+  <div style="font-size:28px;font-weight:700;margin-top:10px" class="num">${fm(a.p)}</div>
+  <div class="mut" style="font-size:12.5px">${fund?'Stable $1.00 NAV · 7-day yield ~3.7%*':'Last close · Oct 6, 2026'}</div>
+  <div class="card facts" style="padding:12px;margin:12px 0">
+   ${fund?`<div class="kv"><span class="mut">Holds</span><span>Short-term U.S. Treasuries</span></div><div class="kv"><span class="mut">Subscribe / redeem</span><span>24/7, instantly to USDG</span></div><div class="kv"><span class="mut">Minimum</span><span>$1</span></div><div class="kv"><span class="mut">Yield paid</span><span>Daily, as new units</span></div>`
+   :`<div class="kv"><span class="mut">Trading hours</span><span>24/7</span></div><div class="kv"><span class="mut">Settlement</span><span>Instant, in USDG</span></div><div class="kv"><span class="mut">Shareholder rights</span><span>Dividends & voting passed through</span></div><div class="kv"><span class="mut">Fractional</span><span>From $1</span></div>`}
+   <div class="kv"><span class="mut">Your position</span><b class="num">${h>0?fq(h,k)+' · '+fm(h*a.p):'—'}</b></div>
+  </div>
+  <div class="row"><button class="btn full" data-a="trade" data-v="buy:${k}">Buy</button><button class="btn ghost full" data-a="trade" data-v="sell:${k}" ${h<=0?'disabled':''}>Sell</button></div>
+  <div class="mut" style="font-size:10.5px;margin-top:10px">Concept only. Tokenized securities would be offered through Huntington's registered broker-dealer, subject to regulatory approval. *Illustrative yield, in line with ~3.8% 3-month T-bill rates in Oct 2026.</div>`;
+}
+function cEarn(){
+  const ethV=S.hold.ETH*PX.ETH.p,solV=S.hold.SOL*PX.SOL.p,rew=S.bal.usdg*.02;
+  const ethR=S.c.stake.ETH?ethV*.029:0,solR=S.c.stake.SOL?solV*.065:0,tb=S.hold.TBILL*.037;
+  return `<div style="font-weight:700;font-size:20px;margin:6px 0 2px">Earn</div>
+  <div class="mut" style="font-size:12px">Est. annual earnings</div>
+  <div style="font-size:28px;font-weight:700" class="num">${fm(rew+ethR+solR+(S.phase>=3?tb:0))}</div>
+  <div class="up-t" style="font-size:12px;margin-bottom:6px">+${fm(41.27)} earned this year</div>
+  ${sec('Digital dollar rewards')}
+  <div class="card" style="padding:12px"><div class="set"><div><div class="t">USDG rewards · 2.00%*</div><div class="s">${fm(S.bal.usdg)} USDG · paid daily</div></div><b class="num up-t">${fm(rew)}/yr</b></div>
+   <div class="set"><div><div class="t">USDC</div><div class="s">Not eligible — convert to USDG to earn</div></div><button class="btn ghost sm" data-a="usdc2usdg">Convert</button></div></div>
+  ${sec('Staking')}
+  <div class="card" style="padding:12px">
+   <div class="set"><div class="row"><div class="coin" style="background:${PX.ETH.c};width:30px;height:30px">ETH</div><div><div class="t">Ethereum · est. 2.9%</div><div class="s">${fq(S.hold.ETH,'ETH')} · ${fm(ethV)}${S.c.stake.ETH?' · <span class="earn">'+fm(ethR)+'/yr</span>':''}</div></div></div>${tg(S.c.stake.ETH,'stake','ETH')}</div>
+   <div class="set"><div class="row"><div class="coin" style="background:${PX.SOL.c};width:30px;height:30px">SOL</div><div><div class="t">Solana · est. 6.5%</div><div class="s">${fq(S.hold.SOL,'SOL')} · ${fm(solV)}${S.c.stake.SOL?' · <span class="earn">'+fm(solR)+'/yr</span>':''}</div></div></div>${tg(S.c.stake.SOL,'stake','SOL')}</div>
+   <div class="mut" style="font-size:11.5px;padding-top:8px">Rewards auto-compound. Unstake any time — funds available instantly, no exit queue.</div>
+  </div>
+  ${gate(3,`${sec('More ways to earn')}
+   <div class="acct" data-a="tokgo" data-v="TBILL"><div class="coin" style="background:#33443b">TB</div><div><div class="nm">Tokenized Treasury fund</div><div class="ds">~3.7% 7-day yield* · redeem 24/7</div></div><div class="am">${S.hold.TBILL>0?fm(S.hold.TBILL):'Start'}</div></div>
+   <div class="acct" data-a="toast" data-v="Huntington-curated on-chain earn vaults — policy-controlled via Fordefi (Phase 3 concept)"><div class="coin" style="background:#7446cf">V</div><div><div class="nm">USDG earn vault</div><div class="ds">Huntington-curated on-chain lending</div></div><div class="am">Explore</div></div>`)}
+  <div class="mut" style="font-size:10.5px;margin-top:10px">*Rates illustrative and variable. Stablecoin reward structure subject to final rules on stablecoin yield.</div>`;
+}
+function cPay(){
+  return `<div style="font-weight:700;font-size:20px;margin:6px 0 10px">Pay & send</div>
+  <div class="c-total" style="background:linear-gradient(135deg,#123f73,#1f6fd1)"><div class="lbl" style="color:#cfe0f6">Digital Dollars · USDG</div><div class="big num">${fm(S.bal.usdg)}</div><div style="font-size:12px;color:#cfe0f6">${S.phase>=2?'Earning 2.00% rewards* · ':''}Redeemable 1:1 for USD</div></div>
+  <div class="acct" style="margin-top:8px"><div class="ic" style="background:#2775ca">USDC</div><div><div class="nm">USDC</div><div class="ds">Also supported · 1:1 USD</div></div><div class="am num">${fm(S.bal.usdc)}</div></div>
+  <div class="qa" style="grid-template-columns:repeat(3,1fr);margin-top:6px">
+   <button data-a="open" data-v="send">${I.send}Send</button>
+   <button data-a="open" data-v="recv">${I.recv}Receive</button>
+   <button data-a="open" data-v="add">${I.swap}Add $</button>
+  </div>
+  ${sec('Send to Huntington customers','<span class="pchip p1">INSTANT · FREE</span>')}
+  <div class="row" style="gap:14px">${CONTACTS.map((c,i)=>`<button data-a="sendto" data-v="${i}" class="${c.p>S.phase?'lockchip':''}" style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;position:relative"><span class="avatar" style="background:${c.c}">${c.i}</span>${c.n.split(' ')[0]}${c.ext?'<span style="font-size:9.5px;color:var(--muted)">wallet</span>':''}</button>`).join('')}</div>
+  <div class="speed"><div style="font-weight:700;font-size:12.5px;margin-bottom:4px">How fast your money moves</div>
+    <div class="ln"><span>ACH</span><div class="bar"><i style="width:100%;background:#cfd8d3"></i></div><b>1–3 days</b></div>
+    <div class="ln"><span>Wire</span><div class="bar"><i style="width:45%;background:#cfd8d3"></i></div><b>Hours*</b></div>
+    <div class="ln"><span>Digital Dollars</span><div class="bar"><i style="width:3%"></i></div><b class="up-t">Seconds</b></div>
+    <div class="mut" style="font-size:10.5px">*Business days, within cut-off. USDG moves 24/7/365.</div></div>
+  ${gate(2,`<div class="card" style="padding:12px"><div class="set"><div><div class="t">Auto-convert incoming stablecoins</div><div class="s">Deposit received USDG/USDC into Checking as USD</div></div>${tg(S.c.auto,'auto')}</div></div>`)}
+  ${sec('Recent')}
+  ${S.act.filter(a=>/USDG|USDC|Sent/.test(a.s+a.t)).slice(0,4).map(actRow).join('')}`;
+}
+function cCard(){
+  const c=S.c.card;
+  const seg=`<div class="segb" style="width:100%;margin-bottom:12px"><button style="flex:1" class="${c.mode==='debit'?'on':''}" data-a="cmode" data-v="debit">Debit · USDG</button><button style="flex:1" class="${c.mode==='credit'?'on':''}" data-a="cmode" data-v="credit">Credit · crypto-backed ${S.phase<3?'🔒':''}</button></div>`;
+  if(c.mode==='credit')return `<div style="font-weight:700;font-size:20px;margin:6px 0 10px">Cards</div>${seg}${gate(3,cCredit())}`;
+  return `<div style="font-weight:700;font-size:20px;margin:6px 0 10px">Cards</div>${seg}
+  <div class="ccard ${c.frozen?'frozen':''}"><div class="row between"><span class="nm">Huntington</span><span style="font-size:11px;letter-spacing:1px">DIGITAL DEBIT</span></div><div class="chip"></div><div class="pan">•••• •••• •••• 9012</div><div class="bt"><span>ALEX RIVERA</span><span>${c.frozen?'❄ FROZEN':'Spends '+(c.src==='usdg'?'USDG':'Checking')}</span></div></div>
+  <div class="card" style="padding:12px;margin-top:12px">
+   <div class="set"><div><div class="t">Freeze card</div><div class="s">Instantly block all new purchases</div></div>${tg(c.frozen,'card','frozen')}</div>
+   <div class="set"><div><div class="t">Pay from</div><div class="s">Authorizes in milliseconds</div></div><div class="segb"><button class="${c.src==='usdg'?'on':''}" data-a="csrc" data-v="usdg">USDG</button><button class="${c.src==='chk'?'on':''}" data-a="csrc" data-v="chk">Checking</button></div></div>
+   <div class="set"><div><div class="t">Rewards</div><div class="s">2% back, paid in USDG*</div></div><b class="up-t num">+$18.42</b></div>
+  </div>
+  ${sec('Controls')}
+  <div class="card" style="padding:12px">
+   <div class="set"><div><div class="t">Online purchases</div></div>${tg(c.online,'card','online')}</div>
+   <div class="set"><div><div class="t">International</div></div>${tg(c.intl,'card','intl')}</div>
+   <div class="set"><div><div class="t">Block gambling merchants</div></div>${tg(c.gamb,'card','gamb')}</div>
+   <div style="padding-top:10px"><div class="row between"><span class="t" style="font-weight:600;font-size:13px">Per-purchase limit</span><b data-live="cLimit" class="num">${fm0(c.limit)}</b></div><input type="range" min="100" max="5000" step="100" value="${c.limit}" data-in="climit"></div>
+  </div>
+  ${sec('Virtual cards')}
+  ${c.virt.map(v=>`<div class="acct"><div class="ic" style="background:#1f6fd1">V</div><div><div class="nm">${v.n}</div><div class="ds">•••• ${v.l4} · ${v.d}</div></div></div>`).join('')}
+  <button class="btn ghost full" data-a="virt">+ Create one-time virtual card</button>
+  ${gate(3,`<div class="card" style="padding:12px;margin-top:10px"><div class="set"><div><div class="t">AI shopping agent card</div><div class="s">Let your assistant buy groceries · $200/mo cap · grocery merchants only</div></div>${tg(S.c.agent,'agent')}</div></div>`)}`;
+}
+function cCredit(){
+  const c=S.c.card,col=collat(),lim=Math.floor(col*.5/100)*100,avail=Math.max(0,lim-c.cbal-S.c.borrow.drawn),ltv=(c.cbal+S.c.borrow.drawn)/col*100;
+  return `<div class="ccard credit"><div class="row between"><span class="nm">Huntington</span><span style="font-size:11px;letter-spacing:1px">CRYPTO CREDIT</span></div><div class="chip"></div><div class="pan">•••• •••• •••• 4410</div><div class="bt"><span>ALEX RIVERA</span><span>Secured by BTC + ETH</span></div></div>
+  <div class="card" style="padding:12px;margin-top:12px">
+   <div class="row between"><div><div class="mut" style="font-size:12px">Current balance</div><div style="font-size:24px;font-weight:700" class="num">${fm(c.cbal)}</div></div><div style="text-align:right"><div class="mut" style="font-size:12px">Available</div><div style="font-weight:700" class="num">${fm0(avail)}</div></div></div>
+   <div class="kv" style="margin-top:8px"><span class="mut">Credit limit (50% of collateral)</span><b class="num">${fm0(lim)}</b></div>
+   <div class="kv"><span class="mut">Statement due</span><span>Oct 28 · min ${fm(c.cbal>0?Math.max(35,c.cbal*.02):0)}</span></div>
+   <div class="kv"><span class="mut">Purchase APR (illustrative)</span><span>9.99% variable</span></div>
+   <button class="btn full" style="margin-top:10px" data-a="cpay" ${c.cbal<=0?'disabled':''}>${c.cbal>0?'Pay '+fm(c.cbal)+' from Checking':'Paid in full ✓'}</button>
+  </div>
+  ${sec('Collateral health')}
+  <div class="card" style="padding:12px"><div class="row between" style="font-size:12.5px"><span class="mut">Collateral ${fm0(col)}</span><b>${ltv.toFixed(1)}% LTV</b></div>
+   <div class="meter"><div class="fill" style="width:${Math.min(ltv,100)}%"></div><div class="mk" style="left:50%"><span>50% max</span></div><div class="mk" style="left:65%"><span>65% call</span></div><div class="mk" style="left:80%"><span>80% liq.</span></div></div>
+   <div class="mut" style="font-size:11.5px">Your crypto stays invested and locked in custody — never sold unless you default. Shares collateral with your Borrow line.</div></div>
+  ${sec('Rewards')}
+  <div class="card" style="padding:12px"><div class="set"><div><div class="t">2% back on every purchase</div><div class="s">Earned this month: ${c.rew==='BTC'?fq(24.8/PX.BTC.p,'BTC'):'$24.80 USDG'}</div></div><div class="segb"><button class="${c.rew==='BTC'?'on':''}" data-a="crew" data-v="BTC">BTC</button><button class="${c.rew==='USDG'?'on':''}" data-a="crew" data-v="USDG">USDG</button></div></div></div>
+  ${sec('Recent')}
+  ${[['Delta Air Lines','Today','-$412.60'],['Whole Foods','Yesterday','-$118.34'],['Apple','Sun','-$709.24']].map(x=>actRow({t:x[0],s:x[1]+' · Crypto Credit',a:x[2],i:x[0][0]})).join('')}`;
+}
+function borrowLive(){
+  const b=S.c.borrow,col=collat(),ltv=(b.drawn+S.c.card.cbal*(S.phase>=3?1:0)+b.amt)/col*100;
+  return {bAmt:fm0(b.amt),bLtv:ltv.toFixed(1)+'%',bInt:fm(b.amt*.0825/12),bMeter:`<div class="fill" style="width:${Math.min(ltv,100)}%"></div><div class="mk" style="left:50%"><span>50% max</span></div><div class="mk" style="left:65%"><span>65% call</span></div><div class="mk" style="left:80%"><span>80% liq.</span></div>`,bBtn:'Draw '+fm0(b.amt)};
+}
+function cBorrow(){
+  const b=S.c.borrow,col=collat(),max=Math.max(500,Math.floor((col*.5-b.drawn-S.c.card.cbal)/100)*100);
+  if(b.amt>max)b.amt=max;
+  const L=borrowLive();
+  return `<div style="font-weight:700;font-size:20px;margin:6px 0 2px">Borrow</div>
+  <div class="mut" style="font-size:12.5px;margin-bottom:12px">Crypto-backed line of credit</div>
+  <div class="card" style="padding:14px">
+   <div class="kv"><span class="mut">Collateral (BTC + ETH)</span><b class="num">${fm(col)}</b></div>
+   <div class="kv"><span class="mut">Already drawn (incl. credit card)</span><b class="num">${fm(b.drawn+S.c.card.cbal)}</b></div>
+   <div class="kv"><span class="mut">Rate (illustrative)</span><b>8.25% APR</b></div>
+  </div>
+  <div class="card" style="padding:14px;margin-top:10px">
+   <div class="row between"><span style="font-weight:600">Borrow</span><b data-live="bAmt" style="font-size:22px" class="num">${L.bAmt}</b></div>
+   <input type="range" min="500" max="${max}" step="100" value="${b.amt}" data-in="bamt">
+   <div class="row between" style="font-size:12px;margin-top:6px"><span class="mut">Loan-to-value after draw</span><b data-live="bLtv">${L.bLtv}</b></div>
+   <div class="meter" data-live="bMeter">${L.bMeter}</div>
+   <div class="kv"><span class="mut">Est. monthly interest</span><b data-live="bInt" class="num">${L.bInt}</b></div>
+   <div class="set"><div class="t">Send to</div><div class="segb"><button class="${b.dest==='checking'?'on':''}" data-a="bdest" data-v="checking">Checking</button><button class="${b.dest==='usdg'?'on':''}" data-a="bdest" data-v="usdg">USDG</button></div></div>
+   <button class="btn full" data-a="draw" data-live="bBtn">${L.bBtn}</button>
+  </div>
+  <div class="card" style="padding:12px;margin-top:10px;font-size:12px"><b>Your bitcoin stays yours.</b> It's locked — not sold — unless you default. We'll alert you well before any margin call.</div>
+  <div class="promo" data-a="toast" data-v="Mortgage & auto augmentation — Huntington owns the loan; pledged crypto is held and valued in custody"><b>Buying a home?</b><br>Pledge crypto as supplemental collateral for a better rate on your Huntington mortgage or auto loan. →</div>`;
+}
+
+/* ---------- sheets ---------- */
+function feeOf(sym,gross){return TOK[sym]?0:Math.max(.99,Math.round(gross*.01*100)/100)}
+function tradeCalc(){
+  const tr=S.c.trade,p=ALL[tr.sym].p,a=parseFloat(tr.amt)||0;let qty,gross,fee,total;
+  if(tr.side==='buy'){
+    if(tr.unit==='usd'){total=a;fee=feeOf(tr.sym,a);gross=Math.max(0,a-fee);qty=gross/p}
+    else{qty=a;gross=qty*p;fee=feeOf(tr.sym,gross);total=gross+fee}
+  }else{
+    if(tr.unit==='usd'){gross=a;qty=a/p}else{qty=a;gross=qty*p}
+    fee=feeOf(tr.sym,gross);total=gross-fee;
+  }
+  const bad=a<=0||(tr.side==='buy'?total>S.bal.checking+1e-9:qty>S.hold[tr.sym]+1e-9);
+  return {p,qty,gross,fee,total,bad,a};
+}
+function sheet(){
+  const k=S.c.sheet;let h='';
+  if(k==='trade'){
+    const tr=S.c.trade,A=ALL[tr.sym],R=tradeCalc(),unitLbl=TOK[tr.sym]?(TOK[tr.sym].kind==='fund'?'units':'shares'):tr.sym;
+    if(tr.step==='done'){const r=tr.res;
+      h=`<div class="center"><div class="ok-big">✓</div><h4>${r.side==='buy'?'You bought':'You sold'} ${A.name}</h4><div style="font-size:24px;font-weight:700" class="num">${fq(r.qty,tr.sym)}</div></div>
+      <div class="card" style="padding:10px 12px;margin:14px 0">
+       <div class="kv"><span class="mut">Price</span><span class="num">${fm(r.p)}${TOK[tr.sym]?'':' / '+tr.sym}</span></div>
+       <div class="kv"><span class="mut">${r.side==='buy'?'Amount':'Sale amount'}</span><span class="num">${fm(r.gross)}</span></div>
+       <div class="kv"><span class="mut">Fee</span><span class="num">${fm(r.fee)}</span></div>
+       <div class="kv"><span class="mut">${r.side==='buy'?'Total paid':'You receive'}</span><b class="num">${fm(r.total)}</b></div>
+       <div class="kv"><span class="mut">${r.side==='buy'?'From':'To'}</span><span>Checking ••4821</span></div>
+       <div class="kv"><span class="mut">Date</span><span>${TODAY.toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})}</span></div>
+       <div class="kv"><span class="mut">Confirmation</span><span class="num">HB-${r.id}</span></div>
+      </div>
+      <div class="row"><button class="btn ghost full" data-a="viewpos" data-v="${tr.sym}">View position</button><button class="btn full" data-a="close">Done</button></div>`;
+    } else {
+      const coinMode=tr.unit==='coin';
+      const big=coinMode?`<span>${tr.amt||'0'}</span> <span style="font-size:18px;color:var(--muted)">${unitLbl}</span>`:`$${tr.amt||'0'}`;
+      const sub=coinMode?(tr.step==='edit'?'<b style="color:var(--ink)">'+unitLbl+'</b> · ':'')+(tr.side==='buy'?'≈ '+fm(R.total)+' incl. fee':'≈ '+fm(R.gross)):'≈ '+fq(R.qty,tr.sym);
+      h=`<h4>${tr.side==='buy'?'Buy':'Sell'} ${A.name}</h4>
+      <div class="segb" style="width:100%;margin-bottom:10px"><button style="flex:1" class="${tr.side==='buy'?'on':''}" data-a="tside" data-v="buy">Buy</button><button style="flex:1" class="${tr.side==='sell'?'on':''}" data-a="tside" data-v="sell">Sell</button></div>
+      ${TOK[tr.sym]?'':`<div class="chips">${CRYPTO.map(s=>`<button class="${tr.sym===s?'on':''}" data-a="tsym" data-v="${s}">${s}</button>`).join('')}</div>`}
+      <div class="amt-wrap">${tr.step==='edit'?`<input class="amt-in num" value="${coinMode?'':'$'}${tr.amt}" data-in="tamt" inputmode="decimal">`:`<div style="font-size:30px;font-weight:700" class="num">${big}</div>`}
+       <div class="amt-sub num">${sub}</div>
+       ${tr.step==='edit'?`<button class="unit" style="margin-top:8px" data-a="tunit">⇅ Enter in ${coinMode?'USD':unitLbl}</button>`:''}</div>
+      ${tr.step==='edit'?`<div class="chips">${tr.side==='buy'?[50,100,250,1000].map(v=>`<button class="${tr.unit==='usd'&&+tr.amt===v?'on':''}" data-a="tamt" data-v="${v}">$${v.toLocaleString()}</button>`).join(''):[['25%',.25],['50%',.5],['75%',.75],['Max',1]].map(([l,f])=>`<button data-a="tfrac" data-v="${f}">${l}</button>`).join('')}</div>`:''}
+      ${tr.side==='sell'?`<div class="kv"><span class="mut">Available</span><span class="num">${fq(S.hold[tr.sym],tr.sym)} · ${fm(S.hold[tr.sym]*R.p)}</span></div>`:''}
+      <div class="kv"><span class="mut">${tr.side==='buy'?'Pay from':'Deposit to'}</span><span>Checking ••4821${tr.side==='buy'?' ('+fm(S.bal.checking)+')':''}</span></div>
+      <div class="kv"><span class="mut">Price</span><span class="num">${fm(R.p)}</span></div>
+      <div class="kv"><span class="mut">Fee</span><span class="num">${fm(R.fee)}</span></div>
+      <div class="kv"><span class="mut">${tr.side==='buy'?'Total':'You receive'}</span><b class="num">${fm(R.total)}</b></div>
+      ${R.bad&&R.a>0?`<div class="dn-t" style="font-size:12px;margin:6px 0">Amount exceeds available ${tr.side==='buy'?'balance':'holdings'}</div>`:''}
+      <button class="btn full" style="margin-top:12px" data-a="${tr.step==='edit'?'treview':'tconfirm'}" ${R.bad?'disabled':''}>${tr.step==='edit'?'Review':(tr.side==='buy'?'Buy ':'Sell ')+fq(R.qty,tr.sym)}</button>
+      ${tr.step==='review'?'<button class="btn ghost full" style="margin-top:8px" data-a="tedit">Edit</button>':''}`;
+    }
+  }
+  if(k==='send'){
+    const sd=S.c.send;
+    if(sd.step==='pick') h=`<h4>Send</h4>${sec('Huntington customers','<span class="pchip p1">INSTANT · FREE</span>')}
+      ${CONTACTS.filter(c=>!c.ext).map(c=>{const i=CONTACTS.indexOf(c);return `<div class="acct" data-a="sendto" data-v="${i}"><div class="avatar" style="background:${c.c}">${c.i}</div><div><div class="nm">${c.n}</div><div class="ds">${c.h} · @${c.n.toLowerCase().replace(' ','-')}</div></div></div>`}).join('')}
+      ${sec('External wallets')}
+      ${gate(2,`<div class="acct" data-a="sendto" data-v="2"><div class="avatar" style="background:#33443b">SO</div><div><div class="nm">Sam Ortiz</div><div class="ds">Saved wallet 0x7a3…91c2</div></div></div><div class="acct" data-a="toast" data-v="Paste or scan any address — we'll verify it before you send"><div class="avatar" style="background:#cfd8d3;color:#33443b">+</div><div><div class="nm">New wallet address</div><div class="ds">Paste or scan</div></div></div>`)}`;
+    else if(sd.step==='amt'){
+      const c=CONTACTS[sd.to],amt=parseFloat(sd.amt)||0,isStable=sd.asset==='USDG'||sd.asset==='USDC';
+      const avail=isStable?S.bal[sd.asset.toLowerCase()]+(sd.asset==='USDG'?S.bal.checking:0):S.hold[sd.asset]*PX[sd.asset].p;
+      const fee=c.ext?NETFEE[sd.asset]:0,short=sd.asset==='USDG'?Math.max(0,amt-S.bal.usdg):0;
+      const assets=['USDG','USDC','BTC','ETH','SOL'];
+      h=`<h4>Send to ${c.n}</h4>
+      <div class="chips">${assets.map(s=>{const p=(s==='USDG'||s==='USDC')?1:2;return p>S.phase?`<button class="lockchip" data-a="toast" data-v="Sending crypto arrives in Phase 2">🔒 ${s}</button>`:`<button class="${sd.asset===s?'on':''}" data-a="sasset" data-v="${s}">${s}</button>`}).join('')}</div>
+      <input class="amt-in num" value="$${sd.amt}" data-in="samt" inputmode="decimal">
+      ${isStable?'':`<div class="amt-sub center num">≈ ${fq(amt/PX[sd.asset].p,sd.asset)}</div>`}
+      <div class="chips">${[20,50,100,500].map(v=>`<button class="${+sd.amt===v?'on':''}" data-a="samt" data-v="${v}">$${v}</button>`).join('')}</div>
+      <div class="kv"><span class="mut">From</span><span>${sd.asset} · ${fm(isStable?S.bal[sd.asset.toLowerCase()]:S.hold[sd.asset]*PX[sd.asset].p)}</span></div>
+      ${short>0?`<div class="kv"><span class="mut">Top-up</span><span>${fm(short)} from Checking, 1:1</span></div>`:''}
+      <div class="kv"><span class="mut">Arrives</span><b class="up-t">${c.ext?(sd.asset==='BTC'?'~10–30 minutes':'Under a minute'):'Instantly'}</b></div>
+      <div class="kv"><span class="mut">${c.ext?'Network fee (est.)':'Fee'}</span><span>${fm(fee)}</span></div>
+      <button class="btn full" style="margin-top:12px" data-a="sendgo" ${amt<=0||amt+fee>avail+1e-9?'disabled':''}>Send ${fm(amt)} ${sd.asset}</button>`;}
+    else {const c=CONTACTS[sd.to];h=`<div class="center"><div class="ok-big">✓</div><h4>Sent to ${c.n}</h4><div class="mut" style="font-size:12.5px">${fm(+sd.amt)} in ${sd.asset}${c.ext?' · on its way':' · delivered'}</div><div class="mut" style="font-size:11.5px;margin:6px 0 14px">${new Date().toLocaleString('en-US',{weekday:'long',hour:'numeric',minute:'2-digit'})}</div><button class="btn full" data-a="close">Done</button></div>`;}
+  }
+  if(k==='recv'){
+    const r=S.c.recv,nets=Object.keys(ADDR[r.asset]||{});if(!nets.includes(r.net))r.net=nets[0];
+    const handle=`<div class="center"><div class="avatar" style="width:64px;height:64px;font-size:22px;margin:6px auto">AR</div><div style="font-weight:700;font-size:17px">@alex-rivera</div><div class="mut" style="font-size:12.5px;margin:4px 0 12px">Any Huntington customer can pay you instantly with this handle.</div>${qr('alex-rivera',140)}<button class="btn full" data-a="toast" data-v="Pay link copied">Share pay link</button></div>`;
+    const chain=gate(2,`<div class="chips">${['USDG','USDC','BTC','ETH','SOL'].map(s=>`<button class="${r.asset===s?'on':''}" data-a="rasset" data-v="${s}">${s}</button>`).join('')}</div>
+      ${nets.length>1?`<div class="chips">${nets.map(n=>`<button class="${r.net===n?'on':''}" data-a="rnet" data-v="${n}">${n}</button>`).join('')}</div>`:''}
+      ${qr(ADDR[r.asset][r.net],150)}<div class="addr">${ADDR[r.asset][r.net]}</div>
+      <div class="mut" style="font-size:11.5px;margin:8px 0;text-align:center">Only send ${r.asset} on ${r.net} to this address.</div>
+      <button class="btn full" data-a="toast" data-v="Address copied">Copy address</button>`);
+    h=`<h4>Receive</h4><div class="segb" style="width:100%;margin-bottom:12px"><button style="flex:1" class="${r.mode==='handle'?'on':''}" data-a="rmode" data-v="handle">From Huntington customer</button><button style="flex:1" class="${r.mode==='chain'?'on':''}" data-a="rmode" data-v="chain">From a wallet ${S.phase<2?'🔒':''}</button></div>${r.mode==='handle'?handle:chain}`;
+  }
+  if(k==='add'){
+    const ad=S.c.add,amt=parseFloat(ad.amt)||0;
+    h=ad.step==='done'?`<div class="center"><div class="ok-big">✓</div><h4>${fm(amt)} ${ad.coin} added</h4><div class="mut" style="font-size:12.5px">Converted 1:1 from Checking</div><br><button class="btn full" data-a="close">Done</button></div>`
+     :`<h4>Add Digital Dollars</h4><div class="segb" style="width:100%;margin-bottom:8px"><button style="flex:1" class="${ad.coin==='USDG'?'on':''}" data-a="acoin" data-v="USDG">USDG (recommended)</button><button style="flex:1" class="${ad.coin==='USDC'?'on':''}" data-a="acoin" data-v="USDC">USDC</button></div>
+      <input class="amt-in num" value="$${ad.amt}" data-in="aamt" inputmode="decimal"><div class="chips">${[100,500,1000].map(v=>`<button class="${+ad.amt===v?'on':''}" data-a="aamt" data-v="${v}">$${v}</button>`).join('')}</div>
+      <div class="kv"><span class="mut">From</span><span>Checking ••4821</span></div><div class="kv"><span class="mut">Rate</span><span>1 USD = 1 ${ad.coin} · no fee</span></div>
+      ${ad.coin==='USDG'&&S.phase>=2?'<div class="kv"><span class="mut">Rewards</span><span class="earn">2.00%* on USDG</span></div>':''}
+      <button class="btn full" style="margin-top:12px" data-a="addgo" ${amt<=0||amt>S.bal.checking?'disabled':''}>Add ${fm(amt)}</button>`;
+  }
+  if(k==='draw'){
+    h=`<div class="center"><div class="ok-big">✓</div><h4>${fm0(S.c.borrow.last)} sent to ${S.c.borrow.dest==='usdg'?'USDG':'Checking'}</h4><div class="mut" style="font-size:12.5px">Your crypto stays invested — no sale needed.</div><br><button class="btn full" data-a="close">Done</button></div>`;
+  }
+  return `<div class="sheet-bg" data-a="bgclose"><div class="sheet"><div class="grab"></div>${h}</div></div>`;
+}
+
+/* ================= wealth ================= */
+function wealthDig(){return (S.w.btc*PX.BTC.p+S.w.eth*PX.ETH.p+10000)/1e6}
+function wealthParts(){
+  const p=[{n:'Equities',v:6.1,c:'#0d6b37'},{n:'Fixed income',v:3.2,c:'#2e9e4f'},{n:'Cash & equivalents',v:S.phase>=3?0.9:1.4,c:'#8cc63f'},{n:'Alternatives',v:1.33,c:'#b9c9bf'},{n:'Digital assets',v:wealthDig(),c:'#f7931a'}];
+  if(S.phase>=3)p.push({n:'Tokenized Treasury fund',v:0.5,c:'#7446cf'});
+  return p;
+}
+function wLive(){
+  const aum=wealthParts().reduce((s,p)=>s+p.v,0),cur=wealthDig()/aum*100,delta=(S.w.alloc-cur)/100*aum*1e6;
+  const rows=[['BTC',.6],['ETH',.35],['SOL',.05]].map(([s,w])=>`<tr><td>${delta>=0?'Buy':'Sell'} ${PX[s].name}</td><td class="r num">${fm0(Math.abs(delta*w))}</td><td class="r num">${fq(Math.abs(delta*w)/PX[s].p,s)}</td></tr>`).join('');
+  return {wPct:S.w.alloc.toFixed(1)+'%',wCur:'Current '+cur.toFixed(1)+'%',wTrades:Math.abs(delta)<500?'<tr><td colspan="3" class="mut">No change from current allocation</td></tr>':rows+`<tr><td><b>Funded from</b></td><td class="r" colspan="2">${delta>=0?'Cash & equivalents':'Proceeds to cash'}</td></tr>`};
+}
+const DEPSTEPS=a=>[`Incoming transfer detected · ${a==='BTC'?'0.75 BTC':a==='ETH'?'12 ETH':'250,000 USDC'}`,'Source wallet screened · Travel Rule info received','Network confirmations complete','Credited to Morgan Family Trust · cost basis imported'];
+function vWealth(){
+  const parts=wealthParts(),L=wLive(),btcV=S.w.btc*PX.BTC.p,d=S.w.dep;
+  const depPanel=`<div class="card" style="margin-top:16px;border-color:var(--p2)"><div class="row between"><div><h3>Bring held-away crypto to Huntington ${chip(2)}</h3><div class="sub">The client holds crypto at an exchange or in a self-custody wallet. Huntington generates a dedicated deposit address; the client (or their exchange) sends to it.</div></div><button class="btn ghost sm" data-a="wdep">Close</button></div>
+    <div class="grid g2"><div>
+      <div class="field"><label>Asset</label><div class="segb">${['BTC','ETH','USDC'].map(a=>`<button class="${d.asset===a?'on':''}" data-a="wdepasset" data-v="${a}">${a}</button>`).join('')}</div></div>
+      ${d.step===0?`<button class="btn" data-a="wdepaddr">Generate deposit address</button>`:`${qr(ADDR[d.asset==='USDC'?'USDC':d.asset][d.asset==='BTC'?'Bitcoin':'Ethereum'],120)}<div class="addr">${ADDR[d.asset==='USDC'?'USDC':d.asset][d.asset==='BTC'?'Bitcoin':'Ethereum']}</div>`}
+    </div><div>
+      ${d.step>=1?`<button class="btn full" data-a="wdepsim" ${d.step>1&&d.step<6?'disabled':''}>${d.step>=6?'Deposit complete ✓':'Simulate incoming transfer'}</button><ul class="steps">${DEPSTEPS(d.asset).map((s,i)=>`<li class="${i+2<d.step?'done':i+2===d.step?'cur':''}"><span class="dot">${i+2<d.step?'✓':''}</span>${s}</li>`).join('')}</ul>`:'<div class="note">Typical use: a client moving 0.75 BTC from a crypto exchange so it sits alongside the rest of their Huntington wealth — included in advice, reporting and lending.</div>'}
+    </div></div></div>`;
+  return story({eyebrow:'Private Bank & Wealth',title:'The whole balance sheet — on-chain and off.',body:'Advisors see digital assets alongside equities and fixed income, propose allocations, bring held-away crypto home, and unlock liquidity without forcing a sale.',pw:['Paxos custody & brokerage','Staking-as-a-Service','Collateral management','Tokenization platform'],stat:'Keep the relationship',statL:'Wealthy clients already hold crypto elsewhere — consolidation brings the assets and the advice back to Huntington.'})+
+  `<div class="grid" style="grid-template-columns:1.25fr 1fr">
+   <div class="card"><div class="row between"><div><h3>Morgan Family Trust ${chip(1)}</h3><div class="sub">Private Bank · Advisor: Dana Kim · Moderate growth</div></div><button class="btn ghost sm" data-a="wdep">+ Bring in held-away crypto</button></div>
+    <div class="donut-wrap">${donut(parts)}<div class="legend" style="flex:1">${parts.map(p=>`<div><i style="background:${p.c}"></i>${p.n}<b class="num">${fmM(p.v)}</b></div>`).join('')}</div></div>
+    <table style="margin-top:10px"><thead><tr><th>Digital holding</th><th class="r">Qty</th><th class="r">Value</th><th class="r">Status</th></tr></thead><tbody>
+     <tr><td>Bitcoin</td><td class="r num">${fq(S.w.btc,'BTC')}</td><td class="r num">${fm0(btcV)}</td><td class="r">${S.w.pledged&&S.phase>=3?'<span class="status st-blue">Pledged</span>':'<span class="status st-ok">Custody</span>'}</td></tr>
+     <tr><td>Ethereum</td><td class="r num">${fq(S.w.eth,'ETH')}</td><td class="r num">${fm0(S.w.eth*PX.ETH.p)}</td><td class="r">${S.phase>=2&&S.w.stake?'<span class="status st-ok">Staked</span>':'<span class="status st-ok">Custody</span>'}</td></tr>
+     <tr><td>USDG (on-chain cash)</td><td class="r num">10,000</td><td class="r num">$10,000</td><td class="r"><span class="status st-ok">Available</span></td></tr>
+     ${S.phase>=3?`<tr><td>Tokenized U.S. Treasury fund</td><td class="r num">500,000 units</td><td class="r num">$500,000</td><td class="r"><span class="status" style="background:var(--p3b);color:var(--p3)">T+0</span></td></tr>`:''}
+    </tbody></table></div>
+   <div class="card"><h3>Allocation proposal ${chip(1)}</h3><div class="sub">Model a strategic digital asset sleeve and send for e-signature.</div>
+    <div class="row between"><span>Target digital allocation</span><b data-live="wPct" style="font-size:20px">${L.wPct}</b></div>
+    <input type="range" min="0" max="10" step="0.5" value="${S.w.alloc}" data-in="walloc">
+    <div class="row between mut" style="font-size:11.5px"><span>0%</span><span data-live="wCur">${L.wCur}</span><span>10%</span></div>
+    <table style="margin-top:10px"><thead><tr><th>Proposed trade</th><th class="r">Amount</th><th class="r">Qty</th></tr></thead><tbody data-live="wTrades">${L.wTrades}</tbody></table>
+    <button class="btn full" style="margin-top:12px" data-a="toast" data-v="Proposal sent to the Morgan Family Trust for e-signature">Send proposal to client</button></div>
+  </div>
+  ${d.open?gate(2,depPanel):''}
+  <div class="grid g3" style="margin-top:16px">
+   ${gate(2,`<div class="card"><h3>Staking ${chip(2)}</h3><div class="sub">${S.w.eth} ETH earning network rewards with institutional controls.</div>
+     <div class="set"><div><div class="t">Stake ETH position</div><div class="s">Multi-provider routing · slashing coverage · 99.95% SLA</div></div>${tg(S.w.stake,'wstake')}</div>
+     <div class="set"><div class="t">Est. annual rewards</div><b class="num up-t">${S.w.stake?fm0(S.w.eth*PX.ETH.p*.029):'$0'}</b></div>
+     <div class="set"><div class="t">Unstake</div><span class="status st-ok">Instant — no exit queue</span></div></div>`)}
+   ${gate(3,`<div class="card"><h3>Liquidity without selling ${chip(3)}</h3><div class="sub">Pledge BTC for a Huntington credit line — avoid realizing gains.</div>
+     <div class="kv"><span class="mut">BTC pledged</span><b class="num">${fm0(btcV)}</b></div><div class="kv"><span class="mut">Credit line (50% LTV)</span><b class="num">${fm0(btcV*.5)}</b></div><div class="kv"><span class="mut">Capital gains tax deferred (est.)</span><b class="num">${fm0(btcV*.55*.238)}</b></div>
+     <button class="btn full" style="margin-top:12px" data-a="wpledge">${S.w.pledged?'Line active — manage':'Open pledged line'}</button></div>`)}
+   ${gate(3,`<div class="card"><h3>Tokenized funds & notes ${chip(3)}</h3><div class="sub">Subscribe and redeem 24/7, settled in USDG — same custody, same statement.</div>
+     <div class="set"><div><div class="t">Tokenized U.S. Treasury fund</div><div class="s">Idle cash → yield, redeem to USDG instantly</div></div><span class="status st-ok">Held</span></div>
+     <div class="set"><div><div class="t">Tokenized equities</div><div class="s">Fractional, instant settlement</div></div><span class="status st-blue">Available</span></div>
+     <div class="set"><div><div class="t">Structured notes</div><div class="s">Design partnership</div></div><span class="status st-wait">Pipeline</span></div></div>`)}
+  </div>`;
+}
+
+/* ================= business ================= */
+const PAYSTEPS=['Debit Operating ••3301','Convert USD → USDG (1:1)','Sent to supplier wallet','Settled · funds available to supplier'];
+function bLive(){return {bKeep:S.b.keep+'%',bKeepAmt:fm0(42800*S.b.keep/100)+' kept as USDG'}}
+function vBusiness(){
+  const b=S.b,pay=b.pay,L=bLive();
+  const t0=new Date(2026,9,4,21,14,2);
+  const ts=i=>{const d=new Date(t0.getTime()+[0,1800,3400,5900][i]);return 'Sun '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit'})};
+  return story({eyebrow:'Business Banking',title:'Get paid faster. Pay anytime.',body:'Rivera Coffee Roasters accepts USDG from wholesale buyers, sweeps it to USD automatically, and pays green-coffee importers on a Sunday night — no wire cut-offs.',pw:['Orchestration rules','Fiat on/off ramp','USDG / GDN rewards','Card program partner'],stat:'24/7/365',statL:'Payments settle in seconds, outside banking hours and cut-offs'})+
+  `<div class="grid g4" style="margin-bottom:16px">
+   <div class="card kpi"><div class="l">Operating ••3301</div><div class="v num">$184,250</div><div class="d">USD</div></div>
+   <div class="card kpi"><div class="l">USDG balance</div><div class="v num">$42,800</div><div class="d">${S.phase>=2?'Earning rewards*':'Stable · 1:1'}</div></div>
+   <div class="card kpi"><div class="l">Received this month</div><div class="v num">$96,410</div><div class="d">31 USDG payments</div></div>
+   <div class="card kpi"><div class="l">Avg. time to cash</div><div class="v">8 sec</div><div class="d">vs. 2 days via ACH</div></div>
+  </div>
+  <div class="grid g2">
+   <div class="card"><h3>Pay a supplier ${chip(1)}</h3><div class="sub">Instant, final settlement — even on weekends.</div>
+    <div class="field"><label>Supplier</label><select data-in="bvendor">${VENDORS.map((v,i)=>`<option value="${i}" ${pay.v==i?'selected':''}>${v}</option>`).join('')}</select></div>
+    <div class="field"><label>Amount (USD)</label><input data-in="bamt2" value="${pay.amt}" inputmode="decimal"></div>
+    <button class="btn full" data-a="bpay" ${pay.step>0&&pay.step<4?'disabled':''}>${pay.step>=4?'Pay another':'Send payment'}</button>
+    ${pay.step>0?`<ul class="steps">${PAYSTEPS.map((s,i)=>`<li class="${i<pay.step?'done':i===pay.step?'cur':''}"><span class="dot">${i<pay.step?'✓':''}</span>${s}${i<pay.step?`<span class="ts">${ts(i)}</span>`:''}</li>`).join('')}</ul>`:''}
+    ${pay.step>=4?`<div class="status st-ok" style="margin-top:6px">${fm(+pay.amt)} delivered to ${VENDORS[pay.v]} in 5.9 seconds</div>`:''}
+   </div>
+   <div class="card"><h3>Receivables rule ${chip(1)}</h3><div class="sub">An orchestration rule creates a dedicated USDG deposit address for Rivera's customers.</div>
+    <div class="set"><div><div class="t">When USDG arrives → convert to USD → sweep to Operating</div><div class="s">Address: 0x4be1…a07f (Ethereum, Solana)</div></div>${tg(b.rule,'brule')}</div>
+    ${gate(2,`<div style="padding-top:10px"><div class="row between"><span class="t" style="font-weight:600;font-size:13px">Keep a share in USDG to earn rewards</span><b data-live="bKeep">${L.bKeep}</b></div><input type="range" min="0" max="100" step="5" value="${b.keep}" data-in="bkeep"><div class="mut" style="font-size:12px" data-live="bKeepAmt">${L.bKeepAmt}</div></div>`)}
+    <table style="margin-top:8px"><thead><tr><th>From</th><th class="r">USDG</th><th class="r">Status</th></tr></thead><tbody>
+     ${[['Columbus Café Group','8,400'],['Hilltop Grocers','2,150'],['Lakeview Hotels','5,920']].map(r=>`<tr><td>${r[0]}</td><td class="r num">${r[1]}</td><td class="r"><span class="status st-ok">${b.rule?'Swept to USD':'Held in USDG'}</span></td></tr>`).join('')}
+    </tbody></table></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+   ${gate(2,`<div class="card"><h3>Employee & vendor cards ${chip(2)}</h3><div class="sub">Virtual cards spending from USDG, with Huntington-enforced controls.</div>
+    ${b.cards.map(c=>`<div class="set"><div><div class="t">${c.n}</div><div class="s">${fm0(c.u)} of ${fm0(c.l)} monthly limit</div><div class="bar" style="width:220px;margin-top:4px"><i style="width:${c.u/c.l*100}%"></i></div></div><button class="btn ghost sm" data-a="toast" data-v="Card controls updated">Controls</button></div>`).join('')}
+    <button class="btn ghost full" style="margin-top:10px" data-a="bcard">+ Issue virtual card</button></div>`)}
+   ${gate(3,`<div class="card"><h3>Working capital & deposit tokens ${chip(3)}</h3><div class="sub">Idle cash sits in interest-bearing Huntington deposit tokens that move 24/7.</div>
+    <div class="set"><div><div class="t">Huntington Deposit Tokens</div><div class="s">Earning interest · pay any Huntington client instantly</div></div><b class="num">$150,000</b></div>
+    <div class="set"><div><div class="t">Revolving line vs. USDG + BTC treasury</div><div class="s">Available now</div></div><b class="num">$60,000</b></div>
+    <div class="set"><div><div class="t">Pay-on-delivery escrow</div><div class="s">Release supplier funds when shipment scanned</div></div><span class="status st-blue">2 active</span></div>
+    <button class="btn ghost full" style="margin-top:10px" data-a="view" data-v="commercial">See how deposit tokens work →</button></div>`)}
+  </div>`;
+}
+
+/* ================= commercial ================= */
+function tSteps(){return S.t.mode==='mint'?['Debit DDA ••0091','Paxos mints USDG 1:1 against USD','USDG delivered to Huntington custody wallet','Available for payments & payouts']:['USDG debited from custody wallet','Paxos redeems USDG 1:1','USD credited via book transfer / RTP','Available in DDA ••0091']}
+const PAYOUTS=[['Precision Castings LLC',1240000],['Great Lakes Steel',2880000],['Midwest Freight Partners',415500],['Allied Components',962300],['Buckeye Electrical Supply',308900]];
+const TDROUTES={
+ hb:{l:'Huntington client',who:'Buckeye Electrical Supply (banks at Huntington)',steps:['Deposit tokens debited from Midwest Manufacturing','Atomic transfer on Huntington\'s permissioned ledger','Credited to Buckeye Electrical Supply','Final — money never left Huntington\'s balance sheet'],t:'2 sec'},
+ net:{l:'Another bank',who:'Great Lakes Steel (banks elsewhere)',steps:['Deposit tokens debited from Midwest Manufacturing','Routed over interbank tokenized-deposit network*','Credited as deposit tokens at recipient bank','Final — interbank settlement'],t:'~10 sec'},
+ wal:{l:'Stablecoin wallet',who:'Allied Components (USDG wallet)',steps:['Deposit tokens redeemed','Paxos mints USDG 1:1','USDG delivered to supplier wallet','Final — on-chain'],t:'~10 sec'}
+};
+function vCommercial(){
+  const t=S.t,amt=parseFloat(t.amt)||0,steps=tSteps(),td=t.td,R=TDROUTES[td.route];
+  const tdSection=`<div class="card" style="margin-top:16px;border-color:#e0d4f6">
+   <div class="row between" style="flex-wrap:wrap;gap:10px"><div><h3>Huntington Deposit Token ${chip(3)}</h3><div class="sub" style="max-width:720px">A Huntington deposit, recorded on a blockchain. Clients keep earning deposit interest while money moves 24/7 and programmably — and it stays on Huntington's balance sheet. Stablecoin issuers can't pay interest under the GENIUS Act; deposit tokens can.</div></div><span class="status" style="background:var(--p3b);color:var(--p3)">Issued by Huntington · Paxos tokenization infrastructure (design partnership)</span></div>
+   <div class="grid g3" style="margin:6px 0 14px">
+    <div class="card kpi" style="box-shadow:none"><div class="l">DDA ••0091</div><div class="v num">${fmM(td.dda)}</div><div class="d">Traditional deposit</div></div>
+    <div class="card kpi" style="box-shadow:none;border-color:#e0d4f6"><div class="l">Deposit tokens</div><div class="v num">${fmM(td.tok)}</div><div class="d">Earning 3.40% interest* · 24/7</div></div>
+    <div class="card kpi" style="box-shadow:none"><div class="l">USDG</div><div class="v num">${fmM(t.usdg)}</div><div class="d">For payments outside the bank</div></div>
+   </div>
+   <div class="grid" style="grid-template-columns:1fr 1.2fr 1fr">
+    <div><div style="font-weight:700;margin-bottom:6px">1 · Tokenize</div><div class="field"><label>Move from DDA to deposit tokens</label><input data-in="tdmint" value="${td.mint}" inputmode="decimal"></div><button class="btn full" data-a="tdmint">Tokenize ${fm0(+td.mint||0)}</button><div class="note">Same deposit, same balance sheet, same interest — now programmable and 24/7. Converts back to DDA instantly.</div></div>
+    <div><div style="font-weight:700;margin-bottom:6px">2 · Pay — Saturday, 11:40 PM</div>
+     <div class="segb" style="margin-bottom:10px;flex-wrap:wrap">${Object.entries(TDROUTES).map(([k,r])=>`<button class="${td.route===k?'on':''}" data-a="tdroute" data-v="${k}">${r.l}</button>`).join('')}</div>
+     <div class="field"><label>To ${R.who}</label><input data-in="tdamt" value="${td.amt}" inputmode="decimal"></div>
+     <button class="btn full" data-a="tdpay" ${td.step>0&&td.step<4?'disabled':''}>${td.step>=4?'Send another':'Pay '+fm0(+td.amt||0)}</button>
+     ${td.step>0?`<ul class="steps">${R.steps.map((s,i)=>`<li class="${i<td.step?'done':i===td.step?'cur':''}"><span class="dot">${i<td.step?'✓':''}</span>${s}</li>`).join('')}</ul>${td.step>=4?`<div class="status st-ok">Settled in ${R.t}</div>`:''}`:''}
+    </div>
+    <div><div style="font-weight:700;margin-bottom:6px">3 · Program it</div>
+     <div class="set"><div><div class="t">Release on delivery</div><div class="s">Pay Great Lakes Steel when ERP confirms goods received</div></div>${tg(t.prog,'tprog')}</div>
+     <div class="set"><div><div class="t">Intraday sweep</div><div class="s">Tokens > $20M → tokenized Treasury fund at 6pm, back at 6am</div></div>${tg(t.sweep,'tsweep')}</div>
+     <div class="set"><div><div class="t">Payroll on Sunday</div><div class="s">Fund Monday payroll from tokens over the weekend</div></div><span class="status st-ok">Scheduled</span></div></div>
+   </div>
+   <div class="grid g2" style="margin-top:16px">
+    <div><div style="font-weight:700;margin-bottom:6px">How it compares</div>
+     <table class="cmp"><thead><tr><th></th><th>Deposit</th><th>Deposit token</th><th>USDG</th></tr></thead><tbody>
+      <tr><td>Huntington balance sheet</td><td>✓</td><td><b>✓</b></td><td>✗</td></tr>
+      <tr><td>Earns interest</td><td>✓</td><td><b>✓</b></td><td>Rewards via GDN</td></tr>
+      <tr><td>24/7, programmable</td><td>✗</td><td><b>✓</b></td><td>✓</td></tr>
+      <tr><td>Who can hold it</td><td>Customers</td><td>Bank clients / network</td><td>Anyone, any wallet</td></tr>
+      <tr><td>Deposit insurance</td><td>✓</td><td>Proposed (FDIC, Apr 2026)</td><td>✗</td></tr>
+     </tbody></table></div>
+    <div><div style="font-weight:700;margin-bottom:6px">Weekend activity · deposit token ledger</div>
+     <table class="cmp"><thead><tr><th>Time</th><th>Event</th><th class="r">Amount</th></tr></thead><tbody>
+      <tr><td>Sat 11:40 PM</td><td>Paid Buckeye Electrical (on-us)</td><td class="r num">$308,900</td></tr>
+      <tr><td>Sun 6:00 AM</td><td>Sweep back from Treasury fund</td><td class="r num">$12,000,000</td></tr>
+      <tr><td>Sun 2:15 PM</td><td>Interest accrued (weekend)</td><td class="r num">$4,657</td></tr>
+      <tr><td>Sun 9:00 PM</td><td>Payroll pre-funding</td><td class="r num">$3,450,000</td></tr>
+     </tbody></table>
+     <div class="note">*Interbank route assumes connection to an industry tokenized-deposit network — The Clearing House–led network with JPMorgan, Citi, BofA and Wells Fargo is targeted for 1H 2027.</div></div>
+   </div></div>`;
+  return story({eyebrow:'Commercial & Treasury Management',title:'Programmable treasury, settled in seconds.',body:'Midwest Manufacturing mints and redeems USDG at par through Huntington, pays its supply chain on-chain, and — in the full vision — runs its operating cash as interest-bearing Huntington Deposit Tokens.',pw:['USDG mint / redeem','Orchestration API','GDN rewards','Tokenization platform'],stat:'5–10 bps',statL:'Typical B2B stablecoin payment take rate — a new fee line on existing treasury relationships'})+
+  `<div class="grid g4" style="margin-bottom:16px">
+   <div class="card kpi"><div class="l">Total liquidity</div><div class="v num">$248.6M</div><div class="d">across 14 accounts</div></div>
+   <div class="card kpi"><div class="l">USDG held</div><div class="v num">${fmM(t.usdg)}</div><div class="d">${S.phase>=2?'Earning rewards*':'1:1 redeemable'}</div></div>
+   <div class="card kpi"><div class="l">On-chain payments (30d)</div><div class="v num">$142.0M</div><div class="d">612 payments</div></div>
+   <div class="card kpi"><div class="l">Median settlement</div><div class="v">11 sec</div><div class="d">incl. weekends</div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1.3fr">
+   <div class="card"><div class="row between"><h3>Mint / redeem ${chip(1)}</h3><div class="segb"><button class="${t.mode==='mint'?'on':''}" data-a="tmode" data-v="mint">Mint</button><button class="${t.mode==='redeem'?'on':''}" data-a="tmode" data-v="redeem">Redeem</button></div></div>
+    <div class="sub">${t.mode==='mint'?'USD → USDG at par':'USDG → USD at par'}</div>
+    <div class="field"><label>Amount</label><input data-in="tamt2" value="${t.amt}" inputmode="decimal"></div>
+    <button class="btn full" data-a="tgo" ${t.step>0&&t.step<4?'disabled':''}>${t.mode==='mint'?'Mint':'Redeem'} ${fm0(amt)}</button>
+    ${t.step>0?`<ul class="steps">${steps.map((s,i)=>`<li class="${i<t.step?'done':i===t.step?'cur':''}"><span class="dot">${i<t.step?'✓':''}</span>${s}${i<t.step?`<span class="ts">+${[0,2,5,7][i]}s</span>`:''}</li>`).join('')}</ul>`:''}
+   </div>
+   <div class="card"><div class="row between"><div><h3>Supplier payout batch ${chip(1)}</h3><div class="sub">Batch #2214 · USDG on Ethereum · approved by 2 of 2 signers</div></div><button class="btn sm" data-a="release" ${t.released?'disabled':''}>${t.released?'Released':'Release batch'}</button></div>
+    <table><thead><tr><th>Beneficiary</th><th class="r">Amount</th><th class="r">Status</th></tr></thead><tbody>
+    ${PAYOUTS.map((p,i)=>`<tr><td>${p[0]}</td><td class="r num">${fm0(p[1])}</td><td class="r">${t.released?`<span class="status st-ok">Settled · 0x${(i*7919+4093).toString(16)}…</span>`:'<span class="status st-wait">Scheduled</span>'}</td></tr>`).join('')}
+    </tbody></table></div>
+  </div>
+  ${gate(3,tdSection)}
+  <div class="grid g2" style="margin-top:16px">
+   <div class="card"><h3>Rails comparison</h3><div class="sub">Where digital rails fit next to existing treasury rails</div>
+    <table><thead><tr><th>Rail</th><th>Speed</th><th>Hours</th></tr></thead><tbody>
+     <tr><td>ACH</td><td>1–3 days</td><td>Batch windows</td></tr><tr><td>Wire</td><td>Hours</td><td>Business days</td></tr><tr><td>RTP / FedNow</td><td>Seconds</td><td>24/7, limits apply</td></tr>
+     <tr style="background:var(--g50)"><td><b>USDG</b></td><td><b>Seconds</b></td><td><b>24/7/365, any wallet</b></td></tr>
+     <tr style="background:var(--p3b)"><td><b>Deposit token</b></td><td><b>Seconds</b></td><td><b>24/7/365, interest-bearing</b></td></tr></tbody></table></div>
+   ${gate(2,`<div class="card"><h3>Rewards on operating USDG ${chip(2)}</h3><div class="sub">Huntington is a Global Dollar Network member and decides how much to share with clients.</div>
+    <div class="set"><div><div class="t">USDG held</div><div class="s">Eligible balance</div></div><b class="num">${fmM(t.usdg)}</b></div>
+    <div class="set"><div><div class="t">Client reward rate (set by Huntington)</div><div class="s">GDN net rate averaged ~3.15% in July 2026 (variable)</div></div><b>2.25%*</b></div>
+    <div class="set"><div class="t">Est. annual client rewards</div><b class="num up-t">${fm0(t.usdg*1e6*.0225)}</b></div></div>`)}
+  </div>`;
+}
+
+/* ================= ops ================= */
+const REV=[['Trading spread & fees',18.4,1],['Payments & on/off ramp fees',6.2,1],['USDG reserve rewards (GDN)',9.8,2],['Staking commission',3.1,2],['Card interchange',4.6,2],['Crypto-backed card interest',6.8,3],['Crypto-backed lending NII',14.5,3],['Tokenized product distribution',5.2,3]];
+function vOps(){
+  const o=S.o,rev=REV.filter(r=>r[2]<=S.phase),tot=rev.reduce((s,r)=>s+r[1],0),mx=Math.max(...REV.map(r=>r[1]));
+  return story({eyebrow:'Huntington Operations · internal console',title:'Huntington stays in control.',body:'Treasury, operations, risk and finance run every product line from one console: prefund float, net settlement, execution quality, AML queues, product controls and revenue — all on one Paxos integration.',pw:['Profile balances API','Fiat transfers (Wire / RTP / FedNow / book)','Execution reporting','Transaction monitoring'],stat:fmM(tot),statL:`Illustrative annual revenue run-rate · Phase 1${S.phase>1?'–'+S.phase:''} product lines`})+
+  `<div class="grid g4" style="margin-bottom:16px">
+   <div class="card kpi"><div class="l">Customers enabled</div><div class="v num">48,210</div><div class="d">▲ 6.2% MoM</div></div>
+   <div class="card kpi"><div class="l">Assets in custody</div><div class="v num">$612M</div><div class="d">crypto + stablecoins</div></div>
+   <div class="card kpi"><div class="l">Trade volume (30d)</div><div class="v num">$284M</div><div class="d">412,880 orders</div></div>
+   <div class="card kpi"><div class="l">Deposits retained (est.)</div><div class="v num">$190M</div><div class="d">otherwise outbound to crypto apps</div></div>
+  </div>
+  <div class="grid g2">
+   <div class="card"><h3>Revenue by product line</h3><div class="sub">Illustrative scenario, not a forecast · toggle the roadmap view to see lines switch on</div>
+    ${REV.map(([n,v,p])=>`<div class="revbar" style="${p>S.phase?'opacity:.35':''}"><span class="nm">${n} <span class="pchip p${p}">P${p}</span></span><div class="bar"><i style="width:${v/mx*100}%;background:${PH[p].c}"></i></div><span class="v num">${p>S.phase?'—':fmM(v)}</span></div>`).join('')}
+    <div class="row between" style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px"><b>Total run-rate</b><b class="num" style="font-size:18px">${fmM(tot)}</b></div></div>
+   <div class="card"><div class="row between"><div><h3>Execution quality (TCA) ${chip(1)}</h3><div class="sub">All customer orders · last 30 days · benchmark: arrival mid</div></div><button class="btn ghost sm" data-a="toast" data-v="TCA report (CSV) exported — order-level fills, venues, slippage">Export</button></div>
+    <div class="grid g3" style="gap:10px;margin-bottom:10px">
+     <div class="kpi"><div class="l">Avg. slippage</div><div class="v">1.8 bps</div></div>
+     <div class="kpi"><div class="l">Price improved</div><div class="v">38%</div></div>
+     <div class="kpi"><div class="l">Median fill time</div><div class="v">0.42s</div></div>
+    </div>
+    <table><thead><tr><th>Asset</th><th class="r">Orders</th><th class="r">Notional</th><th class="r">Slippage</th><th class="r">Fill rate</th></tr></thead><tbody>
+     <tr><td>BTC</td><td class="r num">188,410</td><td class="r num">$151.2M</td><td class="r">1.2 bps</td><td class="r">99.99%</td></tr>
+     <tr><td>ETH</td><td class="r num">121,050</td><td class="r num">$82.6M</td><td class="r">1.9 bps</td><td class="r">99.98%</td></tr>
+     <tr><td>SOL</td><td class="r num">76,320</td><td class="r num">$34.1M</td><td class="r">3.4 bps</td><td class="r">99.96%</td></tr>
+     <tr><td>PAXG</td><td class="r num">27,100</td><td class="r num">$16.1M</td><td class="r">2.6 bps</td><td class="r">99.97%</td></tr>
+    </tbody></table>
+    <div class="note">Order size buckets: &lt;$1K 1.1 bps · $1–10K 1.7 bps · $10–100K 3.0 bps · &gt;$100K 5.8 bps. Supports Huntington's best-execution oversight without exposing venue detail to customers.</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+   <div class="card"><h3>Prefund float at Paxos ${chip(1)}</h3><div class="sub">All trading is pre-funded. Target = multiple of average daily net buys × funding cycle.</div>
+    <div class="row between"><span class="mut">Balance</span><b class="num" style="font-size:20px">${fmM(o.float)}</b></div>
+    <div class="gauge"><i style="width:${Math.min(o.float/8*100,100)}%;background:${o.float<o.target?'var(--amber)':'var(--g500)'}"></i><span class="tg" style="left:${o.target/8*100}%"></span></div>
+    <div class="row between mut" style="font-size:11.5px"><span>$0</span><span>Target ${fmM(o.target)}</span><span>$8M</span></div>
+    <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn sm" data-a="topup" data-v="FedNow">Top up $1M · FedNow</button><button class="btn ghost sm" data-a="topup" data-v="RTP">Top up $1M · RTP</button><button class="btn ghost sm" data-a="topup" data-v="Wire">Top up $1M · Wire</button></div>
+    <div class="kv" style="margin-top:12px"><span class="mut">Today's net settlement (customer accts → FBO)</span><b class="num">+$1,284,320</b></div>
+    <div class="kv"><span class="mut">Ledger model</span><span>Fiat omnibus · crypto sub-ledgered per customer</span></div></div>
+   <div class="card"><h3>Compliance queue ${chip(1)}</h3><div class="sub">Sanctions, Travel Rule and behavioral alerts from Paxos monitoring, worked in Huntington's case tools.</div>
+    <table><thead><tr><th>Alert</th><th>Severity</th><th class="r">Action</th></tr></thead><tbody>
+    ${o.alerts.map((a,i)=>`<tr><td><b style="font-size:12.5px">${a.id}</b> · ${a.t}<div class="mut" style="font-size:11.5px">${a.w}</div></td><td><span class="status ${a.sev==='High'?'st-hi':a.sev==='Med'?'st-wait':'st-blue'}">${a.sev}</span></td><td class="r">${a.st==='Open'?`<button class="btn ghost sm" data-a="alert" data-v="${i}">Clear</button>`:'<span class="status st-ok">Cleared</span>'}</td></tr>`).join('')}
+    </tbody></table></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+   <div class="card"><h3>Product & risk controls</h3><div class="sub">Huntington sets policy; Paxos enforces it at the platform level.</div>
+    <div class="set"><div><div class="t">Asset allowlist</div><div class="s">Paxos supports many of the top 50 assets; Huntington chooses</div></div></div>
+    <div class="row" style="flex-wrap:wrap;gap:8px;margin-bottom:6px">${Object.keys(o.allow).map(k=>`<button class="segb" style="padding:5px 10px;font-size:12px;${o.allow[k]?'background:var(--g50);border-color:var(--g100);color:var(--g800);font-weight:600':'color:var(--muted)'}" data-a="allow" data-v="${k}">${o.allow[k]?'✓ ':''}${k}</button>`).join('')}</div>
+    <div class="set"><div><div class="t">Closed-loop transfers ${chip(1)}</div><div class="s">Huntington-to-Huntington USDG/USDC</div></div><span class="status st-ok">On</span></div>
+    ${gate(2,`<div class="set"><div><div class="t">External wallets & crypto send/receive ${chip(2)}</div><div class="s">Address screening · Travel Rule · allowlisted networks</div></div><span class="status st-ok">On</span></div><div class="set"><div><div class="t">Staking program ${chip(2)}</div><div class="s">ETH & SOL · multi-provider</div></div>${tg(o.stake,'ostake')}</div><div class="set"><div><div class="t">Card program ${chip(2)}</div><div class="s">Debit on USDG · issuing partner</div></div>${tg(o.card,'ocard')}</div>`)}
+    ${gate(3,`<div class="set"><div><div class="t">Max initial LTV · crypto lending & credit card ${chip(3)}</div><div class="s">Margin call at +15pts, liquidation at +30pts</div></div><b>${o.ltv}%</b></div>`)}
+   </div>
+   <div class="card"><h3>How it fits together</h3><div class="sub">Huntington owns the customer, ledger of record and brand. Paxos runs the regulated digital asset infrastructure behind it.</div>
+    <div class="arch">
+     <div class="col"><div class="bx" style="background:var(--g50);color:var(--g800)">Mobile & online</div><div class="bx" style="background:var(--g50);color:var(--g800)">Advisor desk</div><div class="bx" style="background:var(--g50);color:var(--g800)">Business & treasury portals</div></div>
+     <div class="arrow">→</div>
+     <div class="col"><div class="bx" style="background:var(--g800);color:#fff;padding:22px 10px">Huntington core, KYC & ledger</div></div>
+     <div class="arrow">→<div style="font-size:10px">REST · FIX</div></div>
+     <div class="col"><div class="bx" style="background:var(--p1b);color:#185f31">Custody · Brokerage · USDG · Orchestration</div><div class="bx" style="background:var(--p2b);color:#18518f">Staking · Rewards · Card partner</div><div class="bx" style="background:var(--p3b);color:#55309f">Collateral · Fordefi · Tokenization</div></div>
+    </div></div>
+  </div>`;
+}
+
+/* ================= render & events ================= */
+function render(){
+  const sc=document.getElementById('screen'),st=sc?sc.scrollTop:0,prevTab=render._tab;
+  renderChrome();
+  document.getElementById('view').innerHTML={overview:vOverview,consumer:vConsumer,wealth:vWealth,business:vBusiness,commercial:vCommercial,ops:vOps}[S.view]();
+  const ns=document.getElementById('screen');if(ns&&prevTab===S.c.tab+S.c.asset)ns.scrollTop=st;
+  render._tab=S.c.tab+S.c.asset;
+}
+function live(){
+  const m=Object.assign({},S.view==='consumer'?borrowLive():{},S.view==='wealth'?wLive():{},S.view==='business'?bLive():{},{cLimit:fm0(S.c.card.limit)});
+  document.querySelectorAll('[data-live]').forEach(el=>{const k=el.dataset.live;if(m[k]!==undefined)el.innerHTML=m[k]});
+}
+function addAct(t,s,a,i){S.act.unshift({t,s,a,i})}
+function run(steps,obj,key,done,delay=850,start=1){obj[key]=start;render();const tick=()=>{if(obj[key]<steps){obj[key]++;render();setTimeout(tick,delay)}else if(done)done()};setTimeout(tick,delay)}
+const trimQ=(q,s)=>String(+q.toFixed(dec(s)));
+
+const A={
+  phase:v=>{S.phase=+v},
+  view:v=>{S.view=v;window.scrollTo({top:0})},
+  ctab:v=>{S.c.tab=v;S.c.asset=null;S.c.sheet=null},
+  asset:v=>{S.c.asset=v||null;S.c.period='1D'},
+  period:v=>{S.c.period=v},
+  tokgo:v=>{S.c.tab='invest';S.c.asset=v},
+  viewpos:v=>{S.c.sheet=null;S.c.tab='invest';S.c.asset=v},
+  open:v=>{S.c.sheet=v;if(v==='trade')Object.assign(S.c.trade,{step:'edit',side:'buy',unit:'usd',amt:'250',sym:S.c.asset&&ALL[S.c.asset]?S.c.asset:'BTC'});if(v==='send')Object.assign(S.c.send,{step:'pick',asset:'USDG',amt:'50'});if(v==='add')S.c.add.step='edit';if(v==='recv')S.c.recv.mode='handle'},
+  trade:v=>{const[sd,sym]=v.split(':');Object.assign(S.c.trade,sd==='sell'&&!TOK[sym]?{side:'sell',sym,unit:'coin',amt:trimQ(S.hold[sym]*.25,sym),step:'edit'}:{side:sd,sym,unit:'usd',amt:sd==='sell'?String(Math.floor(S.hold[sym]*ALL[sym].p*.25)):'250',step:'edit'});S.c.sheet='trade'},
+  close:()=>{S.c.sheet=null},
+  bgclose:()=>{S.c.sheet=null},
+  tside:v=>{const tr=S.c.trade;tr.side=v;tr.step='edit';if(v==='sell'&&!TOK[tr.sym]){tr.unit='coin';tr.amt=trimQ(S.hold[tr.sym]*.25,tr.sym)}else{tr.unit='usd';tr.amt='250'}},
+  tsym:v=>{const tr=S.c.trade;tr.sym=v;if(tr.unit==='coin')tr.amt=trimQ(S.hold[v]*.25,v)},
+  tamt:v=>{S.c.trade.unit='usd';S.c.trade.amt=v},
+  tfrac:v=>{const tr=S.c.trade;tr.unit='coin';tr.amt=+v===1?String(S.hold[tr.sym]):trimQ(S.hold[tr.sym]*v,tr.sym)},
+  tunit:()=>{const tr=S.c.trade,R=tradeCalc();if(tr.unit==='usd'){tr.unit='coin';tr.amt=trimQ(R.qty,tr.sym)}else{tr.unit='usd';tr.amt=(tr.side==='buy'?R.total:R.gross).toFixed(2)}},
+  treview:()=>{S.c.trade.step='review'},
+  tedit:()=>{S.c.trade.step='edit'},
+  tconfirm:()=>{const tr=S.c.trade,R=tradeCalc(),A_=ALL[tr.sym];
+    if(tr.side==='buy'){S.hold[tr.sym]+=R.qty;S.bal.checking-=R.total;addAct('Bought '+A_.name,'Just now · Invest',fm(-R.total),tr.sym.slice(0,3))}
+    else{S.hold[tr.sym]=Math.max(0,S.hold[tr.sym]-R.qty);if(S.hold[tr.sym]<1e-9)S.hold[tr.sym]=0;S.bal.checking+=R.total;addAct('Sold '+A_.name,'Just now · Invest','+'+fm(R.total),tr.sym.slice(0,3))}
+    tr.res={side:tr.side,qty:R.qty,p:R.p,gross:R.gross,fee:R.fee,total:R.total,id:String(Math.floor(1e7+Math.random()*9e7))};tr.step='done'},
+  sendto:v=>{const c=CONTACTS[+v];if(c.p>S.phase){toast('External wallets arrive in Phase 2 — Phase 1 is closed loop');return}S.c.sheet='send';Object.assign(S.c.send,{to:+v,step:'amt'})},
+  sendasset:v=>{S.c.sheet='send';Object.assign(S.c.send,{step:'pick',asset:v,amt:'50'})},
+  recvasset:v=>{S.c.sheet='recv';Object.assign(S.c.recv,{mode:'chain',asset:v})},
+  sasset:v=>{S.c.send.asset=v},
+  samt:v=>{S.c.send.amt=v},
+  sendgo:()=>{const sd=S.c.send,c=CONTACTS[sd.to],amt=+sd.amt,fee=c.ext?NETFEE[sd.asset]:0;
+    if(sd.asset==='USDG'){const short=Math.max(0,amt+fee-S.bal.usdg);S.bal.checking-=short;S.bal.usdg-=amt+fee-short}
+    else if(sd.asset==='USDC'){S.bal.usdc-=amt+fee}
+    else S.hold[sd.asset]-=(amt+fee)/PX[sd.asset].p;
+    addAct('Sent to '+c.n,'Just now · '+sd.asset,fm(-amt),c.i);sd.step='done'},
+  rmode:v=>{S.c.recv.mode=v},rasset:v=>{S.c.recv.asset=v},rnet:v=>{S.c.recv.net=v},
+  aamt:v=>{S.c.add.amt=v},acoin:v=>{S.c.add.coin=v},
+  addgo:()=>{const a=+S.c.add.amt,k=S.c.add.coin.toLowerCase();S.bal.checking-=a;S.bal[k]+=a;addAct('Added '+S.c.add.coin,'Just now · '+S.c.add.coin,'+'+fm(a),'$');S.c.add.step='done'},
+  usdc2usdg:()=>{if(S.bal.usdc<=0)return;S.bal.usdg+=S.bal.usdc;toast(fm(S.bal.usdc)+' USDC converted to USDG 1:1');S.bal.usdc=0},
+  stake:v=>{S.c.stake[v]=!S.c.stake[v];toast(S.c.stake[v]?v+' staked — rewards accrue daily':v+' unstaked — available now')},
+  auto:()=>{S.c.auto=!S.c.auto},
+  card:v=>{S.c.card[v]=!S.c.card[v];if(v==='frozen')toast(S.c.card.frozen?'Card frozen':'Card unfrozen')},
+  cmode:v=>{S.c.card.mode=v},crew:v=>{S.c.card.rew=v},
+  cpay:()=>{const c=S.c.card;S.bal.checking-=c.cbal;addAct('Crypto Credit payment','Just now · Checking',fm(-c.cbal),'CC');toast('Paid '+fm(c.cbal)+' — no interest this cycle');c.cbal=0},
+  csrc:v=>{S.c.card.src=v},
+  virt:()=>{S.c.card.virt.push({n:'One-time card',l4:String(1000+Math.floor(Math.random()*8999)),d:'expires after 1 use'});toast('Virtual card ready — added to your wallet')},
+  agent:()=>{S.c.agent=!S.c.agent},
+  bdest:v=>{S.c.borrow.dest=v},
+  draw:()=>{const b=S.c.borrow;b.drawn+=b.amt;b.last=b.amt;if(b.dest==='usdg')S.bal.usdg+=b.amt;else S.bal.checking+=b.amt;addAct('Credit line draw','Just now · Borrow','+'+fm(b.amt),'LOC');S.c.sheet='draw'},
+  wstake:()=>{S.w.stake=!S.w.stake},
+  wpledge:()=>{S.w.pledged=true;toast('Pledged line opened — BTC locked in custody, not sold')},
+  wdep:()=>{S.w.dep.open=!S.w.dep.open;if(S.w.dep.open&&S.phase<2)toast('Deposits from external wallets arrive in Phase 2')},
+  wdepasset:v=>{if(S.w.dep.step>1&&S.w.dep.step<6)return;S.w.dep.asset=v;S.w.dep.step=0},
+  wdepaddr:()=>{S.w.dep.step=1},
+  wdepsim:()=>{const d=S.w.dep;if(d.step>=6)return;run(6,d,'step',()=>{if(d.asset==='BTC')S.w.btc+=.75;else if(d.asset==='ETH')S.w.eth+=12;render();toast('Held-away assets now in Huntington custody')},900,2)},
+  brule:()=>{S.b.rule=!S.b.rule},
+  bpay:()=>{const p=S.b.pay;if(p.step>=4){p.step=0;render();return}run(4,p,'step',()=>toast('Payment settled — Sunday 9:14 PM'))},
+  bcard:()=>{S.b.cards.push({n:'New vendor card',l:1500,u:0});toast('Virtual card issued with MCC & velocity controls')},
+  tmode:v=>{S.t.mode=v;S.t.step=0},
+  tgo:()=>{const amt=(+S.t.amt||0)/1e6,m=S.t.mode;run(4,S.t,'step',()=>{S.t.usdg=Math.max(0,S.t.usdg+(m==='mint'?amt:-amt));render();toast(m==='mint'?'USDG minted and delivered':'USD credited to DDA')})},
+  release:()=>{S.t.released=true;toast('5 payouts settled on-chain — $5.81M')},
+  tprog:()=>{S.t.prog=!S.t.prog},
+  tsweep:()=>{S.t.sweep=!S.t.sweep},
+  tdmint:()=>{const td=S.t.td,a=(+td.mint||0)/1e6;if(a<=0||a>td.dda){toast('Amount exceeds DDA balance');return}td.dda-=a;td.tok+=a;toast(fm0(a*1e6)+' tokenized — still a Huntington deposit, still earning interest')},
+  tdroute:v=>{S.t.td.route=v;S.t.td.step=0},
+  tdpay:()=>{const td=S.t.td;if(td.step>=4){td.step=0;render();return}const a=(+td.amt||0)/1e6;run(4,td,'step',()=>{td.tok=Math.max(0,td.tok-a);render();toast('Settled 24/7 — Saturday 11:40 PM')})},
+  topup:v=>{S.o.float=Math.round((S.o.float+1)*10)/10;toast('$1,000,000 sent via '+v+' — float updated')},
+  alert:v=>{S.o.alerts[v].st='Cleared';toast(S.o.alerts[v].id+' cleared and logged')},
+  allow:v=>{S.o.allow[v]=!S.o.allow[v]},
+  ostake:()=>{S.o.stake=!S.o.stake},
+  ocard:()=>{S.o.card=!S.o.card},
+  toast:v=>{toast(v)}
+};
+const NORENDER=new Set(['toast','bpay','tgo','tdpay','wdepsim']);
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-a]');if(!el||el.disabled)return;
+  const a=el.dataset.a;
+  if(a==='bgclose'&&e.target!==el)return;
+  if(!A[a])return;
+  A[a](el.dataset.v,el,e);
+  if(!NORENDER.has(a))render();
+});
+const num=v=>v.replace(/[^0-9.]/g,'');
+const IN={
+  climit:v=>{S.c.card.limit=+v},bamt:v=>{S.c.borrow.amt=+v},walloc:v=>{S.w.alloc=+v},bkeep:v=>{S.b.keep=+v},
+  tamt:v=>{S.c.trade.amt=num(v)},samt:v=>{S.c.send.amt=num(v)},aamt:v=>{S.c.add.amt=num(v)},
+  bvendor:v=>{S.b.pay.v=+v},bamt2:v=>{S.b.pay.amt=num(v)},tamt2:v=>{S.t.amt=num(v)},tdmint:v=>{S.t.td.mint=num(v)},tdamt:v=>{S.t.td.amt=num(v)}
+};
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.in;if(!k||!IN[k])return;IN[k](e.target.value);if(e.target.type==='range')live()});
+document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.in;if(!k||!IN[k])return;IN[k](e.target.value);render()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.in)e.target.blur()});
+/* chart hover: scrub price like retail trading apps */
+function chartHover(e,leave){
+  const ch=e.target.closest&&e.target.closest('[data-chart]');if(!ch)return;
+  const sym=ch.dataset.chart,per=ch.dataset.per,{pts,step}=periodPts(sym,per),pr=document.getElementById('chPrice'),dl=document.getElementById('chDelta'),ln=ch.querySelector('#chL');
+  if(leave){render();return}
+  const rect=ch.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left,i=Math.max(0,Math.min(pts.length-1,Math.round(x/rect.width*(pts.length-1))));
+  const v=pts[i],ch0=(v/pts[0]-1)*100,when=new Date(TODAY.getTime()-(pts.length-1-i)*step);
+  pr.textContent=fm(v);dl.className=ch0>=0?'up-t':'dn-t';dl.textContent=`${ch0>=0?'▲':'▼'} ${pct(ch0)} · ${fmtDate(when,per)}`;
+  ln.style.display='';const X=i/(pts.length-1)*320;ln.setAttribute('x1',X);ln.setAttribute('x2',X);
+}
+document.addEventListener('mousemove',e=>chartHover(e));
+document.addEventListener('touchmove',e=>chartHover(e),{passive:true});
+document.addEventListener('mouseout',e=>{const ch=e.target.closest&&e.target.closest('[data-chart]');if(ch&&!ch.contains(e.relatedTarget))chartHover(e,true)});
+render();
+
+</script>
+</body>
+</html>
