@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Huntington Digital Assets – Vision Prototype</title>
+<title>Huntington Digital Assets Demo</title>
 <style>
 :root{
   --g950:#06291a; --g900:#0a3d22; --g800:#0c5430; --g700:#0d6b37; --g500:#2e9e4f; --g100:#e3f3e8; --g50:#f1f9f3;
@@ -244,6 +244,56 @@ input[type=range]{width:100%;accent-color:var(--g700)}
 .facts .kv{font-size:13px;padding:9px 0}
 .lockchip{opacity:.5}
 .note{font-size:11.5px;color:var(--muted);background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:10px}
+.home-hero{max-width:760px;margin:8px 0 22px}
+.home-hero h1{font-size:30px;letter-spacing:-.5px;margin:0 0 8px;color:var(--g950)}
+.home-hero p{font-size:15px;color:var(--ink2);margin:0}
+.xp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.xp{display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:.15s}
+.xp:hover{border-color:var(--g500);transform:translateY(-1px)}
+.xp h3{font-size:18px;margin:0}
+.xp p{margin:0;color:var(--ink2);font-size:13.5px}
+.xp-who{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--g700);font-weight:700}
+.xp-try{font-size:12.5px;color:var(--muted);margin-top:auto}
+.xp-try ul,.xp-how ul,.intro ul{margin:4px 0 0;padding-left:18px}
+.xp .btn{align-self:flex-start;margin-top:6px}
+.xp-how{background:var(--g50);border-style:dashed;cursor:default}
+.xp-how ul{font-size:13px;color:var(--ink2)}
+.xp-how li{margin:4px 0}
+.intro{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 22px;margin-bottom:18px}
+.intro h1{margin:0 0 4px;font-size:22px;color:var(--g950)}
+.intro p{margin:0;color:var(--ink2);max-width:640px}
+.intro .try{font-size:12.5px;color:var(--ink2);min-width:240px}
+.lbl2{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.phases-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.ver{display:inline-block;margin-left:6px;padding:1px 7px;border:1px solid var(--line);border-radius:999px;font-size:10.5px}
+@media (max-width:1050px){.xp-grid,.phases-row{grid-template-columns:1fr 1fr}.intro{flex-direction:column}}
+@media (max-width:700px){.xp-grid,.phases-row{grid-template-columns:1fr}}
+.rm-card{padding:16px}
+.rm-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink2);margin-bottom:12px}
+.rm-legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{width:14px;height:10px;border-radius:3px;border:2px solid;display:inline-block}
+.lg.p1{border-color:var(--p1);background:var(--p1b)}.lg.p2{border-color:var(--p2);background:var(--p2b)}.lg.p3{border-color:var(--p3);background:var(--p3b)}.lg.dash{border:2px dashed #8a978f;background:#fff}
+.rm-scroll{overflow-x:auto}
+.rm{position:relative;display:grid;grid-template-columns:150px repeat(3,minmax(230px,1fr));min-width:900px}
+.rm-lines{position:absolute;left:0;top:0;pointer-events:none;z-index:1;overflow:visible}
+.rm-ph{padding:10px 12px 12px;border-top:4px solid var(--pc);background:var(--bg);margin:0 4px;border-radius:8px 8px 0 0}
+.rm-ph b{display:block;font-size:13.5px}.rm-ph>span{font-size:11.5px;color:var(--muted);display:block;margin-top:2px}
+.rm-ms{display:flex;justify-content:space-between;gap:6px;margin-top:8px;font-size:11px;font-weight:600;color:var(--ink2)}
+.rm-ms .end{margin-left:auto}
+.rm-lane{padding:14px 10px;font-weight:700;font-size:13px;color:var(--g900);border-top:1px solid var(--line);cursor:pointer}
+.rm-lane small{display:block;font-weight:500;color:var(--g700);font-size:11px;margin-top:2px}
+.rm-lane.plat{cursor:default;background:#f6f7f6;color:var(--ink2)}
+.rm-cell{border-top:1px solid var(--line);padding:10px 22px;display:flex;flex-direction:column;gap:10px;margin:0 4px;border-left:1px dashed #e3e9e5}
+.rm-cell.plat{background:#f6f7f6}
+.rm-box{position:relative;z-index:2;background:#fff;border:1.5px solid;border-left-width:5px;border-radius:9px;padding:7px 10px;font-size:12px;line-height:1.3;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.rm-box b{display:block;font-size:12.5px}.rm-box span{color:var(--muted);font-size:11.5px}
+.rm-box.p1{border-color:var(--p1)}.rm-box.p2{border-color:var(--p2)}.rm-box.p3{border-color:var(--p3)}
+.rm-box.dash{border-style:dashed;border-left-style:solid}
+.rm-box.go{cursor:pointer}.rm-box.go:hover{box-shadow:var(--sh);transform:translateY(-1px)}
+.rm-flag{display:block;font-style:normal;margin-top:5px;font-size:11px;color:#8a5d00;background:#fdf3dd;border-radius:6px;padding:3px 6px}
+.rm-lines path.hit{pointer-events:stroke;cursor:help}
+.rm-needs{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.rm-needs i{font-style:normal;font-size:10.5px;background:#eef2ef;color:#4a5a51;border-radius:4px;padding:1px 6px}
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--g950);color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;opacity:0;transition:.25s;z-index:100;pointer-events:none;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -267,15 +317,62 @@ input[type=range]{width:100%;accent-color:var(--g700)}
 </head>
 <body>
 <header class="top">
-  <div class="brand"><div class="mark">H</div><div><b>Huntington Digital Assets</b><small>Enterprise vision prototype · prepared by Paxos</small></div></div>
-  <div class="phase-ctl"><span class="lbl">Roadmap view</span><div class="seg" id="phaseSeg"></div></div>
+  <div class="brand"><div class="mark">H</div><div><b>Huntington Digital Assets</b><small>Demo · prepared by Paxos</small></div></div>
 </header>
 <nav class="nav" id="nav"></nav>
 <main id="view"></main>
-<footer>Concept prototype for discussion purposes only — not a Huntington product or offer. All customer names, balances, prices, rates, and revenue figures are illustrative. Crypto and gold prices reflect Oct 7, 2026 market levels (equities: Oct 6 close); chart history is modeled from published month-end closes. Phase 2 and Phase 3 capabilities are roadmap concepts subject to Huntington and Paxos product, legal, regulatory and risk approvals. USDG rewards are variable and not guaranteed. Card issuance would be delivered with a card partner (e.g., Rain or Reap).</footer>
+<footer id="foot"></footer>
 <div id="toast"></div>
 
 <script>
+/* ================= COPY =================
+   All descriptive text in the demo lives here, so wording can be edited without touching the code.
+   Keep it plain: short sentences, no taglines. In-app labels (buttons, field names) live in the views below. */
+const VERSION='0.4.3';
+const COPY={
+ header:{title:'Huntington Digital Assets',sub:'Demo · prepared by Paxos',phaseLabel:'Show features through'},
+ home:{
+  h:'Huntington digital assets demo',
+  p:'A clickable demo of how digital assets could work across Huntington, from retail customers to the bank\'s own operations. Choose an experience to start.',
+  how:[
+   'This shows everything that could be built. The Roadmap tab shows how it could be phased.',
+   'Everything is clickable, and balances update as you go. Refresh the page to start over.',
+   'Names, balances, rates and revenue are made up for the demo. Prices are as of Oct 7, 2026.',
+   'Click any box on the Roadmap to jump to that part of the demo.'
+  ]
+ },
+ views:{
+  consumer:{n:'Consumer',who:'Retail customers',d:'Buy and sell crypto, hold and send digital dollars, earn, spend with a card, and borrow against crypto.',try:['Open Bitcoin and change the chart period','Sell BTC with the Max button','Send USDG to Jordan'],cta:'Open the app'},
+  wealth:{n:'Private Bank & Wealth',who:'Advisors and their clients',d:'Digital assets next to the rest of a client\'s portfolio, with allocation proposals, staking and credit lines.',try:['Drag the allocation slider','Bring in crypto held elsewhere','Open a pledged credit line'],cta:'Open advisor view'},
+  business:{n:'Business Banking',who:'Small and mid-sized businesses',d:'Accept stablecoin payments, convert them to dollars automatically, and pay suppliers any day of the week.',try:['Send a supplier payment','Turn the receivables rule on or off','Issue a virtual card'],cta:'Open business view'},
+  commercial:{n:'Commercial & Treasury',who:'Corporate treasury teams',d:'Mint and redeem USDG, release supplier payouts, and move money with deposit tokens.',try:['Mint $5M of USDG','Release the payout batch','Pay a supplier with deposit tokens'],cta:'Open treasury view'},
+  ops:{n:'Bank Operations',who:'Huntington treasury, operations, risk and finance',d:'Manage prefunding, review execution quality, work compliance alerts and set product controls.',try:['Top up the prefund balance','Clear a compliance alert','Change the asset allowlist'],cta:'Open operations console'}
+ },
+ intro:{
+  wealth:'Advisor view for the Morgan Family Trust. Digital assets sit alongside equities, fixed income and cash.',
+  business:'Rivera Coffee Roasters takes USDG from wholesale customers and pays its suppliers over the weekend.',
+  commercial:'Treasury view for Midwest Manufacturing: USDG mint and redeem, supplier payouts, and deposit tokens.',
+  ops:'Internal console for the Huntington teams that run the program.',
+  roadmap:'A high-level view of how the experiences in this demo could be phased.'
+ },
+ phases:{
+  1:{name:'Launch',d:'Buy, sell and hold crypto. Hold USDG and USDC. Send to other Huntington customers.'},
+  2:{name:'Expand',d:'Earn rewards and staking. Debit card. Send to and receive from external wallets.'},
+  3:{name:'Full vision',d:'Crypto-backed credit card and loans. Tokenized treasuries, stocks and deposits.'}
+ },
+ phone:{
+  home:{t:'Home',d:'Crypto and digital dollars appear next to checking and savings.',items:['Total balance includes every account','USDG is the default digital dollar; USDC is also supported','Activity from all accounts in one list'],try:['Tap Buy, Send or Add $','Tap Crypto to open Invest'],bts:['Paxos custody','Paxos brokerage','USDG']},
+  invest:{t:'Invest',d:'Buy and sell crypto using money in checking.',items:['Buy in dollars; sell in coin or in dollars','Price charts from 1D to 1Y','Send and receive each coin','Tokenized treasuries, stocks and ETFs in the same list'],try:['Open Bitcoin, switch to 1Y and hover the chart','Tap Sell, then Max','Tap "Enter in USD"'],bts:['Paxos brokerage','Pre-trade risk checks','Execution reporting']},
+  tok:{t:'Tokenized assets',d:'Tokenized treasuries, stocks and ETFs in the same tab as crypto.',items:['Trade any time and settle in USDG','Would be offered through The Huntington Investment Company (registered broker-dealer and investment adviser)','Depends on the SEC\'s Sept 2026 exemption for tokenized stocks and on Huntington approvals'],try:['Buy $100 of the Treasury fund','Buy part of a share of NVIDIA'],bts:['Paxos tokenization platform','Paxos clearing (CA-1)']},
+  earn:{t:'Earn',d:'Every way to earn on balances, in one place.',items:['Rewards on USDG','ETH and SOL staking with instant unstake','Tokenized Treasury fund and a USDG earn vault'],try:['Turn on SOL staking','Convert USDC to USDG'],bts:['Paxos staking','Global Dollar Network rewards']},
+  pay:{t:'Pay',d:'Send and receive digital dollars.',items:['Send USDG or USDC to other Huntington customers, instantly and free','Send to and receive from external wallets, including BTC, ETH and SOL','Incoming stablecoins can go straight to checking'],try:['Send $50 to Jordan','Tap Receive'],bts:['Paxos orchestration','Address screening','Transaction monitoring']},
+  card:{t:'Debit card',d:'A debit card that spends USDG.',items:['Freeze, merchant blocks and spending limits','One-time virtual cards','Rewards paid in USDG','Issued with a card partner such as Rain or Reap'],try:['Freeze the card','Create a virtual card','Switch to Credit'],bts:['Card issuing partner','Global Dollar Network rewards']},
+  credit:{t:'Crypto-backed credit card',d:'A credit card with a limit based on the customer\'s BTC and ETH.',items:['Limit moves with the value of the collateral','Carry a balance at a variable APR or pay in full','Rewards in BTC or USDG','Uses the same collateral as the Borrow line'],try:['Pay the balance','Switch rewards to USDG'],bts:['Paxos collateral management','Card issuing partner']},
+  borrow:{t:'Borrow',d:'A line of credit backed by crypto. The crypto is held, not sold.',items:['Limit based on the value of BTC and ETH','Margin call and liquidation levels shown up front','Funds go to checking or USDG'],try:['Drag the slider, then draw funds'],bts:['Paxos collateral management','Paxos custody']}
+ },
+ footer:'Demo for internal discussion. Not a Huntington product. Names, balances, rates and revenue are made up. Crypto and gold prices are as of Oct 7, 2026 and stock prices as of the Oct 6 close; chart history is modeled from month-end closes. Many features would need Huntington and Paxos product, legal, regulatory and risk approval; see the Roadmap. USDG rewards are variable. Cards would be issued with a card partner.'
+};
+
 /* ================= market data (as of Oct 7, 2026) =================
    Spot prices from public trackers on Oct 7, 2026 (BTC/ETH/SOL ~3:30pm ET, gold ~3pm ET).
    Chart history interpolated from published month-end closes; intra-month paths are modeled. */
@@ -314,12 +411,10 @@ const PERIODS={'1D':{src:'intraday',step:9e5},'1W':{src:'hourly',step:36e5},'1M'
 function periodPts(sym,per){const P=PERIODS[per],s=SER[sym];if(P.src)return{pts:s[P.src],step:P.step};return{pts:s.daily.slice(-P.n),step:864e5}}
 
 /* ================= state ================= */
-const PH={1:{name:'Launch',c:'var(--p1)',d:'Buy, sell & hold crypto · USDG/USDC on/off ramp · closed-loop stablecoin transfers'},
-          2:{name:'Expand',c:'var(--p2)',d:'Earn (USDG rewards, staking) · debit card · send & receive crypto to external wallets'},
-          3:{name:'Full vision',c:'var(--p3)',d:'Crypto-backed credit card & lending · tokenized deposits, funds & equities'}};
-const VIEWS=[['overview','Enterprise overview'],['consumer','Consumer'],['wealth','Private Bank & Wealth'],['business','Business Banking'],['commercial','Commercial & Treasury'],['ops','Huntington Operations']];
+const PH={1:{name:COPY.phases[1].name,c:'var(--p1)',d:COPY.phases[1].d},2:{name:COPY.phases[2].name,c:'var(--p2)',d:COPY.phases[2].d},3:{name:COPY.phases[3].name,c:'var(--p3)',d:COPY.phases[3].d}};
+const VIEWS=[['home','Overview'],['consumer','Consumer'],['wealth','Private Bank & Wealth'],['business','Business Banking'],['commercial','Commercial & Treasury'],['ops','Bank Operations'],['roadmap','Roadmap']];
 const S={
-  phase:3, view:'overview',
+  phase:3, view:'home',
   bal:{checking:8420.15,savings:22100,usdg:2500,usdc:300},
   hold:{BTC:0.0842,ETH:1.35,SOL:12,PAXG:0.5,TBILL:0,SPY:0,NVDA:0,AAPL:0,MSFT:0},
   act:[{t:'Received from Jordan Lee',s:'Yesterday · USDG',a:'+$40.00',i:'JL'},{t:'Bought Ethereum',s:'Mon · Invest',a:'-$500.00',i:'ETH'},{t:'Paycheck – Acme Corp',s:'Fri · Checking',a:'+$3,215.40',i:'$'},{t:'Kroger',s:'Thu · Debit',a:'-$86.12',i:'K'}],
@@ -353,7 +448,7 @@ const cryptoVal=()=>CRYPTO.reduce((s,k)=>s+S.hold[k]*PX[k].p,0);
 const cryptoPrev=()=>CRYPTO.reduce((s,k)=>s+S.hold[k]*PX[k].prev,0);
 const tokVal=()=>Object.keys(TOK).reduce((s,k)=>s+S.hold[k]*TOK[k].p,0);
 const collat=()=>S.hold.BTC*PX.BTC.p+S.hold.ETH*PX.ETH.p;
-const chip=p=>`<span class="pchip p${p}">PHASE ${p}</span>`;
+const chip=()=>''; // phases are shown only on the Roadmap tab
 const lockSvg='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 function gate(p,html,o={}){
   if(p<=S.phase) return html;
@@ -388,78 +483,91 @@ function qr(seed,size=150){const r=rng(seed.split('').reduce((s,c)=>s*33+c.charC
   return `<svg class="qr" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" fill="#fff"/>${o}${finder(0,0)}${finder(18,0)}${finder(0,18)}</svg>`}
 const ADDR={USDG:{Ethereum:'0x4be1c09a77d2e1f3b6a0c7d2f9e8a1b2c3d4a07f',Solana:'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'},USDC:{Ethereum:'0x4be1c09a77d2e1f3b6a0c7d2f9e8a1b2c3d4a07f',Solana:'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'},BTC:{Bitcoin:'bc1q9h6tq0x2f7m3l5v8k4w2c9r0d7e3s5a1n6p4zq'},ETH:{Ethereum:'0x4be1c09a77d2e1f3b6a0c7d2f9e8a1b2c3d4a07f'},SOL:{Solana:'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'}};
 let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800)}
-function story(o){return `<section class="story"><div><div class="eyebrow">${o.eyebrow}</div><h1>${o.title}</h1><p>${o.body}</p><div class="pw">${o.pw.map(x=>`<span class="tag">${x}</span>`).join('')}</div></div><div class="stat"><b>${o.stat}</b><span>${o.statL}</span></div></section>`}
+function intro(k,title){const v=COPY.views[k];return `<section class="intro"><div><h1>${title||v.n}</h1><p>${COPY.intro[k]}</p></div>${v?`<div class="try"><div class="lbl2">Try</div><ul>${v.try.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}</section>`}
 const sec=(t,r='')=>`<div class="sec-t"><span>${t}</span>${r}</div>`;
 const actRow=a=>`<div class="act"><div class="ai">${a.i}</div><div><div style="font-weight:600">${a.t}</div><div class="mut" style="font-size:11.5px">${a.s}</div></div><div class="am num ${a.a[0]==='+'?'up-t':''}">${a.a}</div></div>`;
 
 /* ================= chrome ================= */
 function renderChrome(){
-  document.getElementById('phaseSeg').innerHTML=[1,2,3].map(p=>`<button class="${S.phase===p?'on':''}" data-a="phase" data-v="${p}"><span class="d" style="background:${PH[p].c}"></span>${p===3?'Phase 1–3 · Full vision':p===2?'Phase 1–2':'Phase 1'}</button>`).join('');
+  document.getElementById('foot').innerHTML=COPY.footer+` <span class="ver">v${VERSION}</span>`;
   document.getElementById('nav').innerHTML=VIEWS.map(([k,l])=>`<button class="${S.view===k?'on':''}" data-a="view" data-v="${k}">${l}</button>`).join('');
 }
 
-/* ================= overview ================= */
-const COLS=['Invest','Digital dollars','Send & pay','Earn','Spend','Borrow','Tokenized assets'];
-const ROWS=[
- {k:'consumer',n:'Consumer',s:'Mobile & online banking',c:[[1,'Buy, sell & hold BTC, ETH, SOL, gold in-app'],[1,'Hold USDG (primary) & USDC next to checking'],[1,'Closed-loop transfers between Huntington customers → external wallets & crypto (P2)'],[2,'USDG rewards + ETH/SOL staking'],[2,'USDG debit card → crypto-backed credit card (P3)'],[3,'Crypto-backed line of credit'],[3,'Tokenized treasuries, stocks & ETFs']]},
- {k:'wealth',n:'Private Bank & Wealth',s:'Advisors & HNW clients',c:[[1,'Crypto sleeve in advised portfolios'],[1,'USDG as on-chain cash'],[2,'Consolidate held-away crypto from external wallets'],[2,'Staking with instant unstake'],[2,'Premium card, GDN-funded rewards'],[3,'Pledge BTC/ETH for liquidity & mortgage boost'],[3,'Tokenized funds, equities, structured notes']]},
- {k:'business',n:'Business Banking',s:'Small & mid-sized business',c:[[0,'—'],[1,'Accept USDG, auto-convert to USD'],[1,'Pay suppliers instantly, weekends too'],[2,'Rewards on idle USDG balances'],[2,'Employee & vendor virtual cards'],[3,'Working capital vs. digital collateral'],[3,'Interest-bearing deposit tokens']]},
- {k:'commercial',n:'Commercial & Treasury',s:'Corporate treasury clients',c:[[1,'Treasury digital asset execution'],[1,'Mint & redeem USDG at par'],[1,'Domestic B2B stablecoin payments'],[2,'Rewards on operating USDG'],[2,'Programmable purchasing cards'],[3,'Programmable escrow & collateral mobility'],[3,'Huntington Deposit Token + tokenized MMF sweeps']]},
- {k:'ops',n:'Huntington (the bank)',s:'Treasury, ops, risk & finance',c:[[1,'Prefund, float, net settlement & TCA reporting'],[1,'GDN membership, USDG treasury'],[1,'AML, Travel Rule & sanctions screening'],[2,'GDN reserve rewards revenue'],[2,'Interchange; card interest (P3)'],[3,'On-us permissioned lending platform'],[3,'Issue deposit tokens; distribute tokenized products']]}
-];
-function vOverview(){
-  return `<section class="hero"><div>
-    <div class="eyebrow2">Paint the picture</div>
-    <h1>One digital asset platform.<br>Every Huntington customer.</h1>
-    <p>Phase 1 starts with buy/sell/hold and stablecoin payments. This prototype shows where the same single Paxos integration can take Huntington — across consumer, wealth, business, commercial and the bank's own treasury — without re-platforming at each step.</p>
-    <p class="mut" style="font-size:13px">Use the <b>Roadmap view</b> toggle to watch capabilities switch on by phase. Click any cell to open that experience.</p>
-  </div><div class="phases">${[1,2,3].map(p=>`<div class="ph ${S.phase>=p?'on':''}" data-a="phase" data-v="${p}"><div class="n" style="background:${PH[p].c}">${p}</div><div><b>Phase ${p} · ${PH[p].name}</b><span>${PH[p].d}</span></div></div>`).join('')}</div></section>
-  <div class="card"><div class="row between" style="margin-bottom:6px"><h3>The Huntington digital asset map</h3><span class="mut" style="font-size:12px">${chip(1)} ${chip(2)} ${chip(3)}</span></div>
-  <div class="matrix-wrap"><table class="matrix"><thead><tr><th class="seg-h"></th>${COLS.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>
-  ${ROWS.map(r=>`<tr><td><div class="seg-name" data-a="view" data-v="${r.k}">${r.n}<small>${r.s}</small></div></td>${r.c.map(([p,t])=>{
-     const cls=p===0?'off':(p<=S.phase?'c'+p:'off');
-     return `<td><div class="cell ${cls}" data-a="view" data-v="${r.k}">${p?`<div class="pc">${p<=S.phase?'PHASE '+p:'🔒 PHASE '+p}</div>`:''}${t}</div></td>`}).join('')}</tr>`).join('')}
-  </tbody></table></div></div>
-  <div class="grid g2" style="margin-top:16px">
-   <div class="card"><h3>One integration underneath it all</h3><div class="sub">Every experience above runs on the same Paxos rails — Huntington owns the customer, brand, pricing and policy.</div>
-    <div class="stack">
-     <div class="s"><b>OCC-supervised custody</b><span>Bankruptcy-remote trust custody for crypto & stablecoins</span></div>
-     <div class="s"><b>Crypto brokerage</b><span>REST + FIX, smart routing across exchanges & LPs</span></div>
-     <div class="s"><b>USDG & Global Dollar Network</b><span>Mint/redeem at par; reserve rewards shared with members</span></div>
-     <div class="s"><b>Orchestration</b><span>Convert & move USD ↔ stablecoins; rules on deposit</span></div>
-     <div class="s"><b>Staking-as-a-Service</b><span>Native & liquid, multi-provider, instant unstake</span></div>
-     <div class="s"><b>Collateral management</b><span>Encumber, value, margin-call & liquidate</span></div>
-     <div class="s"><b>Fordefi wallets</b><span>MPC wallets & policy engine for on-chain access</span></div>
-     <div class="s"><b>Tokenization platform</b><span>Stablecoins & gold live; securities & deposits on roadmap</span></div>
-    </div></div>
-   <div class="card"><h3>Why the full picture matters</h3><div class="sub">Crypto-native platforms already bundle these into one app. No bank offers all five.</div>
-    <table><thead><tr><th></th><th>Buy/Sell</th><th>Earn</th><th>Borrow</th><th>Send</th><th>Spend</th></tr></thead><tbody>
-     <tr><td>Crypto-native platforms</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>Partial</td></tr>
-     <tr><td>Banks & brokerages today</td><td>Partial</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td></tr>
-     <tr style="background:var(--g50)"><td><b>Huntington (full vision)</b></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-    </tbody></table>
-    <div class="bigstat" style="margin-top:14px"><b>$2.77 out for every $1 in</b><span>Consumer deposit flows from 92 community banks to crypto platforms over the last year</span></div>
-   </div>
+/* ================= home ================= */
+const XP=['consumer','wealth','business','commercial','ops'];
+function vHome(){
+  const H=COPY.home;
+  return `<section class="home-hero"><h1>${H.h}</h1><p>${H.p}</p></section>
+  <div class="xp-grid">${XP.map(k=>{const v=COPY.views[k];return `<div class="card xp" data-a="view" data-v="${k}">
+    <div class="xp-who">${v.who}</div><h3>${v.n}</h3><p>${v.d}</p>
+    <div class="xp-try"><b>Try</b><ul>${v.try.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <button class="btn" data-a="view" data-v="${k}">${v.cta} →</button></div>`}).join('')}
+    <div class="card xp xp-how"><h3>How this demo works</h3><ul>${H.how.map(x=>`<li>${x}</li>`).join('')}</ul>
+    <button class="btn ghost" data-a="view" data-v="roadmap">See the roadmap →</button></div>
   </div>`;
 }
 
+/* ================= roadmap =================
+   The only place phases appear. Lanes = segments, columns = phases.
+   RM_ITEMS: boxes (lane, phase, title, note, where it opens in the demo, dashed:1 = needs a partner or approval). */
+const RM_LANES=[['consumer','Consumer'],['wealth','Private Bank & Wealth'],['business','Business Banking'],['commercial','Commercial & Treasury'],['ops','Bank Operations'],['platform','Paxos platform']];
+const RM_ITEMS=[
+ {id:'c-buy',lane:'consumer',p:1,t:'Buy, sell & hold crypto',d:'BTC, ETH, SOL, gold',go:'consumer:invest'},
+ {id:'c-usdg',lane:'consumer',p:1,t:'Hold USDG & USDC',d:'Next to checking',go:'consumer:pay'},
+ {id:'c-p2p',lane:'consumer',p:1,t:'Send to Huntington customers',d:'Instant, free, closed loop',go:'consumer:pay'},
+ {id:'c-earn',lane:'consumer',p:2,t:'Earn: rewards & staking',d:'USDG rewards, ETH/SOL staking',go:'consumer:earn'},
+ {id:'c-ext',lane:'consumer',p:2,t:'External wallets',d:'Send & receive crypto and stablecoins',go:'consumer:pay'},
+ {id:'c-debit',lane:'consumer',p:2,t:'USDG debit card',d:'Controls, virtual cards',go:'consumer:card',dashed:1},
+ {id:'c-credit',lane:'consumer',p:3,t:'Crypto-backed credit card',d:'Limit set by BTC/ETH',go:'consumer:card:credit',dashed:1},
+ {id:'c-borrow',lane:'consumer',p:3,t:'Crypto-backed line of credit',d:'Mortgage & auto collateral',go:'consumer:borrow'},
+ {id:'c-tok',lane:'consumer',p:3,t:'Tokenized treasuries & stocks',d:'Same Invest tab',go:'consumer:invest',dashed:1},
+ {id:'w-sleeve',lane:'wealth',p:1,t:'Crypto in advised portfolios',d:'Allocation proposals',go:'wealth'},
+ {id:'w-held',lane:'wealth',p:2,t:'Bring in held-away crypto',d:'Deposit from exchanges & wallets',go:'wealth'},
+ {id:'w-stake',lane:'wealth',p:2,t:'Staking',d:'Instant unstake',go:'wealth'},
+ {id:'w-pledge',lane:'wealth',p:3,t:'Pledged credit lines',d:'Borrow without selling',go:'wealth'},
+ {id:'w-tok',lane:'wealth',p:3,t:'Tokenized funds & notes',d:'Settle 24/7 in USDG',go:'wealth',dashed:1},
+ {id:'b-recv',lane:'business',p:1,t:'Accept USDG, auto-convert',d:'Orchestration rules',go:'business'},
+ {id:'b-pay',lane:'business',p:1,t:'Supplier payments 24/7',d:'Weekends included',go:'business'},
+ {id:'b-cards',lane:'business',p:2,t:'Employee & vendor cards',d:'Virtual, with limits',go:'business',dashed:1},
+ {id:'b-dt',lane:'business',p:3,t:'Deposit tokens & working capital',d:'Interest-bearing, 24/7',go:'business'},
+ {id:'cm-mint',lane:'commercial',p:1,t:'Mint & redeem USDG',d:'At par',go:'commercial'},
+ {id:'cm-b2b',lane:'commercial',p:1,t:'B2B stablecoin payouts',d:'Domestic first',go:'commercial'},
+ {id:'cm-rew',lane:'commercial',p:2,t:'Rewards on operating USDG',d:'Rate set by Huntington',go:'commercial'},
+ {id:'cm-dt',lane:'commercial',p:3,t:'Huntington Deposit Token',d:'Tokenize, pay, program',go:'commercial',dashed:1},
+ {id:'cm-prog',lane:'commercial',p:3,t:'Programmable payments',d:'Release on delivery, sweeps',go:'commercial'},
+ {id:'o-console',lane:'ops',p:1,t:'Ops console',d:'Prefunding, settlement, alerts',go:'ops'},
+ {id:'o-tca',lane:'ops',p:1,t:'Execution quality (TCA)',d:'All customer orders',go:'ops'},
+ {id:'o-rev',lane:'ops',p:2,t:'Rewards & card revenue',d:'GDN rewards, interchange',go:'ops'},
+ {id:'o-lend',lane:'ops',p:3,t:'Lending & tokenization ops',d:'LTV policy, deposit token issuance',go:'ops'},
+ {id:'p-core',lane:'platform',p:1,t:'Custody · Brokerage · USDG · Orchestration',d:'One REST/FIX integration'},
+ {id:'p-stake',lane:'platform',p:2,t:'Staking · Rewards engine',d:'Staking-as-a-service; GDN rewards'},
+ {id:'p-card',lane:'platform',p:2,t:'Card partner',d:'Rain or Reap (issuing & processing)',dashed:1},
+ {id:'p-collat',lane:'platform',p:3,t:'Collateral management',d:'Lock, value, margin call, liquidate'},
+ {id:'p-tok',lane:'platform',p:3,t:'Tokenization · Fordefi wallets',d:'Securities, deposits, programmable flows'}
+];
+const RM_MILESTONES=[[1,0,'Contract & integration'],[1,1,'Phase 1 go-live'],[2,1,'Card program live'],[3,1,'Lending & tokenization approvals']];
+function vRoadmap(){
+  const cell=(lane,p)=>RM_ITEMS.filter(i=>i.lane===lane&&i.p===p).map(i=>`<div class="rm-box p${i.p} ${i.dashed?'dash':''} ${i.go?'go':''}" data-rm="${i.id}" ${i.go?`data-a="goto" data-v="${i.go}"`:''}><b>${i.t}</b><span>${i.d}</span></div>`).join('');
+  return intro('roadmap','Roadmap')+`
+  <div class="card rm-card"><div class="rm-legend">
+     <span><i class="lg p1"></i>Phase 1 · ${PH[1].name}</span><span><i class="lg p2"></i>Phase 2 · ${PH[2].name}</span><span><i class="lg p3"></i>Phase 3 · ${PH[3].name}</span>
+     <span><i class="lg dash"></i>Needs partner or approval</span><span>◆ Milestone</span></div>
+   <div class="rm-scroll"><div class="rm" id="rm">
+    <div class="rm-corner"></div>
+    ${[1,2,3].map(p=>`<div class="rm-ph" data-col="${p}" style="--pc:${PH[p].c}"><b>Phase ${p} · ${PH[p].name}</b><span>${PH[p].d}</span><div class="rm-ms">${RM_MILESTONES.filter(m=>m[0]===p).map(m=>`<span class="ms ${m[1]?'end':'start'}">◆ ${m[2]}</span>`).join('')}</div></div>`).join('')}
+    ${RM_LANES.map(([k,n])=>`<div class="rm-lane ${k==='platform'?'plat':''}" ${COPY.views[k]?`data-a="view" data-v="${k}"`:''}>${n}${COPY.views[k]?'<small>Open →</small>':''}</div>${[1,2,3].map(p=>`<div class="rm-cell ${k==='platform'?'plat':''}" data-lane="${k}">${cell(k,p)}</div>`).join('')}`).join('')}
+   </div></div>
+   <div class="mut" style="font-size:12px;margin-top:10px">Timing for each phase to be agreed with Huntington. Click any box to open that part of the demo.</div>
+  </div>`;
+}
 /* ================= consumer ================= */
-const NARR={
- home:{e:'Consumer · Home',p:1,h:'Crypto and digital dollars, right next to checking.',l:'Alex never leaves Huntington to own bitcoin or hold stablecoins. One login, one balance, one statement.',b:['Total balance includes checking, savings, USDG, USDC and crypto','USDG is the primary digital dollar; USDC supported for interoperability','Phase 2 adds Earn; Phase 3 surfaces credit against crypto and tokenized assets'],pw:['Paxos Trust custody','Crypto Brokerage API','USDG / GDN'],s:'$2.77 : $1',sl:'Deposit outflows to crypto platforms vs. inflows (92 community banks, last 12 months)'},
- invest:{e:'Consumer · Invest',p:1,h:'Buy, sell and hold — funded straight from checking.',l:'Customers trade in dollars or in coin, with a clear quote and one fee. Execution quality is assumed by the customer — and evidenced to Huntington through bank-level TCA reporting.',b:['Buy in dollars; sell in coin or dollars, with 25% / 50% / Max shortcuts — the pattern Robinhood and Coinbase use','Huntington sets its own spread / fee and asset list','Interactive price history: 1D, 1W, 1M, 3M, YTD, 1Y','Phase 2: send & receive crypto; Phase 3: tokenized treasuries and equities in the same list'],pw:['Smart order routing','Pre-trade risk & AML','Execution reporting (TCA)'],s:'Prices as of Oct 7',sl:'BTC, ETH, SOL and gold reflect Oct 7, 2026 market levels; chart history follows 2026 month-end closes'},
- tok:{e:'Consumer · Tokenized assets',p:3,h:'Bring brokerage money back on-platform.',l:'Tokenized treasuries, stocks and ETFs sit in the same Invest tab as crypto — buy with $1, trade 24/7, settle instantly in USDG. This competes directly with Robinhood and Coinbase for self-directed investors.',b:['Licensure: tokenized securities would be offered through The Huntington Investment Company — already a registered broker-dealer (FINRA/SIPC) and SEC-registered investment adviser','SEC approved a five-year innovation exemption (Sept 17, 2026) for venues trading tokenized NMS stocks that preserve dividends and voting rights','Paxos was granted clearing agency registration (CA-1) in May 2026','Requires Huntington legal, compliance and product approval before launch'],pw:['Paxos tokenization platform','CA-1 clearing','USDG settlement'],s:'200+',sl:'Tokenized U.S. stocks & ETFs Robinhood already offers to EU retail users — the U.S. race starts now'},
- earn:{e:'Consumer · Earn',p:2,h:'Make idle balances work — without leaving the bank.',l:'One place to see every way Alex earns: rewards on USDG, staking on ETH and SOL, and in the full vision, tokenized treasury yield.',b:['Staking: one tap, auto-compounding, instant unstake (no exit queue)','Multi-provider routing with slashing protection','USDG rewards funded by Global Dollar Network economics — structure subject to final stablecoin-yield rules','Phase 3: tokenized Treasury fund and curated on-chain earn'],pw:['Staking-as-a-Service','GDN rewards engine','Tax reporting'],s:'“Top feature”',sl:'How Robinhood described staking — its primary engagement driver for 2026'},
- pay:{e:'Consumer · Pay',p:1,h:'Dollars that move like messages — 24/7/365.',l:'Phase 1 is closed loop: send USDG or USDC to any Huntington customer by name, instantly and free. Phase 2 opens the loop to external wallets and adds crypto send & receive.',b:['Closed loop first: both sides are verified Huntington customers, so transfers are instant book entries — no on-chain fee','USDG is the default; USDC supported','Phase 2: on-chain send/receive for stablecoins and BTC/ETH/SOL with address screening & Travel Rule behind the scenes','Phase 2: auto-convert incoming stablecoins to checking'],pw:['Orchestration API','Destination address registry','Transaction monitoring'],s:'2–3 days → seconds',sl:'ACH settlement time vs. USDG — the pain point Huntington\'s tech team raised'},
- card:{e:'Consumer · Debit card',p:2,h:'Spend digital dollars anywhere cards are accepted.',l:'A Huntington debit card that authorizes against the customer\'s USDG balance in milliseconds, with rewards that can be funded by GDN economics and interchange.',b:['Huntington-defined controls: MCC blocks, geography, velocity','Instant virtual cards for one-time or subscription use','Phase 3: crypto-backed credit card — Huntington earns interest, not just interchange','Issued with a card partner (Rain or Reap)'],pw:['Card issuance partner','USDG balance auth','GDN-funded rewards'],s:'30%',sl:'Cashback crypto-native players offer on USDG card spend in Europe'},
- credit:{e:'Consumer · Crypto-backed credit card',p:3,h:'A credit card secured by bitcoin — Huntington earns the interest.',l:'Customers pledge BTC/ETH in Paxos custody; the card\'s limit is set by real-time collateral value. Revolving balances earn Huntington interest income on top of interchange — and the crypto never leaves the bank.',b:['Limit = collateral × max LTV, re-valued in real time','Carry a balance at a variable APR, or pay in full with no interest','Rewards paid in BTC or USDG','Shares collateral and margin-call logic with the crypto-backed line of credit'],pw:['Collateral management','Valuation API','Card issuance partner'],s:'Up to $1M',sl:'Credit lines on Aven\'s bitcoin-backed Visa (Apr 2026, bank-issued, APRs from 7.99%) — fintechs are already here'},
- borrow:{e:'Consumer · Borrow',p:3,h:'Unlock liquidity without selling bitcoin.',l:'Crypto held in Paxos custody backs a Huntington line of credit. It is locked, not sold — unless the customer defaults. Huntington owns the loan and the economics.',b:['Real-time collateral valuation sets the limit','Automated margin calls and liquidation thresholds','Disburse to checking or USDG instantly','Use crypto as supplemental collateral for mortgage & auto'],pw:['Collateral management','Valuation API','Bankruptcy-remote custody'],s:'$2B',sl:'Crypto-backed loan originations by one crypto-native platform in its first year'}
-};
 function narrKey(){const t=S.c.tab;if(t==='invest'&&S.c.asset&&TOK[S.c.asset])return 'tok';if(t==='card'&&S.c.card.mode==='credit')return 'credit';return t}
 const TABS=[['home','Home',1,'home'],['invest','Invest',1,'chart'],['earn','Earn',2,'earn'],['pay','Pay',1,'send'],['card','Card',2,'card'],['borrow','Borrow',3,'bank']];
+const NPHASE={home:1,invest:1,tok:3,earn:2,pay:1,card:2,credit:3,borrow:3};
 function vConsumer(){
   const t=S.c.tab,tp=TABS.find(x=>x[0]===t)[2];
   const scr={home:cHome,invest:cInvest,earn:cEarn,pay:cPay,card:cCard,borrow:cBorrow}[t]();
-  const n=NARR[narrKey()];
+  const nk=narrKey(),n=COPY.phone[nk];
   return `<div class="consumer">
    <div class="phone-wrap"><div class="phone"><div class="inner"><div class="notch"></div>
      <div class="sbar"><span>9:41</span><span>5G ▮▮▮</span></div>
@@ -468,13 +576,12 @@ function vConsumer(){
      <div class="tabbar">${TABS.map(([k,l,p,ic])=>`<button class="${t===k?'on':''}" data-a="ctab" data-v="${k}">${I[ic]}${l}${p>S.phase?`<span class="lk" style="background:${PH[p].c}"></span>`:''}</button>`).join('')}</div>
    </div></div></div>
    <aside class="narr">
-     <div class="eyebrow2">${n.e} ${chip(n.p)}</div>
-     <h2>${n.h}</h2><p class="lead">${n.l}</p>
-     <ul>${n.b.map(x=>`<li>${x}</li>`).join('')}</ul>
-     <div class="bigstat"><b>${n.s}</b><span>${n.sl}</span></div>
-     <div><div class="mut" style="font-size:12px;font-weight:600;margin-bottom:4px">POWERED BY PAXOS (BEHIND THE SCENES)</div>${n.pw.map(x=>`<span class="tag">${x}</span>`).join('')}</div>
-     <div><div class="mut" style="font-size:12px;font-weight:600;margin-bottom:6px">WALK THE JOURNEY</div><div class="jump">${TABS.map(([k,l,p])=>`<button class="${t===k?'on':''}" data-a="ctab" data-v="${k}">${l} <span class="pchip p${p}" style="margin-left:4px">P${p}</span></button>`).join('')}</div></div>
-     <div class="card" style="font-size:12.5px"><b>Try it:</b> open Bitcoin and switch chart periods (hover the chart), sell BTC in coin units, stake ETH in Earn, send USDG to Jordan, or switch the card to crypto-backed credit. Balances update everywhere.</div>
+     <div class="eyebrow2">Consumer app · ${n.t} ${chip(NPHASE[nk])}</div>
+     <h2>${n.t}</h2><p class="lead">${n.d}</p>
+     <div><div class="lbl2">On this screen</div><ul>${n.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+     <div><div class="lbl2">Try</div><ul>${n.try.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+     <div><div class="lbl2">Screens</div><div class="jump">${TABS.map(([k,l,p])=>`<button class="${t===k?'on':''}" data-a="ctab" data-v="${k}">${l}</button>`).join('')}</div></div>
+     <div><div class="lbl2">Behind the scenes</div>${n.bts.map(x=>`<span class="tag">${x}</span>`).join('')}</div>
    </aside></div>`;
 }
 const acct=(ic,c,nm,ds,am,a,v)=>`<div class="acct" data-a="${a||''}" data-v="${v||''}"><div class="ic" style="background:${c}">${ic}</div><div><div class="nm">${nm}</div><div class="ds">${ds}</div></div><div class="am num">${am}</div></div>`;
@@ -493,7 +600,7 @@ function cHome(){
   ${acct('$','#1f6fd1','Digital Dollars','USDG '+fm(S.bal.usdg)+' · USDC '+fm(S.bal.usdc)+(S.phase>=2?'<br><span class="earn">USDG earning 2.00% rewards*</span>':''),fm(S.bal.usdg+S.bal.usdc),'ctab','pay')}
   ${acct('₿','#f7931a','Crypto',`4 assets · <span class="${dd>=0?'up-t':'dn-t'}">${pct(dd/(cv-dd)*100)} today</span>`,fm(cv),'ctab','invest')}
   ${tv>0&&S.phase>=3?acct('T','#7446cf','Tokenized assets','Treasuries & stocks',fm(tv),'ctab','invest'):''}
-  ${gate(3,`<div class="promo" data-a="ctab" data-v="borrow">Your crypto could unlock up to <b>${fm0(collat()*0.5)}</b> of credit — without selling. →</div>`)}
+  ${gate(3,`<div class="promo" data-a="ctab" data-v="borrow">Your crypto could unlock up to <b>${fm0(collat()*0.5)}</b> of credit without selling. →</div>`)}
   ${gate(2,`<div class="promo blue" data-a="ctab" data-v="earn">Your ETH is earning staking rewards. <b>See what else can earn</b> →</div>`)}
   ${sec('Recent activity')}
   ${S.act.slice(0,5).map(actRow).join('')}`;
@@ -549,16 +656,16 @@ function cEarn(){
   <div class="up-t" style="font-size:12px;margin-bottom:6px">+${fm(41.27)} earned this year</div>
   ${sec('Digital dollar rewards')}
   <div class="card" style="padding:12px"><div class="set"><div><div class="t">USDG rewards · 2.00%*</div><div class="s">${fm(S.bal.usdg)} USDG · paid daily</div></div><b class="num up-t">${fm(rew)}/yr</b></div>
-   <div class="set"><div><div class="t">USDC</div><div class="s">Not eligible — convert to USDG to earn</div></div><button class="btn ghost sm" data-a="usdc2usdg">Convert</button></div></div>
+   <div class="set"><div><div class="t">USDC</div><div class="s">Convert to USDG to earn rewards</div></div><button class="btn ghost sm" data-a="usdc2usdg">Convert</button></div></div>
   ${sec('Staking')}
   <div class="card" style="padding:12px">
    <div class="set"><div class="row"><div class="coin" style="background:${PX.ETH.c};width:30px;height:30px">ETH</div><div><div class="t">Ethereum · est. 2.9%</div><div class="s">${fq(S.hold.ETH,'ETH')} · ${fm(ethV)}${S.c.stake.ETH?' · <span class="earn">'+fm(ethR)+'/yr</span>':''}</div></div></div>${tg(S.c.stake.ETH,'stake','ETH')}</div>
    <div class="set"><div class="row"><div class="coin" style="background:${PX.SOL.c};width:30px;height:30px">SOL</div><div><div class="t">Solana · est. 6.5%</div><div class="s">${fq(S.hold.SOL,'SOL')} · ${fm(solV)}${S.c.stake.SOL?' · <span class="earn">'+fm(solR)+'/yr</span>':''}</div></div></div>${tg(S.c.stake.SOL,'stake','SOL')}</div>
-   <div class="mut" style="font-size:11.5px;padding-top:8px">Rewards auto-compound. Unstake any time — funds available instantly, no exit queue.</div>
+   <div class="mut" style="font-size:11.5px;padding-top:8px">Rewards auto-compound. Unstake any time. Funds are available right away.</div>
   </div>
   ${gate(3,`${sec('More ways to earn')}
    <div class="acct" data-a="tokgo" data-v="TBILL"><div class="coin" style="background:#33443b">TB</div><div><div class="nm">Tokenized Treasury fund</div><div class="ds">~3.7% 7-day yield* · redeem 24/7</div></div><div class="am">${S.hold.TBILL>0?fm(S.hold.TBILL):'Start'}</div></div>
-   <div class="acct" data-a="toast" data-v="Huntington-curated on-chain earn vaults — policy-controlled via Fordefi (Phase 3 concept)"><div class="coin" style="background:#7446cf">V</div><div><div class="nm">USDG earn vault</div><div class="ds">Huntington-curated on-chain lending</div></div><div class="am">Explore</div></div>`)}
+   <div class="acct" data-a="toast" data-v="USDG earn vault (concept)"><div class="coin" style="background:#7446cf">V</div><div><div class="nm">USDG earn vault</div><div class="ds">Huntington-curated on-chain lending</div></div><div class="am">Explore</div></div>`)}
   <div class="mut" style="font-size:10.5px;margin-top:10px">*Rates illustrative and variable. Stablecoin reward structure subject to final rules on stablecoin yield.</div>`;
 }
 function cPay(){
@@ -617,7 +724,7 @@ function cCredit(){
   ${sec('Collateral health')}
   <div class="card" style="padding:12px"><div class="row between" style="font-size:12.5px"><span class="mut">Collateral ${fm0(col)}</span><b>${ltv.toFixed(1)}% LTV</b></div>
    <div class="meter"><div class="fill" style="width:${Math.min(ltv,100)}%"></div><div class="mk" style="left:50%"><span>50% max</span></div><div class="mk" style="left:65%"><span>65% call</span></div><div class="mk" style="left:80%"><span>80% liq.</span></div></div>
-   <div class="mut" style="font-size:11.5px">Your crypto stays invested and locked in custody — never sold unless you default. Shares collateral with your Borrow line.</div></div>
+   <div class="mut" style="font-size:11.5px">Your crypto stays in custody and is only sold if you default. This card shares collateral with your Borrow line.</div></div>
   ${sec('Rewards')}
   <div class="card" style="padding:12px"><div class="set"><div><div class="t">2% back on every purchase</div><div class="s">Earned this month: ${c.rew==='BTC'?fq(24.8/PX.BTC.p,'BTC'):'$24.80 USDG'}</div></div><div class="segb"><button class="${c.rew==='BTC'?'on':''}" data-a="crew" data-v="BTC">BTC</button><button class="${c.rew==='USDG'?'on':''}" data-a="crew" data-v="USDG">USDG</button></div></div></div>
   ${sec('Recent')}
@@ -647,8 +754,8 @@ function cBorrow(){
    <div class="set"><div class="t">Send to</div><div class="segb"><button class="${b.dest==='checking'?'on':''}" data-a="bdest" data-v="checking">Checking</button><button class="${b.dest==='usdg'?'on':''}" data-a="bdest" data-v="usdg">USDG</button></div></div>
    <button class="btn full" data-a="draw" data-live="bBtn">${L.bBtn}</button>
   </div>
-  <div class="card" style="padding:12px;margin-top:10px;font-size:12px"><b>Your bitcoin stays yours.</b> It's locked — not sold — unless you default. We'll alert you well before any margin call.</div>
-  <div class="promo" data-a="toast" data-v="Mortgage & auto augmentation — Huntington owns the loan; pledged crypto is held and valued in custody"><b>Buying a home?</b><br>Pledge crypto as supplemental collateral for a better rate on your Huntington mortgage or auto loan. →</div>`;
+  <div class="card" style="padding:12px;margin-top:10px;font-size:12px">Your crypto is held, not sold, unless you default. We'll alert you well before any margin call.</div>
+  <div class="promo" data-a="toast" data-v="Mortgage and auto collateral (concept)"><b>Buying a home?</b><br>Pledge crypto as supplemental collateral for a better rate on your Huntington mortgage or auto loan. →</div>`;
 }
 
 /* ---------- sheets ---------- */
@@ -707,7 +814,7 @@ function sheet(){
     if(sd.step==='pick') h=`<h4>Send</h4>${sec('Huntington customers','<span class="pchip p1">INSTANT · FREE</span>')}
       ${CONTACTS.filter(c=>!c.ext).map(c=>{const i=CONTACTS.indexOf(c);return `<div class="acct" data-a="sendto" data-v="${i}"><div class="avatar" style="background:${c.c}">${c.i}</div><div><div class="nm">${c.n}</div><div class="ds">${c.h} · @${c.n.toLowerCase().replace(' ','-')}</div></div></div>`}).join('')}
       ${sec('External wallets')}
-      ${gate(2,`<div class="acct" data-a="sendto" data-v="2"><div class="avatar" style="background:#33443b">SO</div><div><div class="nm">Sam Ortiz</div><div class="ds">Saved wallet 0x7a3…91c2</div></div></div><div class="acct" data-a="toast" data-v="Paste or scan any address — we'll verify it before you send"><div class="avatar" style="background:#cfd8d3;color:#33443b">+</div><div><div class="nm">New wallet address</div><div class="ds">Paste or scan</div></div></div>`)}`;
+      ${gate(2,`<div class="acct" data-a="sendto" data-v="2"><div class="avatar" style="background:#33443b">SO</div><div><div class="nm">Sam Ortiz</div><div class="ds">Saved wallet 0x7a3…91c2</div></div></div><div class="acct" data-a="toast" data-v="Paste or scan a wallet address"><div class="avatar" style="background:#cfd8d3;color:#33443b">+</div><div><div class="nm">New wallet address</div><div class="ds">Paste or scan</div></div></div>`)}`;
     else if(sd.step==='amt'){
       const c=CONTACTS[sd.to],amt=parseFloat(sd.amt)||0,isStable=sd.asset==='USDG'||sd.asset==='USDC';
       const avail=isStable?S.bal[sd.asset.toLowerCase()]+(sd.asset==='USDG'?S.bal.checking:0):S.hold[sd.asset]*PX[sd.asset].p;
@@ -745,7 +852,7 @@ function sheet(){
       <button class="btn full" style="margin-top:12px" data-a="addgo" ${amt<=0||amt>S.bal.checking?'disabled':''}>Add ${fm(amt)}</button>`;
   }
   if(k==='draw'){
-    h=`<div class="center"><div class="ok-big">✓</div><h4>${fm0(S.c.borrow.last)} sent to ${S.c.borrow.dest==='usdg'?'USDG':'Checking'}</h4><div class="mut" style="font-size:12.5px">Your crypto stays invested — no sale needed.</div><br><button class="btn full" data-a="close">Done</button></div>`;
+    h=`<div class="center"><div class="ok-big">✓</div><h4>${fm0(S.c.borrow.last)} sent to ${S.c.borrow.dest==='usdg'?'USDG':'Checking'}</h4><div class="mut" style="font-size:12.5px">Your crypto was not sold.</div><br><button class="btn full" data-a="close">Done</button></div>`;
   }
   return `<div class="sheet-bg" data-a="bgclose"><div class="sheet"><div class="grab"></div>${h}</div></div>`;
 }
@@ -770,9 +877,9 @@ function vWealth(){
       <div class="field"><label>Asset</label><div class="segb">${['BTC','ETH','USDC'].map(a=>`<button class="${d.asset===a?'on':''}" data-a="wdepasset" data-v="${a}">${a}</button>`).join('')}</div></div>
       ${d.step===0?`<button class="btn" data-a="wdepaddr">Generate deposit address</button>`:`${qr(ADDR[d.asset==='USDC'?'USDC':d.asset][d.asset==='BTC'?'Bitcoin':'Ethereum'],120)}<div class="addr">${ADDR[d.asset==='USDC'?'USDC':d.asset][d.asset==='BTC'?'Bitcoin':'Ethereum']}</div>`}
     </div><div>
-      ${d.step>=1?`<button class="btn full" data-a="wdepsim" ${d.step>1&&d.step<6?'disabled':''}>${d.step>=6?'Deposit complete ✓':'Simulate incoming transfer'}</button><ul class="steps">${DEPSTEPS(d.asset).map((s,i)=>`<li class="${i+2<d.step?'done':i+2===d.step?'cur':''}"><span class="dot">${i+2<d.step?'✓':''}</span>${s}</li>`).join('')}</ul>`:'<div class="note">Typical use: a client moving 0.75 BTC from a crypto exchange so it sits alongside the rest of their Huntington wealth — included in advice, reporting and lending.</div>'}
+      ${d.step>=1?`<button class="btn full" data-a="wdepsim" ${d.step>1&&d.step<6?'disabled':''}>${d.step>=6?'Deposit complete ✓':'Simulate incoming transfer'}</button><ul class="steps">${DEPSTEPS(d.asset).map((s,i)=>`<li class="${i+2<d.step?'done':i+2===d.step?'cur':''}"><span class="dot">${i+2<d.step?'✓':''}</span>${s}</li>`).join('')}</ul>`:'<div class="note">Typical use: a client moving 0.75 BTC from a crypto exchange so it sits alongside the rest of their Huntington accounts and is included in advice, reporting and lending.</div>'}
     </div></div></div>`;
-  return story({eyebrow:'Private Bank & Wealth',title:'The whole balance sheet — on-chain and off.',body:'Advisors see digital assets alongside equities and fixed income, propose allocations, bring held-away crypto home, and unlock liquidity without forcing a sale.',pw:['Paxos custody & brokerage','Staking-as-a-Service','Collateral management','Tokenization platform'],stat:'Keep the relationship',statL:'Wealthy clients already hold crypto elsewhere — consolidation brings the assets and the advice back to Huntington.'})+
+  return intro('wealth')+
   `<div class="grid" style="grid-template-columns:1.25fr 1fr">
    <div class="card"><div class="row between"><div><h3>Morgan Family Trust ${chip(1)}</h3><div class="sub">Private Bank · Advisor: Dana Kim · Moderate growth</div></div><button class="btn ghost sm" data-a="wdep">+ Bring in held-away crypto</button></div>
     <div class="donut-wrap">${donut(parts)}<div class="legend" style="flex:1">${parts.map(p=>`<div><i style="background:${p.c}"></i>${p.n}<b class="num">${fmM(p.v)}</b></div>`).join('')}</div></div>
@@ -794,11 +901,11 @@ function vWealth(){
    ${gate(2,`<div class="card"><h3>Staking ${chip(2)}</h3><div class="sub">${S.w.eth} ETH earning network rewards with institutional controls.</div>
      <div class="set"><div><div class="t">Stake ETH position</div><div class="s">Multi-provider routing · slashing coverage · 99.95% SLA</div></div>${tg(S.w.stake,'wstake')}</div>
      <div class="set"><div class="t">Est. annual rewards</div><b class="num up-t">${S.w.stake?fm0(S.w.eth*PX.ETH.p*.029):'$0'}</b></div>
-     <div class="set"><div class="t">Unstake</div><span class="status st-ok">Instant — no exit queue</span></div></div>`)}
-   ${gate(3,`<div class="card"><h3>Liquidity without selling ${chip(3)}</h3><div class="sub">Pledge BTC for a Huntington credit line — avoid realizing gains.</div>
-     <div class="kv"><span class="mut">BTC pledged</span><b class="num">${fm0(btcV)}</b></div><div class="kv"><span class="mut">Credit line (50% LTV)</span><b class="num">${fm0(btcV*.5)}</b></div><div class="kv"><span class="mut">Capital gains tax deferred (est.)</span><b class="num">${fm0(btcV*.55*.238)}</b></div>
-     <button class="btn full" style="margin-top:12px" data-a="wpledge">${S.w.pledged?'Line active — manage':'Open pledged line'}</button></div>`)}
-   ${gate(3,`<div class="card"><h3>Tokenized funds & notes ${chip(3)}</h3><div class="sub">Subscribe and redeem 24/7, settled in USDG — same custody, same statement.</div>
+     <div class="set"><div class="t">Unstake</div><span class="status st-ok">Instant</span></div></div>`)}
+   ${gate(3,`<div class="card"><h3>Pledged credit line ${chip(3)}</h3><div class="sub">Borrow against BTC held in custody instead of selling it.</div>
+     <div class="kv"><span class="mut">BTC pledged</span><b class="num">${fm0(btcV)}</b></div><div class="kv"><span class="mut">Credit line (50% LTV)</span><b class="num">${fm0(btcV*.5)}</b></div>
+     <button class="btn full" style="margin-top:12px" data-a="wpledge">${S.w.pledged?'Line active':'Open pledged line'}</button></div>`)}
+   ${gate(3,`<div class="card"><h3>Tokenized funds & notes ${chip(3)}</h3><div class="sub">Subscribe and redeem 24/7, settled in USDG.</div>
      <div class="set"><div><div class="t">Tokenized U.S. Treasury fund</div><div class="s">Idle cash → yield, redeem to USDG instantly</div></div><span class="status st-ok">Held</span></div>
      <div class="set"><div><div class="t">Tokenized equities</div><div class="s">Fractional, instant settlement</div></div><span class="status st-blue">Available</span></div>
      <div class="set"><div><div class="t">Structured notes</div><div class="s">Design partnership</div></div><span class="status st-wait">Pipeline</span></div></div>`)}
@@ -812,7 +919,7 @@ function vBusiness(){
   const b=S.b,pay=b.pay,L=bLive();
   const t0=new Date(2026,9,4,21,14,2);
   const ts=i=>{const d=new Date(t0.getTime()+[0,1800,3400,5900][i]);return 'Sun '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit'})};
-  return story({eyebrow:'Business Banking',title:'Get paid faster. Pay anytime.',body:'Rivera Coffee Roasters accepts USDG from wholesale buyers, sweeps it to USD automatically, and pays green-coffee importers on a Sunday night — no wire cut-offs.',pw:['Orchestration rules','Fiat on/off ramp','USDG / GDN rewards','Card program partner'],stat:'24/7/365',statL:'Payments settle in seconds, outside banking hours and cut-offs'})+
+  return intro('business')+
   `<div class="grid g4" style="margin-bottom:16px">
    <div class="card kpi"><div class="l">Operating ••3301</div><div class="v num">$184,250</div><div class="d">USD</div></div>
    <div class="card kpi"><div class="l">USDG balance</div><div class="v num">$42,800</div><div class="d">${S.phase>=2?'Earning rewards*':'Stable · 1:1'}</div></div>
@@ -820,7 +927,7 @@ function vBusiness(){
    <div class="card kpi"><div class="l">Avg. time to cash</div><div class="v">8 sec</div><div class="d">vs. 2 days via ACH</div></div>
   </div>
   <div class="grid g2">
-   <div class="card"><h3>Pay a supplier ${chip(1)}</h3><div class="sub">Instant, final settlement — even on weekends.</div>
+   <div class="card"><h3>Pay a supplier ${chip(1)}</h3><div class="sub">Settles in seconds, including weekends.</div>
     <div class="field"><label>Supplier</label><select data-in="bvendor">${VENDORS.map((v,i)=>`<option value="${i}" ${pay.v==i?'selected':''}>${v}</option>`).join('')}</select></div>
     <div class="field"><label>Amount (USD)</label><input data-in="bamt2" value="${pay.amt}" inputmode="decimal"></div>
     <button class="btn full" data-a="bpay" ${pay.step>0&&pay.step<4?'disabled':''}>${pay.step>=4?'Pay another':'Send payment'}</button>
@@ -850,22 +957,22 @@ function vBusiness(){
 function tSteps(){return S.t.mode==='mint'?['Debit DDA ••0091','Paxos mints USDG 1:1 against USD','USDG delivered to Huntington custody wallet','Available for payments & payouts']:['USDG debited from custody wallet','Paxos redeems USDG 1:1','USD credited via book transfer / RTP','Available in DDA ••0091']}
 const PAYOUTS=[['Precision Castings LLC',1240000],['Great Lakes Steel',2880000],['Midwest Freight Partners',415500],['Allied Components',962300],['Buckeye Electrical Supply',308900]];
 const TDROUTES={
- hb:{l:'Huntington client',who:'Buckeye Electrical Supply (banks at Huntington)',steps:['Deposit tokens debited from Midwest Manufacturing','Atomic transfer on Huntington\'s permissioned ledger','Credited to Buckeye Electrical Supply','Final — money never left Huntington\'s balance sheet'],t:'2 sec'},
- net:{l:'Another bank',who:'Great Lakes Steel (banks elsewhere)',steps:['Deposit tokens debited from Midwest Manufacturing','Routed over interbank tokenized-deposit network*','Credited as deposit tokens at recipient bank','Final — interbank settlement'],t:'~10 sec'},
- wal:{l:'Stablecoin wallet',who:'Allied Components (USDG wallet)',steps:['Deposit tokens redeemed','Paxos mints USDG 1:1','USDG delivered to supplier wallet','Final — on-chain'],t:'~10 sec'}
+ hb:{l:'Huntington client',who:'Buckeye Electrical Supply (banks at Huntington)',steps:['Deposit tokens debited from Midwest Manufacturing','Atomic transfer on Huntington\'s permissioned ledger','Credited to Buckeye Electrical Supply','Final. The money stays on Huntington\'s balance sheet'],t:'2 sec'},
+ net:{l:'Another bank',who:'Great Lakes Steel (banks elsewhere)',steps:['Deposit tokens debited from Midwest Manufacturing','Routed over interbank tokenized-deposit network*','Credited as deposit tokens at recipient bank','Final interbank settlement'],t:'~10 sec'},
+ wal:{l:'Stablecoin wallet',who:'Allied Components (USDG wallet)',steps:['Deposit tokens redeemed','Paxos mints USDG 1:1','USDG delivered to supplier wallet','Final on-chain'],t:'~10 sec'}
 };
 function vCommercial(){
   const t=S.t,amt=parseFloat(t.amt)||0,steps=tSteps(),td=t.td,R=TDROUTES[td.route];
   const tdSection=`<div class="card" style="margin-top:16px;border-color:#e0d4f6">
-   <div class="row between" style="flex-wrap:wrap;gap:10px"><div><h3>Huntington Deposit Token ${chip(3)}</h3><div class="sub" style="max-width:720px">A Huntington deposit, recorded on a blockchain. Clients keep earning deposit interest while money moves 24/7 and programmably — and it stays on Huntington's balance sheet. Stablecoin issuers can't pay interest under the GENIUS Act; deposit tokens can.</div></div><span class="status" style="background:var(--p3b);color:var(--p3)">Issued by Huntington · Paxos tokenization infrastructure (design partnership)</span></div>
+   <div class="row between" style="flex-wrap:wrap;gap:10px"><div><h3>Huntington Deposit Token ${chip(3)}</h3><div class="sub" style="max-width:720px">A Huntington deposit recorded on a blockchain. It earns deposit interest, moves 24/7, can be programmed, and stays on Huntington's balance sheet. Under the GENIUS Act, stablecoin issuers can't pay interest; banks can pay interest on deposit tokens.</div></div><span class="status" style="background:var(--p3b);color:var(--p3)">Issued by Huntington · Paxos tokenization infrastructure (design partnership)</span></div>
    <div class="grid g3" style="margin:6px 0 14px">
     <div class="card kpi" style="box-shadow:none"><div class="l">DDA ••0091</div><div class="v num">${fmM(td.dda)}</div><div class="d">Traditional deposit</div></div>
     <div class="card kpi" style="box-shadow:none;border-color:#e0d4f6"><div class="l">Deposit tokens</div><div class="v num">${fmM(td.tok)}</div><div class="d">Earning 3.40% interest* · 24/7</div></div>
     <div class="card kpi" style="box-shadow:none"><div class="l">USDG</div><div class="v num">${fmM(t.usdg)}</div><div class="d">For payments outside the bank</div></div>
    </div>
    <div class="grid" style="grid-template-columns:1fr 1.2fr 1fr">
-    <div><div style="font-weight:700;margin-bottom:6px">1 · Tokenize</div><div class="field"><label>Move from DDA to deposit tokens</label><input data-in="tdmint" value="${td.mint}" inputmode="decimal"></div><button class="btn full" data-a="tdmint">Tokenize ${fm0(+td.mint||0)}</button><div class="note">Same deposit, same balance sheet, same interest — now programmable and 24/7. Converts back to DDA instantly.</div></div>
-    <div><div style="font-weight:700;margin-bottom:6px">2 · Pay — Saturday, 11:40 PM</div>
+    <div><div style="font-weight:700;margin-bottom:6px">1 · Tokenize</div><div class="field"><label>Move from DDA to deposit tokens</label><input data-in="tdmint" value="${td.mint}" inputmode="decimal"></div><button class="btn full" data-a="tdmint">Tokenize ${fm0(+td.mint||0)}</button><div class="note">Still a deposit that earns interest, but it can now move 24/7 and be programmed. Converts back to DDA instantly.</div></div>
+    <div><div style="font-weight:700;margin-bottom:6px">2 · Pay (Saturday, 11:40 PM)</div>
      <div class="segb" style="margin-bottom:10px;flex-wrap:wrap">${Object.entries(TDROUTES).map(([k,r])=>`<button class="${td.route===k?'on':''}" data-a="tdroute" data-v="${k}">${r.l}</button>`).join('')}</div>
      <div class="field"><label>To ${R.who}</label><input data-in="tdamt" value="${td.amt}" inputmode="decimal"></div>
      <button class="btn full" data-a="tdpay" ${td.step>0&&td.step<4?'disabled':''}>${td.step>=4?'Send another':'Pay '+fm0(+td.amt||0)}</button>
@@ -892,9 +999,9 @@ function vCommercial(){
       <tr><td>Sun 2:15 PM</td><td>Interest accrued (weekend)</td><td class="r num">$4,657</td></tr>
       <tr><td>Sun 9:00 PM</td><td>Payroll pre-funding</td><td class="r num">$3,450,000</td></tr>
      </tbody></table>
-     <div class="note">*Interbank route assumes connection to an industry tokenized-deposit network — The Clearing House–led network with JPMorgan, Citi, BofA and Wells Fargo is targeted for 1H 2027.</div></div>
+     <div class="note">*Interbank route assumes connection to an industry tokenized-deposit network. The Clearing House is leading one with JPMorgan, Citi, BofA and Wells Fargo is targeted for 1H 2027.</div></div>
    </div></div>`;
-  return story({eyebrow:'Commercial & Treasury Management',title:'Programmable treasury, settled in seconds.',body:'Midwest Manufacturing mints and redeems USDG at par through Huntington, pays its supply chain on-chain, and — in the full vision — runs its operating cash as interest-bearing Huntington Deposit Tokens.',pw:['USDG mint / redeem','Orchestration API','GDN rewards','Tokenization platform'],stat:'5–10 bps',statL:'Typical B2B stablecoin payment take rate — a new fee line on existing treasury relationships'})+
+  return intro('commercial')+
   `<div class="grid g4" style="margin-bottom:16px">
    <div class="card kpi"><div class="l">Total liquidity</div><div class="v num">$248.6M</div><div class="d">across 14 accounts</div></div>
    <div class="card kpi"><div class="l">USDG held</div><div class="v num">${fmM(t.usdg)}</div><div class="d">${S.phase>=2?'Earning rewards*':'1:1 redeemable'}</div></div>
@@ -931,18 +1038,18 @@ function vCommercial(){
 const REV=[['Trading spread & fees',18.4,1],['Payments & on/off ramp fees',6.2,1],['USDG reserve rewards (GDN)',9.8,2],['Staking commission',3.1,2],['Card interchange',4.6,2],['Crypto-backed card interest',6.8,3],['Crypto-backed lending NII',14.5,3],['Tokenized product distribution',5.2,3]];
 function vOps(){
   const o=S.o,rev=REV.filter(r=>r[2]<=S.phase),tot=rev.reduce((s,r)=>s+r[1],0),mx=Math.max(...REV.map(r=>r[1]));
-  return story({eyebrow:'Huntington Operations · internal console',title:'Huntington stays in control.',body:'Treasury, operations, risk and finance run every product line from one console: prefund float, net settlement, execution quality, AML queues, product controls and revenue — all on one Paxos integration.',pw:['Profile balances API','Fiat transfers (Wire / RTP / FedNow / book)','Execution reporting','Transaction monitoring'],stat:fmM(tot),statL:`Illustrative annual revenue run-rate · Phase 1${S.phase>1?'–'+S.phase:''} product lines`})+
+  return intro('ops')+
   `<div class="grid g4" style="margin-bottom:16px">
    <div class="card kpi"><div class="l">Customers enabled</div><div class="v num">48,210</div><div class="d">▲ 6.2% MoM</div></div>
    <div class="card kpi"><div class="l">Assets in custody</div><div class="v num">$612M</div><div class="d">crypto + stablecoins</div></div>
    <div class="card kpi"><div class="l">Trade volume (30d)</div><div class="v num">$284M</div><div class="d">412,880 orders</div></div>
-   <div class="card kpi"><div class="l">Deposits retained (est.)</div><div class="v num">$190M</div><div class="d">otherwise outbound to crypto apps</div></div>
+   <div class="card kpi"><div class="l">Stablecoin payments (30d)</div><div class="v num">$1.1B</div><div class="d">28,400 transfers</div></div>
   </div>
   <div class="grid g2">
-   <div class="card"><h3>Revenue by product line</h3><div class="sub">Illustrative scenario, not a forecast · toggle the roadmap view to see lines switch on</div>
-    ${REV.map(([n,v,p])=>`<div class="revbar" style="${p>S.phase?'opacity:.35':''}"><span class="nm">${n} <span class="pchip p${p}">P${p}</span></span><div class="bar"><i style="width:${v/mx*100}%;background:${PH[p].c}"></i></div><span class="v num">${p>S.phase?'—':fmM(v)}</span></div>`).join('')}
+   <div class="card"><h3>Revenue by product line</h3><div class="sub">Made-up figures for the demo, not a forecast.</div>
+    ${REV.map(([n,v,p])=>`<div class="revbar" ><span class="nm">${n}</span><div class="bar"><i style="width:${v/mx*100}%;background:${PH[p].c}"></i></div><span class="v num">${fmM(v)}</span></div>`).join('')}
     <div class="row between" style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px"><b>Total run-rate</b><b class="num" style="font-size:18px">${fmM(tot)}</b></div></div>
-   <div class="card"><div class="row between"><div><h3>Execution quality (TCA) ${chip(1)}</h3><div class="sub">All customer orders · last 30 days · benchmark: arrival mid</div></div><button class="btn ghost sm" data-a="toast" data-v="TCA report (CSV) exported — order-level fills, venues, slippage">Export</button></div>
+   <div class="card"><div class="row between"><div><h3>Execution quality (TCA) ${chip(1)}</h3><div class="sub">All customer orders · last 30 days · benchmark: arrival mid</div></div><button class="btn ghost sm" data-a="toast" data-v="TCA report exported (CSV)">Export</button></div>
     <div class="grid g3" style="gap:10px;margin-bottom:10px">
      <div class="kpi"><div class="l">Avg. slippage</div><div class="v">1.8 bps</div></div>
      <div class="kpi"><div class="l">Price improved</div><div class="v">38%</div></div>
@@ -954,7 +1061,7 @@ function vOps(){
      <tr><td>SOL</td><td class="r num">76,320</td><td class="r num">$34.1M</td><td class="r">3.4 bps</td><td class="r">99.96%</td></tr>
      <tr><td>PAXG</td><td class="r num">27,100</td><td class="r num">$16.1M</td><td class="r">2.6 bps</td><td class="r">99.97%</td></tr>
     </tbody></table>
-    <div class="note">Order size buckets: &lt;$1K 1.1 bps · $1–10K 1.7 bps · $10–100K 3.0 bps · &gt;$100K 5.8 bps. Supports Huntington's best-execution oversight without exposing venue detail to customers.</div></div>
+    <div class="note">Order size buckets: &lt;$1K 1.1 bps · $1–10K 1.7 bps · $10–100K 3.0 bps · &gt;$100K 5.8 bps.</div></div>
   </div>
   <div class="grid g2" style="margin-top:16px">
    <div class="card"><h3>Prefund float at Paxos ${chip(1)}</h3><div class="sub">All trading is pre-funded. Target = multiple of average daily net buys × funding cycle.</div>
@@ -992,7 +1099,7 @@ function vOps(){
 function render(){
   const sc=document.getElementById('screen'),st=sc?sc.scrollTop:0,prevTab=render._tab;
   renderChrome();
-  document.getElementById('view').innerHTML={overview:vOverview,consumer:vConsumer,wealth:vWealth,business:vBusiness,commercial:vCommercial,ops:vOps}[S.view]();
+  document.getElementById('view').innerHTML={home:vHome,roadmap:vRoadmap,consumer:vConsumer,wealth:vWealth,business:vBusiness,commercial:vCommercial,ops:vOps}[S.view]();
   const ns=document.getElementById('screen');if(ns&&prevTab===S.c.tab+S.c.asset)ns.scrollTop=st;
   render._tab=S.c.tab+S.c.asset;
 }
@@ -1007,6 +1114,7 @@ const trimQ=(q,s)=>String(+q.toFixed(dec(s)));
 const A={
   phase:v=>{S.phase=+v},
   view:v=>{S.view=v;window.scrollTo({top:0})},
+  goto:v=>{const[vw,tab,sub]=v.split(':');S.view=vw;if(tab){S.c.tab=tab;S.c.asset=null;S.c.sheet=null;if(tab==='card')S.c.card.mode=sub||'debit'}window.scrollTo({top:0})},
   ctab:v=>{S.c.tab=v;S.c.asset=null;S.c.sheet=null},
   asset:v=>{S.c.asset=v||null;S.c.period='1D'},
   period:v=>{S.c.period=v},
@@ -1027,7 +1135,7 @@ const A={
     if(tr.side==='buy'){S.hold[tr.sym]+=R.qty;S.bal.checking-=R.total;addAct('Bought '+A_.name,'Just now · Invest',fm(-R.total),tr.sym.slice(0,3))}
     else{S.hold[tr.sym]=Math.max(0,S.hold[tr.sym]-R.qty);if(S.hold[tr.sym]<1e-9)S.hold[tr.sym]=0;S.bal.checking+=R.total;addAct('Sold '+A_.name,'Just now · Invest','+'+fm(R.total),tr.sym.slice(0,3))}
     tr.res={side:tr.side,qty:R.qty,p:R.p,gross:R.gross,fee:R.fee,total:R.total,id:String(Math.floor(1e7+Math.random()*9e7))};tr.step='done'},
-  sendto:v=>{const c=CONTACTS[+v];if(c.p>S.phase){toast('External wallets arrive in Phase 2 — Phase 1 is closed loop');return}S.c.sheet='send';Object.assign(S.c.send,{to:+v,step:'amt'})},
+  sendto:v=>{const c=CONTACTS[+v];if(c.p>S.phase){toast('External wallets come in Phase 2. Phase 1 is Huntington customers only.');return}S.c.sheet='send';Object.assign(S.c.send,{to:+v,step:'amt'})},
   sendasset:v=>{S.c.sheet='send';Object.assign(S.c.send,{step:'pick',asset:v,amt:'50'})},
   recvasset:v=>{S.c.sheet='recv';Object.assign(S.c.recv,{mode:'chain',asset:v})},
   sasset:v=>{S.c.send.asset=v},
@@ -1041,34 +1149,34 @@ const A={
   aamt:v=>{S.c.add.amt=v},acoin:v=>{S.c.add.coin=v},
   addgo:()=>{const a=+S.c.add.amt,k=S.c.add.coin.toLowerCase();S.bal.checking-=a;S.bal[k]+=a;addAct('Added '+S.c.add.coin,'Just now · '+S.c.add.coin,'+'+fm(a),'$');S.c.add.step='done'},
   usdc2usdg:()=>{if(S.bal.usdc<=0)return;S.bal.usdg+=S.bal.usdc;toast(fm(S.bal.usdc)+' USDC converted to USDG 1:1');S.bal.usdc=0},
-  stake:v=>{S.c.stake[v]=!S.c.stake[v];toast(S.c.stake[v]?v+' staked — rewards accrue daily':v+' unstaked — available now')},
+  stake:v=>{S.c.stake[v]=!S.c.stake[v];toast(S.c.stake[v]?v+' staked':v+' unstaked')},
   auto:()=>{S.c.auto=!S.c.auto},
   card:v=>{S.c.card[v]=!S.c.card[v];if(v==='frozen')toast(S.c.card.frozen?'Card frozen':'Card unfrozen')},
   cmode:v=>{S.c.card.mode=v},crew:v=>{S.c.card.rew=v},
-  cpay:()=>{const c=S.c.card;S.bal.checking-=c.cbal;addAct('Crypto Credit payment','Just now · Checking',fm(-c.cbal),'CC');toast('Paid '+fm(c.cbal)+' — no interest this cycle');c.cbal=0},
+  cpay:()=>{const c=S.c.card;S.bal.checking-=c.cbal;addAct('Crypto Credit payment','Just now · Checking',fm(-c.cbal),'CC');toast('Paid '+fm(c.cbal));c.cbal=0},
   csrc:v=>{S.c.card.src=v},
-  virt:()=>{S.c.card.virt.push({n:'One-time card',l4:String(1000+Math.floor(Math.random()*8999)),d:'expires after 1 use'});toast('Virtual card ready — added to your wallet')},
+  virt:()=>{S.c.card.virt.push({n:'One-time card',l4:String(1000+Math.floor(Math.random()*8999)),d:'expires after 1 use'});toast('Virtual card created')},
   agent:()=>{S.c.agent=!S.c.agent},
   bdest:v=>{S.c.borrow.dest=v},
   draw:()=>{const b=S.c.borrow;b.drawn+=b.amt;b.last=b.amt;if(b.dest==='usdg')S.bal.usdg+=b.amt;else S.bal.checking+=b.amt;addAct('Credit line draw','Just now · Borrow','+'+fm(b.amt),'LOC');S.c.sheet='draw'},
   wstake:()=>{S.w.stake=!S.w.stake},
-  wpledge:()=>{S.w.pledged=true;toast('Pledged line opened — BTC locked in custody, not sold')},
+  wpledge:()=>{S.w.pledged=true;toast('Pledged line opened')},
   wdep:()=>{S.w.dep.open=!S.w.dep.open;if(S.w.dep.open&&S.phase<2)toast('Deposits from external wallets arrive in Phase 2')},
   wdepasset:v=>{if(S.w.dep.step>1&&S.w.dep.step<6)return;S.w.dep.asset=v;S.w.dep.step=0},
   wdepaddr:()=>{S.w.dep.step=1},
   wdepsim:()=>{const d=S.w.dep;if(d.step>=6)return;run(6,d,'step',()=>{if(d.asset==='BTC')S.w.btc+=.75;else if(d.asset==='ETH')S.w.eth+=12;render();toast('Held-away assets now in Huntington custody')},900,2)},
   brule:()=>{S.b.rule=!S.b.rule},
-  bpay:()=>{const p=S.b.pay;if(p.step>=4){p.step=0;render();return}run(4,p,'step',()=>toast('Payment settled — Sunday 9:14 PM'))},
+  bpay:()=>{const p=S.b.pay;if(p.step>=4){p.step=0;render();return}run(4,p,'step',()=>toast('Payment settled'))},
   bcard:()=>{S.b.cards.push({n:'New vendor card',l:1500,u:0});toast('Virtual card issued with MCC & velocity controls')},
   tmode:v=>{S.t.mode=v;S.t.step=0},
   tgo:()=>{const amt=(+S.t.amt||0)/1e6,m=S.t.mode;run(4,S.t,'step',()=>{S.t.usdg=Math.max(0,S.t.usdg+(m==='mint'?amt:-amt));render();toast(m==='mint'?'USDG minted and delivered':'USD credited to DDA')})},
-  release:()=>{S.t.released=true;toast('5 payouts settled on-chain — $5.81M')},
+  release:()=>{S.t.released=true;toast('5 payouts settled ($5.81M)')},
   tprog:()=>{S.t.prog=!S.t.prog},
   tsweep:()=>{S.t.sweep=!S.t.sweep},
-  tdmint:()=>{const td=S.t.td,a=(+td.mint||0)/1e6;if(a<=0||a>td.dda){toast('Amount exceeds DDA balance');return}td.dda-=a;td.tok+=a;toast(fm0(a*1e6)+' tokenized — still a Huntington deposit, still earning interest')},
+  tdmint:()=>{const td=S.t.td,a=(+td.mint||0)/1e6;if(a<=0||a>td.dda){toast('Amount exceeds DDA balance');return}td.dda-=a;td.tok+=a;toast(fm0(a*1e6)+' moved to deposit tokens')},
   tdroute:v=>{S.t.td.route=v;S.t.td.step=0},
-  tdpay:()=>{const td=S.t.td;if(td.step>=4){td.step=0;render();return}const a=(+td.amt||0)/1e6;run(4,td,'step',()=>{td.tok=Math.max(0,td.tok-a);render();toast('Settled 24/7 — Saturday 11:40 PM')})},
-  topup:v=>{S.o.float=Math.round((S.o.float+1)*10)/10;toast('$1,000,000 sent via '+v+' — float updated')},
+  tdpay:()=>{const td=S.t.td;if(td.step>=4){td.step=0;render();return}const a=(+td.amt||0)/1e6;run(4,td,'step',()=>{td.tok=Math.max(0,td.tok-a);render();toast('Payment settled')})},
+  topup:v=>{S.o.float=Math.round((S.o.float+1)*10)/10;toast('$1,000,000 sent via '+v+'')},
   alert:v=>{S.o.alerts[v].st='Cleared';toast(S.o.alerts[v].id+' cleared and logged')},
   allow:v=>{S.o.allow[v]=!S.o.allow[v]},
   ostake:()=>{S.o.stake=!S.o.stake},
